@@ -13,7 +13,7 @@ public class RootController {
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userJSP", new User());
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("root");
         return modelAndView;
     }
 
