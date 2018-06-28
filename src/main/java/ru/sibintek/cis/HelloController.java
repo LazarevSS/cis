@@ -12,7 +12,7 @@ public class HelloController {
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("userJSP", new User());
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("main");
         return modelAndView;
     }
 
