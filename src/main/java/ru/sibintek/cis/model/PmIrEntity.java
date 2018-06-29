@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PM_IR", schema = "HR")
+@Table(name = "PM_IR", schema = "HR", catalog = "")
 public class PmIrEntity {
     private long id;
     private String scenarioNum;
@@ -14,10 +14,9 @@ public class PmIrEntity {
     private String irOwner;
     private String instantion;
     private String softwareVersion;
+    private Long fkIsId;
 
     @Id
-    @SequenceGenerator( name = "pm_id_seq", sequenceName = "PM_ID_SEQ", allocationSize = 1)
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "pm_id_seq")
     @Column(name = "ID", nullable = false, precision = 0)
     public long getId() {
         return id;
@@ -97,6 +96,16 @@ public class PmIrEntity {
         this.softwareVersion = softwareVersion;
     }
 
+    @Basic
+    @Column(name = "FK_IS_ID", nullable = true, precision = 0)
+    public Long getFkIsId() {
+        return fkIsId;
+    }
+
+    public void setFkIsId(Long fkIsId) {
+        this.fkIsId = fkIsId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,12 +118,13 @@ public class PmIrEntity {
                 Objects.equals(irName, that.irName) &&
                 Objects.equals(irOwner, that.irOwner) &&
                 Objects.equals(instantion, that.instantion) &&
-                Objects.equals(softwareVersion, that.softwareVersion);
+                Objects.equals(softwareVersion, that.softwareVersion) &&
+                Objects.equals(fkIsId, that.fkIsId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, scenarioNum, scenarioType, irNum, irName, irOwner, instantion, softwareVersion);
+        return Objects.hash(id, scenarioNum, scenarioType, irNum, irName, irOwner, instantion, softwareVersion, fkIsId);
     }
 }
