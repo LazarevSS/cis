@@ -1,8 +1,10 @@
 package ru.sibintek.cis.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.PmFuncareaDao;
 import ru.sibintek.cis.dao.PmFunctionDao;
@@ -13,6 +15,7 @@ import ru.sibintek.cis.model.PmFunctionEntity;
 import ru.sibintek.cis.model.PmIrEntity;
 import ru.sibintek.cis.model.PmIsEntity;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,16 +25,12 @@ import java.util.Map;
 public class RootController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView main() {
+    public ModelAndView main(@RequestParam(value = "rowCount", required = false) Integer rowCount,
+                             @RequestParam(value = "pageNumber", required = false) Integer pageNumber) {
         ModelAndView modelAndView = new ModelAndView();
-        PmIsDao pmIsDao = new PmIsDao();
-        List<PmIsEntity> list = pmIsDao.getAll();
-        Map<PmIsEntity, List<PmIrEntity>> pmIrAndPmIsEntityListMap = new HashMap<>();
         PmIrDao pmIrDao = new PmIrDao();
-        for (PmIsEntity pmIsEntity : list) {
-            pmIrAndPmIsEntityListMap.put(pmIsEntity, pmIrDao.getJoinWithPmIs(pmIsEntity.getId()));
-        }
-        modelAndView.addObject("pmIrAndPmIsEntityListMap", pmIrAndPmIsEntityListMap);
+        PmIrPage page = new PmIrPage(pmIrDao.getAll(), rowCount, pageNumber);
+        modelAndView.addObject("page", page);
         modelAndView.setViewName("root");
         return modelAndView;
     }
@@ -52,7 +51,6 @@ public class RootController {
         PmFunctionDao pmFunctionDao = new PmFunctionDao();
         List<PmFunctionEntity> list4 = pmFunctionDao.getAll();
         System.out.println("success");
-
 
 
     }

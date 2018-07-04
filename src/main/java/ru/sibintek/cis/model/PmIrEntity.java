@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PM_IR", schema = "HR", catalog = "")
+@Table(name = "PM_IR", schema = "HR")
 public class PmIrEntity {
     private long id;
     private String scenarioNum;
@@ -14,7 +14,7 @@ public class PmIrEntity {
     private String irOwner;
     private String instantion;
     private String softwareVersion;
-    private Long fkIsId;
+    private PmIsEntity pmIsEntity;
 
     @Id
     @Column(name = "ID", nullable = false, precision = 0)
@@ -96,14 +96,14 @@ public class PmIrEntity {
         this.softwareVersion = softwareVersion;
     }
 
-    @Basic
-    @Column(name = "FK_IS_ID", nullable = true, precision = 0)
-    public Long getFkIsId() {
-        return fkIsId;
+    @ManyToOne
+    @JoinColumn(name = "FK_IS_ID")
+    public PmIsEntity getPmIsEntity() {
+        return this.pmIsEntity;
     }
 
-    public void setFkIsId(Long fkIsId) {
-        this.fkIsId = fkIsId;
+    public void setPmIsEntity(PmIsEntity pmIsEntity) {
+        this.pmIsEntity = pmIsEntity;
     }
 
     @Override
@@ -118,13 +118,12 @@ public class PmIrEntity {
                 Objects.equals(irName, that.irName) &&
                 Objects.equals(irOwner, that.irOwner) &&
                 Objects.equals(instantion, that.instantion) &&
-                Objects.equals(softwareVersion, that.softwareVersion) &&
-                Objects.equals(fkIsId, that.fkIsId);
+                Objects.equals(softwareVersion, that.softwareVersion);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, scenarioNum, scenarioType, irNum, irName, irOwner, instantion, softwareVersion, fkIsId);
+        return Objects.hash(id, scenarioNum, scenarioType, irNum, irName, irOwner, instantion, softwareVersion);
     }
 }
