@@ -11,7 +11,9 @@ import ru.sibintek.cis.dao.impl.JdbcSystemAndInformResDAO;
 import ru.sibintek.cis.dao.utils.DataForGraphUtils;
 import ru.sibintek.cis.model.dto.DataGraphIs;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -22,9 +24,6 @@ public class RootController {
     @Autowired
     private JdbcPmIrDAO pmIrDAO;
 
-    @Autowired
-    private DataForGraphUtils dataForGraphUtils;
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView root() {
         ModelAndView modelAndView = new ModelAndView();
@@ -32,23 +31,6 @@ public class RootController {
         modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
         modelAndView.setViewName("root");
         return modelAndView;
-    }
-
-    @RequestMapping(value = "/is", method = RequestMethod.GET)
-    public ModelAndView isController(@RequestParam(value = "ISID", required = false) Integer isid) {
-        ModelAndView modelAndView = new ModelAndView();
-        /*modelAndView.addObject("systemsAndInformRes", systemAndInformResDAO.getAll());
-        modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());*/
-        modelAndView.setViewName("isView");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/is/datasource", method = RequestMethod.GET)
-    public ModelAndView isDatasource(@RequestParam(value = "ISID", required = false) Integer isid) {
-        ModelAndView result = new ModelAndView("jsonView");
-        List<DataGraphIs> dataGraphIsList = dataForGraphUtils.dataGraphIs(isid);
-        result.getModel().put("result", dataGraphIsList);
-        return result;
     }
 
     public static void main(String[] args) {

@@ -2,18 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 100, hide: 100}, html: true});
-        $('#data_main').dataTable({
-            "iDisplayLength": 10
-        });
-    });
-</script>
 
 <html>
 <head>
@@ -60,6 +48,18 @@
                 <script src="${pageContext.request.contextPath}/resources/js/d3.v3.min.js"></script>
                 <script src="${pageContext.request.contextPath}/resources/js/d3pie.min.js"></script>
                 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 100, hide: 100}, html: true});
+                        $('#data_main').dataTable({
+                            "iDisplayLength": 10
+                        });
+                    });
+                </script>
+
                 <script>
                     var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                     chartWidth = (chartWidth > 700) ? 700 : chartWidth;

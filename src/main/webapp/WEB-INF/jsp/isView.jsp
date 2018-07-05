@@ -25,35 +25,15 @@
                 <tr>
                     <td>
                         <div class="d3chartarea_main">
+                            <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3bubblechart.js"></script>
                             <script>
-                                function graphForIs() {
-                                    var ajaxUrl = "${pageContext.request.contextPath}/is/datasource";
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: ajaxUrl,
-                                        cache: false,
-                                        data: ({
-                                            ISID: '1'
-                                        }),
-                                        success: function (data) {
-                                            alert(data);
-                                            drawBubbleChart(data, chartWidth);
-                                        },
-                                        error: function (xhr, str) {
-                                            alert('Возникла ошибка: ' + xhr.responseCode);
-                                        }
-                                    });
-                                }
-                            </script>
-                            <script>
                                 var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                                 var chartWidth = window.screen.width * 8 / 12;
                                 chartWidth = (chartWidth > 700) ? 700 : chartWidth;
-                                var a = 1;
-                                graphForIs();
+                                drawBubbleChart('datasource?ISID=${param.ISID}', chartWidth);
                             </script>
                         </div>
                     </td>
