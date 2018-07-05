@@ -1,11 +1,11 @@
-package ru.sibintek.cis.dao;
+package ru.sibintek.cis.service;
 
 import org.hibernate.criterion.Criterion;
 import ru.sibintek.cis.model.PmFuncareaEntity;
 
 import java.util.List;
 
-public interface PmFuncareaDao {
+public interface PmFuncareaService {
     void delete(PmFuncareaEntity pmFuncarea);
 
     PmFuncareaEntity getById(Long id);

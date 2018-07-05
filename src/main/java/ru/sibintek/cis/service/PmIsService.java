@@ -1,12 +1,11 @@
-package ru.sibintek.cis.dao;
+package ru.sibintek.cis.service;
 
 import org.hibernate.criterion.Criterion;
 import ru.sibintek.cis.model.PmIsEntity;
 
 import java.util.List;
 
-public interface PmIsDao {
-
+public interface PmIsService {
     void delete(PmIsEntity psIs);
 
     PmIsEntity getById(Long id);

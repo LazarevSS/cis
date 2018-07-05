@@ -1,10 +1,12 @@
 package ru.sibintek.cis.dao;
 
 import org.hibernate.criterion.Criterion;
+import org.springframework.stereotype.Component;
 import ru.sibintek.cis.model.PmFunctionEntity;
 
 import java.util.List;
 
+@Component
 public class PmFunctionDao extends AbstractDao {
     public void delete(PmFunctionEntity pmFunction) {
         super.delete(pmFunction);

@@ -6,6 +6,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="ru.sibintek.cis.**.controller"/>
+    <context:component-scan base-package="ru.sibintek.cis.**.dao"/>
+    <context:component-scan base-package="ru.sibintek.cis.**.service"/>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources
            in the /WEB-INF/views directory -->
@@ -13,6 +15,7 @@
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
     <bean name="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>
     </bean>

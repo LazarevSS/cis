@@ -3,10 +3,12 @@ package ru.sibintek.cis.dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.springframework.stereotype.Component;
 import ru.sibintek.cis.utils.HibernateSessionFactory;
 
 import java.util.List;
 
+@Component
 public class AbstractDao {
     public <T> void delete(final T o) {
         Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();

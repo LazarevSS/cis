@@ -112,8 +112,6 @@
                 <hr>
             </div>
             <div>
-                <form:form method="POST"
-                           action="" modelAttribute="page">
                     <h1>Системы и информационные ресурсы</h1>
                     <div class="row">
                         <div class="col-sm-6">
@@ -123,9 +121,9 @@
                                                            id="countTableRow"
                                                            aria-controls="data_main"
                                                            class="form-control input-sm"
-                                                 onchange="location = this.value;">
+                                                 onchange="getURLRowCount()">
                                     <option value="10">10</option>
-                                    <option value="${pageContext.request.contextPath}">25</option>
+                                    <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select>
@@ -149,7 +147,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="pmIr" items="${page.pmIrEntitiesWithLimit}">
+                            <c:forEach var="pmIr" items="${page.elementsWithLimit}">
                                 <tr>
                                     <td>
                                         <a href="${pageContext.request.contextPath}/is/?ISID=${pmIr.pmIsEntity.id}"
@@ -172,8 +170,8 @@
                                                                                                      tabindex="0">Previous</a>
                             </li>
                             <c:forEach var="i" begin="1" end="${page.pageCount}">
-                                <li class="paginate_button active"><a
-                                        href="${pageContext.request.contextPath}/?pageNumber=${i}"
+                                <li class="paginate_button"><a
+                                        href="javascript:getURLPageNumber(${i})"
                                         aria-controls="data_main"
                                         data-dt-idx="1"
                                         tabindex="0">${i}
@@ -186,7 +184,6 @@
                             </li>
                         </ul>
                     </div>
-                </form:form>
             </div>
         </div>
         <div class="col-sm-3">
@@ -199,7 +196,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="pmIr" items="${page.pmIrEntities}">
+                <c:forEach var="pmIr" items="${page.elements}">
                     <tr>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIr.id}"
@@ -219,4 +216,17 @@
 
 </body>
 </html>
+
+<script>
+    $('#countTableRow').val("${param.rowCount == null ? 10:param.rowCount}");
+    function getURLRowCount() {
+        var rowCount = $('#countTableRow option:selected').val();
+        location.href = "${pageContext.request.contextPath}/?rowCount=" + rowCount;
+
+    }
+    function getURLPageNumber(pageNumber) {
+        var rowCount = $('#countTableRow option:selected').val();
+        location.href = "${pageContext.request.contextPath}/?rowCount=" + rowCount + "&pageNumber=" + pageNumber;
+    }
+</script>
 
