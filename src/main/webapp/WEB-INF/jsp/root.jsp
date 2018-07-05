@@ -9,7 +9,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/rosneft.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/treestyle.css">
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js//dataTables.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(''[data-toggle="tooltip"]'').tooltip({animation: true, delay: {show: 100, hide: 100}, html: true});
+            $(''#data_main'').dataTable({
+                "iDisplayLength": 10
+            });
+        });
+    </script>
 
     <style>
         div.container {
