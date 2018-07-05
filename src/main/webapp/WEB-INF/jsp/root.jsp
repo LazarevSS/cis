@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="test" value="10"/>
 <html>
 <head>
     <title>Модель</title>
@@ -147,15 +146,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="pmIr" items="${page.elementsWithLimit}">
+                            <c:forEach var="element" items="${page.elementsWithLimit}">
+
                                 <tr>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/is/?ISID=${pmIr.pmIsEntity.id}"
-                                           title="${pmIr.pmIsEntity.isName}">${pmIr.pmIsEntity.isName}</a>
+                                        <a href="${pageContext.request.contextPath}/is/?ISID=${element.sid}"
+                                           title="${element.isName}">${element.isName}</a>
                                     </td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIr.id}"
-                                           title="${pmIr.irName}">${pmIr.irName}</a>
+                                        <a href="${pageContext.request.contextPath}/ir/?IRID=${element.rid}"
+                                           title="${element.irName}">${element.irName}</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -196,15 +196,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="pmIr" items="${page.elements}">
+                <c:forEach var="pmIrEntity" items="${pmIrEntities}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIr.id}"
-                               title="${pmIr.irName}">${pmIr.irName}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
+                               title="${pmIrEntity.irName}">${pmIrEntity.irName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIr.id}"
-                               title="${pmIr.scenarioNum}">${pmIr.scenarioNum}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
+                               title="${pmIrEntity.scenarioNum}">${pmIrEntity.scenarioNum}</a>
                         </td>
                     </tr>
                 </c:forEach>

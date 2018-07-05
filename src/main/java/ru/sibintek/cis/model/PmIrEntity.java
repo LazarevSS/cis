@@ -1,12 +1,7 @@
 package ru.sibintek.cis.model;
 
-import javax.persistence.*;
-import java.util.Objects;
-
-@Entity
-@Table(name = "PM_IR", schema = "HR")
 public class PmIrEntity {
-    private long id;
+    private int id;
     private String scenarioNum;
     private String scenarioType;
     private String irNum;
@@ -14,20 +9,16 @@ public class PmIrEntity {
     private String irOwner;
     private String instantion;
     private String softwareVersion;
-    private PmIsEntity pmIsEntity;
+    private int fkIsId;
 
-    @Id
-    @Column(name = "ID", nullable = false, precision = 0)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "SCENARIO_NUM", nullable = true, length = 20)
     public String getScenarioNum() {
         return scenarioNum;
     }
@@ -36,8 +27,6 @@ public class PmIrEntity {
         this.scenarioNum = scenarioNum;
     }
 
-    @Basic
-    @Column(name = "SCENARIO_TYPE", nullable = true, length = 50)
     public String getScenarioType() {
         return scenarioType;
     }
@@ -46,8 +35,6 @@ public class PmIrEntity {
         this.scenarioType = scenarioType;
     }
 
-    @Basic
-    @Column(name = "IR_NUM", nullable = true, length = 20)
     public String getIrNum() {
         return irNum;
     }
@@ -56,8 +43,6 @@ public class PmIrEntity {
         this.irNum = irNum;
     }
 
-    @Basic
-    @Column(name = "IR_NAME", nullable = true, length = 100)
     public String getIrName() {
         return irName;
     }
@@ -66,8 +51,6 @@ public class PmIrEntity {
         this.irName = irName;
     }
 
-    @Basic
-    @Column(name = "IR_OWNER", nullable = true, length = 50)
     public String getIrOwner() {
         return irOwner;
     }
@@ -76,8 +59,6 @@ public class PmIrEntity {
         this.irOwner = irOwner;
     }
 
-    @Basic
-    @Column(name = "INSTANTION", nullable = true, length = 50)
     public String getInstantion() {
         return instantion;
     }
@@ -86,8 +67,6 @@ public class PmIrEntity {
         this.instantion = instantion;
     }
 
-    @Basic
-    @Column(name = "SOFTWARE_VERSION", nullable = true, length = 20)
     public String getSoftwareVersion() {
         return softwareVersion;
     }
@@ -96,34 +75,11 @@ public class PmIrEntity {
         this.softwareVersion = softwareVersion;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "FK_IS_ID")
-    public PmIsEntity getPmIsEntity() {
-        return this.pmIsEntity;
+    public int getFkIsId() {
+        return this.fkIsId;
     }
 
-    public void setPmIsEntity(PmIsEntity pmIsEntity) {
-        this.pmIsEntity = pmIsEntity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PmIrEntity that = (PmIrEntity) o;
-        return id == that.id &&
-                Objects.equals(scenarioNum, that.scenarioNum) &&
-                Objects.equals(scenarioType, that.scenarioType) &&
-                Objects.equals(irNum, that.irNum) &&
-                Objects.equals(irName, that.irName) &&
-                Objects.equals(irOwner, that.irOwner) &&
-                Objects.equals(instantion, that.instantion) &&
-                Objects.equals(softwareVersion, that.softwareVersion);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, scenarioNum, scenarioType, irNum, irName, irOwner, instantion, softwareVersion);
+    public void setFkIsId(int fkIsId) {
+        this.fkIsId = fkIsId;
     }
 }
