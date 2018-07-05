@@ -22,8 +22,7 @@ public class RootController {
     public ModelAndView root(@RequestParam(value = "rowCount", required = false) Integer rowCount,
                              @RequestParam(value = "pageNumber", required = false) Integer pageNumber) {
         ModelAndView modelAndView = new ModelAndView();
-        Page page = new Page<>(systemAndInformResDAO.getSystemsAndInformRes(), rowCount, pageNumber);
-        modelAndView.addObject("page", page);
+        modelAndView.addObject("systemsAndInformRes", systemAndInformResDAO.getAll());
         modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
         modelAndView.setViewName("root");
         return modelAndView;

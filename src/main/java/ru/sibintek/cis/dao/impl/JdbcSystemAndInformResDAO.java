@@ -19,7 +19,7 @@ public class JdbcSystemAndInformResDAO implements SystemAndInformResDAO {
     private DataSource dataSource;
 
     @Override
-    public List<SystemAndInformRes> getSystemsAndInformRes() {
+    public List<SystemAndInformRes> getAll() {
         String sqlQuery = "select s.id sid, s.is_name, r.id rid, r.ir_name\n" +
                             "from PM_IS s, PM_IR r\n" +
                             "where r.fk_is_id=s.id";
