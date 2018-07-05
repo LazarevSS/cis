@@ -59,6 +59,7 @@
             <div id="d3pie_main">
                 <script src="${pageContext.request.contextPath}/resources/js/d3.v3.min.js"></script>
                 <script src="${pageContext.request.contextPath}/resources/js/d3pie.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
                 <script>
                     var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                     chartWidth = (chartWidth > 700) ? 700 : chartWidth;
@@ -137,11 +138,11 @@
                 <c:forEach var="element" items="${systemsAndInformRes}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/?ISID=${element.sid}"
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.sid}"
                                title="${element.isName}">${element.isName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/?IRID=${element.rid}"
+                            <a href="${pageContext.request.contextPath}/is/?IRID=${element.rid}"
                                title="${element.irName}">${element.irName}</a>
                         </td>
                     </tr>
