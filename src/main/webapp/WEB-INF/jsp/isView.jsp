@@ -26,10 +26,10 @@
                 <tr>
                     <td>
                         <div class="d3chartarea_main">
-                            <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3bubblechart.js"></script>
+
                             <script>
                                 var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                                 var chartWidth = window.screen.width * 8 / 12;
@@ -112,6 +112,18 @@
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 100, hide: 100}, html: true});
+        $('#data_main').dataTable({
+            "iDisplayLength": 10
+        });
+    });
+</script>
 </body>
 </html>
 

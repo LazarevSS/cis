@@ -26,7 +26,6 @@
                 <tr>
                     <td>
                         <div class="d3chartarea_main">
-                            <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
                             <script src="${pageContext.request.contextPath}/resources/js/d3bubblechart.js"></script>
@@ -61,17 +60,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="element" items="${informResAndJoins}">
+                <c:forEach var="element" items="${funcAreaIrAndJoins}">
                     <tr>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.isId}"
-                               title="${element.isName}">${element.isName}</a>
-                        </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRID=${element.irId}"
                                title="${element.irName}">${element.irName}</a>
                         </td>
-                        <td>КСиП</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/fa/?IRID=${element.irId}&FAID=${element.faId}"
+                               title="${element.faName}">${element.faName}</a>
+                        </td>
+                        <td>Файл</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/fa/?IRID=${element.jIrId}&FAID=${element.jFaId}"
+                               title="${element.jFaName}">${element.jFaName}</a>
+                        </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRID=${element.jIrId}"
                                title="${element.jIrName}">${element.jIrName}</a>
@@ -111,6 +114,18 @@
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 100, hide: 100}, html: true});
+        $('#data_main').dataTable({
+            "iDisplayLength": 10
+        });
+    });
+</script>
 </body>
 </html>
 

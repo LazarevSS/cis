@@ -23,8 +23,8 @@ public class IrController {
     @RequestMapping(value = "/ir", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId) {
         ModelAndView modelAndView = new ModelAndView();
-
-        //modelAndView.addObject("informResAndJoins", jdbcInformResAndJoinDAO.getAll(isid));
+        modelAndView.addObject("pmIrEntity", pmIrDAO.getById(irId));
+        modelAndView.addObject("funcAreaIrAndJoins", pmIrDAO.getFuncAreaIrAndJoins(irId));
         modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
         modelAndView.setViewName("irView");
         return modelAndView;
