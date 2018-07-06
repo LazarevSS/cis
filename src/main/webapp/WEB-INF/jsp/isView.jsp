@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -47,20 +48,36 @@
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
-                    <th align="left">Система</th>
-                    <th align="left">Информационный ресурс</th>
+                    <th colspan="2" >Источник</th>
+                    <th rowspan="2" >Тип связи</th>
+                    <th colspan="2" >Приемник</th>
+                </tr>
+                <tr>
+                    <th align="left">Наименоваие ИС</th>
+                    <th align="left">Наименоварие информационного ресурса</th>
+                    <th align="left">Наименоварие информационного ресурса</th>
+                    <th align="left">Наименоваие ИС</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="element" items="${systemsAndInformRes}">
+                <c:forEach var="element" items="${informResAndJoins}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.sid}"
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.isId}"
                                title="${element.isName}">${element.isName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?IRID=${element.rid}"
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.irId}"
                                title="${element.irName}">${element.irName}</a>
+                        </td>
+                        <td>КСиП</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.jIrId}"
+                               title="${element.jIrName}">${element.jIrName}</a>
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.jIsId}"
+                               title="${element.jIsName}">${element.jIsName}</a>
                         </td>
                     </tr>
                 </c:forEach>

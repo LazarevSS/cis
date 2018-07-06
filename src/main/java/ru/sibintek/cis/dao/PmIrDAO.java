@@ -6,7 +6,7 @@ import ru.sibintek.cis.model.PmIrEntity;
 
 import java.util.List;
 
-public interface PmIrDao {
+public interface PmIrDAO {
     void delete(PmIrEntity psIr);
 
     PmIrEntity getById(Long id);

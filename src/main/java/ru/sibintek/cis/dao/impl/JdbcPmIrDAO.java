@@ -3,7 +3,7 @@ package ru.sibintek.cis.dao.impl;
 import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.sibintek.cis.dao.PmIrDao;
+import ru.sibintek.cis.dao.PmIrDAO;
 import ru.sibintek.cis.model.PmIrEntity;
 
 import javax.sql.DataSource;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcPmIrDAO implements PmIrDao {
+public class JdbcPmIrDAO implements PmIrDAO {
     @Autowired
     private DataSource dataSource;
 

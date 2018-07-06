@@ -1,19 +1,24 @@
-package ru.sibintek.cis.dao.utils;
+package ru.sibintek.cis.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.sibintek.cis.dao.DataForGraphDAO;
 import ru.sibintek.cis.model.dto.DataGraphIs;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DataForGraphUtils {
+public class JdbcDataForGraphDAO implements DataForGraphDAO {
     @Autowired
     private DataSource dataSource;
 
+    @Override
     public List<DataGraphIs> getDataGraphIs(Integer isid){
         String sqlQuery = "with a as (\n" +
                 "      select  connect_by_root r.fk_func_id  func_id\n" +
@@ -52,8 +57,5 @@ public class DataForGraphUtils {
             e.printStackTrace();
         }
         return dataGraphIsList;
-
-
     }
-
 }
