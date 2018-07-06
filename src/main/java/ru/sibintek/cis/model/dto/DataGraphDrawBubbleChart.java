@@ -1,6 +1,6 @@
 package ru.sibintek.cis.model.dto;
 
-public class DataGraphIs {
+public class DataGraphDrawBubbleChart {
     private boolean highlight;
 
     private String label;

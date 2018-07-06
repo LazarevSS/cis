@@ -8,9 +8,9 @@ import java.util.List;
 public interface PmFuncareaDao {
     void delete(PmFuncareaEntity pmFuncarea);
 
-    PmFuncareaEntity getById(Long id);
+    PmFuncareaEntity getById(int id);
 
-    void save(PmFuncareaEntity pmFuncarea, Long id);
+    void save(PmFuncareaEntity pmFuncarea, int id);
 
     List<PmFuncareaEntity> getByCriteria(Criterion criterion);
 

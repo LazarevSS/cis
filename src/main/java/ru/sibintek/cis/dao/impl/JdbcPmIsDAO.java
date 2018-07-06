@@ -1,25 +1,68 @@
 package ru.sibintek.cis.dao.impl;
 
+import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.sibintek.cis.dao.InformResAndJoinDAO;
-import ru.sibintek.cis.model.dto.InformResAndJoin;
+import ru.sibintek.cis.dao.PmIsDAO;
+import ru.sibintek.cis.model.PmIsEntity;
+import ru.sibintek.cis.model.dto.InformResIsAndJoin;
+import ru.sibintek.cis.model.dto.SystemAndInformRes;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcInformResAndJoinDAO implements InformResAndJoinDAO {
+public class JdbcPmIsDAO implements PmIsDAO {
     @Autowired
     private DataSource dataSource;
 
     @Override
-    public List<InformResAndJoin> getAll(Integer isId) {
+    public void delete(PmIsEntity psIs) {
+
+    }
+
+    @Override
+    public PmIsEntity getById(int id) {
+        String sqlQuery = "select * from pm_is where id = ?";
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sqlQuery);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                PmIsEntity pmIsEntity = new PmIsEntity();
+                pmIsEntity.setId(rs.getInt(1));
+                pmIsEntity.setIsNum(rs.getString(2));
+                pmIsEntity.setIsName(rs.getString(3));
+                pmIsEntity.setIsOwner(rs.getString(4));
+                return pmIsEntity;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void save(PmIsEntity psIs, int id) {
+
+    }
+
+    @Override
+    public List<PmIsEntity> getByCriteria(Criterion criterion) {
+        return null;
+    }
+
+    @Override
+    public List<PmIsEntity> getAll() {
+        return null;
+    }
+
+    @Override
+    public List<InformResIsAndJoin> getInformResIsAndJoins(Integer isId) {
         String sqlQuery = "with a as (\n" +
                 "      select s.id is_id, s.is_name\n" +
                 "      ,r.id ir_id, r.ir_name\n" +
@@ -50,14 +93,14 @@ public class JdbcInformResAndJoinDAO implements InformResAndJoinDAO {
                 "        and b.ir_id(+)=j.bir_id and b.fa_id(+)=j.bfa_id \n" +
                 "        and  a.is_id=?";
         Connection conn = null;
-        List<InformResAndJoin> informResAndJoins = new ArrayList<>();
+        List<InformResIsAndJoin> informResAndJoins = new ArrayList<>();
         try {
             conn = dataSource.getConnection();
             PreparedStatement statement = conn.prepareStatement(sqlQuery);
             statement.setInt(1, isId);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
-                InformResAndJoin informResAndJoin = new InformResAndJoin();
+            while (rs.next()) {
+                InformResIsAndJoin informResAndJoin = new InformResIsAndJoin();
                 informResAndJoin.setIsId(rs.getInt(1));
                 informResAndJoin.setIsName(rs.getString(2));
                 informResAndJoin.setIrId(rs.getInt(3));
@@ -73,5 +116,30 @@ public class JdbcInformResAndJoinDAO implements InformResAndJoinDAO {
             e.printStackTrace();
         }
         return informResAndJoins;
+    }
+
+    @Override
+    public List<SystemAndInformRes> getSystemsAndInformRes() {
+        String sqlQuery = "select s.id sid, s.is_name, r.id rid, r.ir_name\n" +
+                "from PM_IS s, PM_IR r\n" +
+                "where r.fk_is_id=s.id";
+        Connection conn = null;
+        List<SystemAndInformRes> systemsAndInformRes = new ArrayList<>();
+        try {
+            conn = dataSource.getConnection();
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sqlQuery);
+            while (rs.next()) {
+                SystemAndInformRes systemAndInformRes = new SystemAndInformRes();
+                systemAndInformRes.setSid(rs.getInt(1));
+                systemAndInformRes.setIsName(rs.getString(2));
+                systemAndInformRes.setRid(rs.getInt(3));
+                systemAndInformRes.setIrName(rs.getString(4));
+                systemsAndInformRes.add(systemAndInformRes);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return systemsAndInformRes;
     }
 }

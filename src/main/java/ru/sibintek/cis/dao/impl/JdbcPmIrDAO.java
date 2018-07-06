@@ -7,10 +7,7 @@ import ru.sibintek.cis.dao.PmIrDAO;
 import ru.sibintek.cis.model.PmIrEntity;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +22,35 @@ public class JdbcPmIrDAO implements PmIrDAO {
     }
 
     @Override
-    public PmIrEntity getById(Long id) {
+    public PmIrEntity getById(int id) {
+        String sqlQuery = "select * from pm_ir where id = ?";
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sqlQuery);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                PmIrEntity entity = new PmIrEntity();
+                entity.setId(rs.getInt(1));
+                entity.setScenarioNum(rs.getString(2));
+                entity.setScenarioType(rs.getString(3));
+                entity.setIrNum(rs.getString(4));
+                entity.setIrName(rs.getString(5));
+                entity.setIrOwner(rs.getString(6));
+                entity.setInstantion(rs.getString(7));
+                entity.setSoftwareVersion(rs.getString(8));
+                entity.setFkIsId(rs.getInt(9));
+                return entity;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
-    public void save(PmIrEntity psIr, Long id) {
+    public void save(PmIrEntity psIr, int id) {
 
     }
 

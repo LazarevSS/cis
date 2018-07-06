@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.PmIrDAO;
-import ru.sibintek.cis.dao.SystemAndInformResDAO;
+import ru.sibintek.cis.dao.PmIsDAO;
 
 
 @Controller
 public class RootController {
     @Autowired
-    private SystemAndInformResDAO systemAndInformResDAO;
+    private PmIsDAO pmIsDAO;
 
     @Autowired
     private PmIrDAO pmIrDAO;
@@ -20,15 +20,9 @@ public class RootController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView root() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("systemsAndInformRes", systemAndInformResDAO.getAll());
+        modelAndView.addObject("systemsAndInformRes", pmIsDAO.getSystemsAndInformRes());
         modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
         modelAndView.setViewName("root");
         return modelAndView;
     }
-
-    public static void main(String[] args) {
-        System.out.println("Hibernate tutorial");
-
-    }
-
 }

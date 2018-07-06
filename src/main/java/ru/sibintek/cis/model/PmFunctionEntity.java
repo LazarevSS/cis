@@ -6,7 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "PM_FUNCTION", schema = "HR")
 public class PmFunctionEntity {
-    private long id;
+    private int id;
     private String functionNum;
     private String functionName;
 
@@ -14,11 +14,11 @@ public class PmFunctionEntity {
     @SequenceGenerator( name = "pm_id_seq", sequenceName = "PM_ID_SEQ", allocationSize = 1)
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "pm_id_seq")
     @Column(name = "ID", nullable = false, precision = 0)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

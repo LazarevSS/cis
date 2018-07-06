@@ -1,6 +1,6 @@
 package ru.sibintek.cis.model.dto;
 
-public class InformResAndJoin {
+public class InformResIsAndJoin {
     private int isId;
 
     private String isName;

@@ -8,37 +8,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.DataForGraphDAO;
 import ru.sibintek.cis.dao.PmIrDAO;
-
-import ru.sibintek.cis.dao.PmIsDAO;
 import ru.sibintek.cis.model.dto.DataGraphDrawBubbleChart;
 
 import java.util.List;
 
 @Controller
-public class IsController {
+public class IrController {
     @Autowired
     private DataForGraphDAO dataForGraphDAO;
 
     @Autowired
     private PmIrDAO pmIrDAO;
 
-    @Autowired
-    private PmIsDAO pmIsDAO;
-
-    @RequestMapping(value = "/is", method = RequestMethod.GET)
-    public ModelAndView isController(@RequestParam(value = "ISID", required = false) Integer isId) {
+    @RequestMapping(value = "/ir", method = RequestMethod.GET)
+    public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("pmIsEntity", pmIsDAO.getById(isId));
-        modelAndView.addObject("informResAndJoins", pmIsDAO.getInformResIsAndJoins(isId));
+
+        //modelAndView.addObject("informResAndJoins", jdbcInformResAndJoinDAO.getAll(isid));
         modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
-        modelAndView.setViewName("isView");
+        modelAndView.setViewName("irView");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/is/datasource", method = RequestMethod.GET)
-    public ModelAndView isDatasource(@RequestParam(value = "ISID", required = false) Integer isId) {
+    @RequestMapping(value = "/ir/datasource", method = RequestMethod.GET)
+    public ModelAndView isDatasource(@RequestParam(value = "IRID", required = false) Integer irId) {
         ModelAndView result = new ModelAndView("jsonView");
-        List<DataGraphDrawBubbleChart> dataGraphDrawBubbleChartList = dataForGraphDAO.getDataGraphIs(isId);
+        List<DataGraphDrawBubbleChart> dataGraphDrawBubbleChartList = dataForGraphDAO.getDataGraphIr(irId);
         result.getModel().put("name", "Tcode");
         result.getModel().put("children", dataGraphDrawBubbleChartList);
         return result;

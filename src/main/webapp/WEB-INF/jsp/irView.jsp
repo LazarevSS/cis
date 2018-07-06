@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${pmIsEntity.isName}</title>
+    <title>${pmIrEntity.irName}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -34,29 +34,28 @@
                                 var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                                 var chartWidth = window.screen.width * 8 / 12;
                                 chartWidth = (chartWidth > 700) ? 700 : chartWidth;
-                                drawBubbleChart('datasource?ISID=${param.ISID}', chartWidth);
+                                drawBubbleChart('datasource?IRID=${param.IRID}', chartWidth);
                             </script>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <p class="infoitem">Система:${pmIsEntity.isName}</p>
-            <p class="infoitem">Владелец:${pmIsEntity.isOwner}</p>
             <div class="infobox">
                 <hr>
             </div>
-            <h1>Информационные ресурсы системы и их связи</h1>
+            <h1>Функциональные области ИР и их связи</h1>
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
                     <th colspan="2" >Источник</th>
                     <th rowspan="2" >Тип связи</th>
-                    <th colspan="2" >Приемник</th>
+                    <th colspan="3" >Приемник</th>
                 </tr>
                 <tr>
-                    <th align="left">Наименоваие ИС</th>
                     <th align="left">Наименоварие информационного ресурса</th>
+                    <th align="left">Функциональная область</th>
+                    <th align="left">Функциональная область</th>
                     <th align="left">Наименоварие информационного ресурса</th>
                     <th align="left">Наименоваие ИС</th>
                 </tr>
