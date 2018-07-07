@@ -1,6 +1,5 @@
 package ru.sibintek.cis.dao;
 
-import org.hibernate.criterion.Criterion;
 import ru.sibintek.cis.model.PmFuncAreaEntity;
 import ru.sibintek.cis.model.dto.FunctionAndRelatedJoin;
 
@@ -12,8 +11,6 @@ public interface PmFuncAreaDAO {
     PmFuncAreaEntity getById(int id);
 
     void save(PmFuncAreaEntity pmFuncarea, int id);
-
-    List<PmFuncAreaEntity> getByCriteria(Criterion criterion);
 
     List<PmFuncAreaEntity> getAll();
 

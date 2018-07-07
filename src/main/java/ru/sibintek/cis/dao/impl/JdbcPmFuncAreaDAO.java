@@ -1,6 +1,5 @@
 package ru.sibintek.cis.dao.impl;
 
-import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.PmFuncAreaDAO;
@@ -51,11 +50,6 @@ public class JdbcPmFuncAreaDAO implements PmFuncAreaDAO {
     @Override
     public void save(PmFuncAreaEntity pmFuncArea, int id) {
 
-    }
-
-    @Override
-    public List<PmFuncAreaEntity> getByCriteria(Criterion criterion) {
-        return null;
     }
 
     @Override

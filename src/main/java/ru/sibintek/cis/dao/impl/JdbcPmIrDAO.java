@@ -1,6 +1,5 @@
 package ru.sibintek.cis.dao.impl;
 
-import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.PmIrDAO;
@@ -53,11 +52,6 @@ public class JdbcPmIrDAO implements PmIrDAO {
     @Override
     public void save(PmIrEntity psIr, int id) {
 
-    }
-
-    @Override
-    public List<PmIrEntity> getByCriteria(Criterion criterion) {
-        return null;
     }
 
     @Override

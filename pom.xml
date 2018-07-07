@@ -11,7 +11,7 @@
     <name>cis</name>
     <description>Controller Information Systems</description>
 
-    <build>
+    <!--<build>
         <finalName>cis</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
@@ -29,7 +29,7 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -45,10 +45,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
@@ -67,6 +63,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.0.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
