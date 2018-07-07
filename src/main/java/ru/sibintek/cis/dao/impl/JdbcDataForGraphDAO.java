@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.DataForGraphDAO;
 import ru.sibintek.cis.model.dto.DataGraphDrawBubbleChart;
+import ru.sibintek.cis.model.dto.DataGraphDrawTree;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,5 +96,31 @@ public class JdbcDataForGraphDAO implements DataForGraphDAO {
             e.printStackTrace();
         }
         return dataGraphDrawBubbleChartList;
+    }
+
+    @Override
+    public List<DataGraphDrawTree> getDataGraphFa(Integer faId) {
+        String sqlQuery = "select mfu.id, mfu.FUNCTION_NAME  from PM_FUNCTION mfu\n" +
+                "join PF_FUNCTION pfu on mfu.id = pfu.FUNCTION_ID\n" +
+                "join PM_FUNCAREA fa on pfu.fa_id = fa.id \n" +
+                "where fa.id = ?";
+        Connection conn = null;
+        List<DataGraphDrawTree> dataGraphDrawTrees = new ArrayList<>();
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sqlQuery);
+            statement.setInt(1, faId);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                DataGraphDrawTree dataGraphDrawTree = new DataGraphDrawTree();
+                dataGraphDrawTree.setSize(rs.getInt(1));
+                dataGraphDrawTree.setName(rs.getString(2));
+                dataGraphDrawTree.setUrl("/fu/?FUID=" + rs.getString(1));
+                dataGraphDrawTrees.add(dataGraphDrawTree);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dataGraphDrawTrees;
     }
 }

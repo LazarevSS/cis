@@ -142,7 +142,7 @@
                                title="${element.isName}">${element.isName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?IRID=${element.rid}"
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.rid}"
                                title="${element.irName}">${element.irName}</a>
                         </td>
                     </tr>
