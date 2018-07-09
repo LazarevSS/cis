@@ -12,7 +12,7 @@ public interface PmIsDAO {
 
     PmIsEntity getById(int id);
 
-    void save(PmIsEntity psIs, int id);
+    void save(int id);
 
     List<PmIsEntity> getAll();
 

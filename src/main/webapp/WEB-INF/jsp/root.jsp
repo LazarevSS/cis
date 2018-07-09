@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
 <html>
 <head>
     <title>Модель</title>
@@ -53,7 +52,11 @@
                 <script src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap.min.js"></script>
                 <script>
                     $(document).ready(function () {
-                        $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 100, hide: 100}, html: true});
+                        $('[data-toggle="tooltip"]').tooltip({
+                            animation: true,
+                            delay: {show: 100, hide: 100},
+                            html: true
+                        });
                         $('#data_main').dataTable({
                             "iDisplayLength": 10
                         });
@@ -174,11 +177,60 @@
                 </tbody>
             </table>
         </div>
+        <input id="btnDialog" type="button" onclick="openDialog()" value="Open Dialog"/>
     </div>
 </div>
-
 </body>
+
+<body>
+<div id="dialog" title="Добавить информационную систему" class="ui-widget-content" style="padding: 20px">
+    <div class="select">
+        <select id="isIdSelected">
+            <c:forEach var="pmIsEntity" items="${pmIsEntities}">
+                <option value="${pmIsEntity.id}">${pmIsEntity.isName}</option>
+            </c:forEach>
+        </select>
+    </div>
+    <p>Новая информационная система: </p>
+    <div>
+        <input type="text" class="popupSearchText">
+        <input type="button" class="popupSearchButton" value="Добавить" onclick="addIs()">
+    </div>
+    <p id="successSave" hidden="hidden">Сохранено</p>
+</div>
+</body>
+
 </html>
 
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
+<script>
+    $('#dialog').dialog({autoOpen: false});
+    function openDialog() {
+        $("#dialog").dialog(
+            {
+                height: 230,
+                width: 400,
+                autoOpen: true
+            }
+        );
+    }
+    function addIs() {
+        var ajaxUrl = "${pageContext.request.contextPath}/addIs";
+        $.ajax({
+            type: 'POST',
+            url: ajaxUrl,
+            data: ({
+                isId: $('#isIdSelected').val()
+            }),
+            success: function () {
+                $("#successSave").show();
+            },
+            error: function (xhr, str) {
+                alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+        });
+    }
+</script>
 
 
