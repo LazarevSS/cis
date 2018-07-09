@@ -1,6 +1,7 @@
 package ru.sibintek.cis.model.dto;
 
 public class FunctionAndRelatedJoin {
+    private int irId;
     private int faId;
     private String faName;
     private int fuId;
@@ -10,6 +11,7 @@ public class FunctionAndRelatedJoin {
     private String jFuName;
     private int jFaId;
     private String jFaName;
+    private int jIrId;
 
     public int getFaId() {
         return faId;
@@ -81,5 +83,21 @@ public class FunctionAndRelatedJoin {
 
     public void setjFaName(String jFaName) {
         this.jFaName = jFaName;
+    }
+
+    public int getIrId() {
+        return irId;
+    }
+
+    public void setIrId(int irId) {
+        this.irId = irId;
+    }
+
+    public int getjIrId() {
+        return jIrId;
+    }
+
+    public void setjIrId(int jIrId) {
+        this.jIrId = jIrId;
     }
 }
