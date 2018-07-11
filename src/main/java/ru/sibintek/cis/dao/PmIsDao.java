@@ -5,25 +5,15 @@ import ru.sibintek.cis.model.PmIsEntity;
 
 import java.util.List;
 
-public class PmIsDao extends AbstractDao {
+public interface PmIsDao {
 
-    public void delete(PmIsEntity psIs) {
-        super.delete(psIs);
-    }
+    void delete(PmIsEntity psIs);
 
-    public PmIsEntity getById(Long id) {
-        return super.getById(PmIsEntity.class, id);
-    }
+    PmIsEntity getById(Long id);
 
-    public void save(PmIsEntity psIs, Long id) {
-        super.save(psIs, id);
-    }
+    void save(PmIsEntity psIs, Long id);
 
-    public List<PmIsEntity> getByCriteria(Criterion criterion) {
-        return super.getByCriteria(PmIsEntity.class, criterion);
-    }
+    List<PmIsEntity> getByCriteria(Criterion criterion);
 
-    public List<PmIsEntity> getAll() {
-        return super.getAll(PmIsEntity.class);
-    }
+    List<PmIsEntity> getAll();
 }

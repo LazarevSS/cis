@@ -5,24 +5,14 @@ import ru.sibintek.cis.model.PmFuncareaEntity;
 
 import java.util.List;
 
-public class PmFuncareaDao extends AbstractDao {
-    public void delete(PmFuncareaEntity pmFuncarea) {
-        super.delete(pmFuncarea);
-    }
+public interface PmFuncareaDao {
+    void delete(PmFuncareaEntity pmFuncarea);
 
-    public PmFuncareaEntity getById(Long id) {
-        return super.getById(PmFuncareaEntity.class, id);
-    }
+    PmFuncareaEntity getById(Long id);
 
-    public void save(PmFuncareaEntity pmFuncarea, Long id) {
-        super.save(pmFuncarea, id);
-    }
+    void save(PmFuncareaEntity pmFuncarea, Long id);
 
-    public List<PmFuncareaEntity> getByCriteria(Criterion criterion) {
-        return super.getByCriteria(PmFuncareaEntity.class, criterion);
-    }
+    List<PmFuncareaEntity> getByCriteria(Criterion criterion);
 
-    public List<PmFuncareaEntity> getAll() {
-        return super.getAll(PmFuncareaEntity.class);
-    }
+    List<PmFuncareaEntity> getAll();
 }

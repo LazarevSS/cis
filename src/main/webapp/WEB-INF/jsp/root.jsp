@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="test" value="10"/>
+
+
 <html>
 <head>
     <title>Модель</title>
@@ -10,7 +11,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/rosneft.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/treestyle.css">
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+
 
     <style>
         div.container {
@@ -46,6 +47,19 @@
             <div id="d3pie_main">
                 <script src="${pageContext.request.contextPath}/resources/js/d3.v3.min.js"></script>
                 <script src="${pageContext.request.contextPath}/resources/js/d3pie.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/dataTables.bootstrap.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 100, hide: 100}, html: true});
+                        $('#data_main').dataTable({
+                            "iDisplayLength": 10
+                        });
+                    });
+                </script>
+
                 <script>
                     var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                     chartWidth = (chartWidth > 700) ? 700 : chartWidth;
@@ -108,86 +122,33 @@
                     });
                 </script>
             </div>
+
             <div class="infobox">
                 <hr>
             </div>
-            <div>
-                <form:form method="POST"
-                           action="" modelAttribute="page">
-                    <h1>Системы и информационные ресурсы</h1>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="dataTables_length" id="data_main_length">
-                                <label>Show entries
-                                    <select name="data_main_length"
-                                                           id="countTableRow"
-                                                           aria-controls="data_main"
-                                                           class="form-control input-sm"
-                                                 onchange="location = this.value;">
-                                    <option value="10">10</option>
-                                    <option value="${pageContext.request.contextPath}">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div id="data_main_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                                                                                      class="form-control input-sm"
-                                                                                                      placeholder=""
-                                                                                                      aria-controls="data_main"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <table id="data_main" class="table table-striped table-bordered" border="1">
-                            <thead>
-                            <tr>
-                                <th align="left">Система</th>
-                                <th align="left">Информационный ресурс</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="pmIr" items="${page.pmIrEntitiesWithLimit}">
-                                <tr>
-                                    <td>
-                                        <a href="${pageContext.request.contextPath}/is/?ISID=${pmIr.pmIsEntity.id}"
-                                           title="${pmIr.pmIsEntity.isName}">${pmIr.pmIsEntity.isName}</a>
-                                    </td>
-                                    <td>
-                                        <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIr.id}"
-                                           title="${pmIr.irName}">${pmIr.irName}</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="dataTables_paginate paging_simple_numbers" id="data_main_paginate">
-                        <ul class="pagination">
-                            <li class="paginate_button previous disabled" id="data_main_previous"><a href="#"
-                                                                                                     aria-controls="data_main"
-                                                                                                     data-dt-idx="0"
-                                                                                                     tabindex="0">Previous</a>
-                            </li>
-                            <c:forEach var="i" begin="1" end="${page.pageCount}">
-                                <li class="paginate_button active"><a
-                                        href="${pageContext.request.contextPath}/?pageNumber=${i}"
-                                        aria-controls="data_main"
-                                        data-dt-idx="1"
-                                        tabindex="0">${i}
-                                </a>
-                                </li>
-                            </c:forEach>
-                            <li class="paginate_button next" id="data_main_next"><a href="${param.pageNumber}" aria-controls="data_main"
-                                                                                    data-dt-idx="5"
-                                                                                    tabindex="0">Next</a>
-                            </li>
-                        </ul>
-                    </div>
-                </form:form>
-            </div>
+            <h1>Системы и информационные ресурсы</h1>
+            <table id="data_main" class="table table-striped table-bordered" border="1">
+                <thead>
+                <tr>
+                    <th align="left">Система</th>
+                    <th align="left">Информационный ресурс</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="element" items="${systemsAndInformRes}">
+                    <tr>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.sid}"
+                               title="${element.isName}">${element.isName}</a>
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/is/?IRID=${element.rid}"
+                               title="${element.irName}">${element.irName}</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
         <div class="col-sm-3">
             <h3>Название ИР</h3>
@@ -197,17 +158,16 @@
                     <th align="left">Название</th>
                     <th align="left">Код</th>
                 </tr>
-                </thead>
                 <tbody>
-                <c:forEach var="pmIr" items="${page.pmIrEntities}">
+                <c:forEach var="pmIrEntity" items="${pmIrEntities}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIr.id}"
-                               title="${pmIr.irName}">${pmIr.irName}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
+                               title="${pmIrEntity.irName}">${pmIrEntity.irName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIr.id}"
-                               title="${pmIr.scenarioNum}">${pmIr.scenarioNum}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
+                               title="${pmIrEntity.scenarioNum}">${pmIrEntity.scenarioNum}</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -219,4 +179,6 @@
 
 </body>
 </html>
+
+
 
