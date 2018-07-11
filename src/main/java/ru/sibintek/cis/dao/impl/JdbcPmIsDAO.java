@@ -46,13 +46,31 @@ public class JdbcPmIsDAO implements PmIsDAO {
     }
 
     @Override
-    public void save(PmIsEntity psIs, int id) {
+    public void save(int id) {
 
     }
 
     @Override
     public List<PmIsEntity> getAll() {
-        return null;
+        String sqlQuery = "select * from pm_is";
+        Connection conn = null;
+        List<PmIsEntity> pmIsEntities = new ArrayList<>();
+        try {
+            conn = dataSource.getConnection();
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sqlQuery);
+            while(rs.next()) {
+                PmIsEntity entity = new PmIsEntity();
+                entity.setId(rs.getInt(1));
+                entity.setIsNum(rs.getString(2));
+                entity.setIsName(rs.getString(3));
+                entity.setIsOwner(rs.getString(4));
+                pmIsEntities.add(entity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pmIsEntities;
     }
 
     @Override
