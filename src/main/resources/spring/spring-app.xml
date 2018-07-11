@@ -12,6 +12,10 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
+    <bean name="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 

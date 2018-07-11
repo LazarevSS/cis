@@ -1,7 +1,11 @@
 package ru.sibintek.cis.dao;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import ru.sibintek.cis.model.PmIrEntity;
+import ru.sibintek.cis.utils.HibernateSessionFactory;
 
 import java.util.List;
 
@@ -24,5 +28,15 @@ public class PmIrDao extends AbstractDao {
 
     public List<PmIrEntity> getAll() {
         return super.getAll(PmIrEntity.class);
+    }
+
+    public List<PmIrEntity> getJoinWithPmIs(Long pmIS_id) {
+        Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(PmIrEntity.class)
+                .add(Restrictions.eq("fkIsId", pmIS_id));
+        List<PmIrEntity> result = criteria.list();
+        session.getTransaction().commit();
+        return result;
     }
 }

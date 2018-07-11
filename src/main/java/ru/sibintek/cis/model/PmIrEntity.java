@@ -14,10 +14,9 @@ public class PmIrEntity {
     private String irOwner;
     private String instantion;
     private String softwareVersion;
+    private PmIsEntity pmIsEntity;
 
     @Id
-    @SequenceGenerator( name = "pm_id_seq", sequenceName = "PM_ID_SEQ", allocationSize = 1)
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "pm_id_seq")
     @Column(name = "ID", nullable = false, precision = 0)
     public long getId() {
         return id;
@@ -95,6 +94,16 @@ public class PmIrEntity {
 
     public void setSoftwareVersion(String softwareVersion) {
         this.softwareVersion = softwareVersion;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "FK_IS_ID")
+    public PmIsEntity getPmIsEntity() {
+        return this.pmIsEntity;
+    }
+
+    public void setPmIsEntity(PmIsEntity pmIsEntity) {
+        this.pmIsEntity = pmIsEntity;
     }
 
     @Override

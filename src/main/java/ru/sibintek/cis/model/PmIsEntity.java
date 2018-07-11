@@ -2,6 +2,7 @@ package ru.sibintek.cis.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "PM_IS", schema = "HR")
@@ -10,6 +11,7 @@ public class PmIsEntity {
     private String isNum;
     private String isName;
     private String isOwner;
+    private Set<PmIrEntity> pmIrsEntity;
 
     @Id
     @SequenceGenerator( name = "pm_id_seq", sequenceName = "PM_ID_SEQ", allocationSize = 1)
@@ -51,6 +53,14 @@ public class PmIsEntity {
 
     public void setIsOwner(String isOwner) {
         this.isOwner = isOwner;
+    }
+
+    @OneToMany(mappedBy = "pmIsEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Set<PmIrEntity> getPmIrsEntity() {
+        return this.pmIrsEntity;
+    }
+    public void setPmIrsEntity(Set<PmIrEntity> pmIrsEntity) {
+        this.pmIrsEntity = pmIrsEntity;
     }
 
     @Override
