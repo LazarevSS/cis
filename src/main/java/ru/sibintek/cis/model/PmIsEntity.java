@@ -1,32 +1,20 @@
 package ru.sibintek.cis.model;
 
-import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@Table(name = "PM_IS", schema = "HR")
 public class PmIsEntity {
-    private long id;
+    private int id;
     private String isNum;
     private String isName;
     private String isOwner;
-    private Set<PmIrEntity> pmIrsEntity;
 
-    @Id
-    @SequenceGenerator( name = "pm_id_seq", sequenceName = "PM_ID_SEQ", allocationSize = 1)
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "pm_id_seq")
-    @Column(name = "ID", nullable = false, precision = 0)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "IS_NUM", nullable = true, length = 20)
     public String getIsNum() {
         return isNum;
     }
@@ -35,8 +23,6 @@ public class PmIsEntity {
         this.isNum = isNum;
     }
 
-    @Basic
-    @Column(name = "IS_NAME", nullable = true, length = 100)
     public String getIsName() {
         return isName;
     }
@@ -45,38 +31,11 @@ public class PmIsEntity {
         this.isName = isName;
     }
 
-    @Basic
-    @Column(name = "IS_OWNER", nullable = true, length = 50)
     public String getIsOwner() {
         return isOwner;
     }
 
     public void setIsOwner(String isOwner) {
         this.isOwner = isOwner;
-    }
-
-    @OneToMany(mappedBy = "pmIsEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<PmIrEntity> getPmIrsEntity() {
-        return this.pmIrsEntity;
-    }
-    public void setPmIrsEntity(Set<PmIrEntity> pmIrsEntity) {
-        this.pmIrsEntity = pmIrsEntity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PmIsEntity that = (PmIsEntity) o;
-        return id == that.id &&
-                Objects.equals(isNum, that.isNum) &&
-                Objects.equals(isName, that.isName) &&
-                Objects.equals(isOwner, that.isOwner);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, isNum, isName, isOwner);
     }
 }

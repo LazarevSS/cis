@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${pmIsEntity.isName}</title>
+    <title>${pmFaEntity.scenarioName}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -22,64 +22,54 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9">
-            <table wigth="700px">
-                <tr>
-                    <td>
-                        <div class="d3chartarea_main">
-                            <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
-                            <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
-                            <script src="${pageContext.request.contextPath}/resources/js/d3bubblechart.js"></script>
+            <div class="d3tree_main">
+                <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/d3.layout.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/mytreed3.js"></script>
+                <script>
+                    drawMytreed3('datasource?FAID=${param.FAID}');
+                </script>
+            </div>
 
-                            <script>
-                                var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
-                                var chartWidth = window.screen.width * 8 / 12;
-                                chartWidth = (chartWidth > 700) ? 700 : chartWidth;
-                                drawBubbleChart('datasource?ISID=${param.ISID}', chartWidth);
-                            </script>
-                        </div>
-                    </td>
-                </tr>
-            </table>
 
-            <p class="infoitem">Система:${pmIsEntity.isName}</p>
-            <p class="infoitem">Владелец:${pmIsEntity.isOwner}</p>
             <div class="infobox">
                 <hr>
             </div>
-            <h1>Информационные ресурсы системы и их связи</h1>
+            <h1>Функциональные области ИР и их связи</h1>
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
-                    <th colspan="2" >Источник</th>
-                    <th rowspan="2" >Тип связи</th>
-                    <th colspan="2" >Приемник</th>
+                    <th colspan="2">Источник</th>
+                    <th rowspan="2">Тип связи</th>
+                    <th colspan="2">Приемник</th>
                 </tr>
                 <tr>
-                    <th align="left">Наименоваие ИС</th>
-                    <th align="left">Наименоварие информационного ресурса</th>
-                    <th align="left">Наименоварие информационного ресурса</th>
-                    <th align="left">Наименоваие ИС</th>
+                    <th align="left">Функциональная область</th>
+                    <th align="left">Функция</th>
+                    <th align="left">Функция</th>
+                    <th align="left">Функциональная область</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="element" items="${informResAndJoins}">
+                <c:forEach var="element" items="${functionAndRelatedJoins}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.isId}"
-                               title="${element.isName}">${element.isName}</a>
+                            <a href="${pageContext.request.contextPath}/fa/?FAID=${element.faId}"
+                               title="${element.faName}">${element.faName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.irId}"
-                               title="${element.irName}">${element.irName}</a>
+                            <a href="${pageContext.request.contextPath}/fu/?FUID=${element.fuId}"
+                               title="${element.fuName}">${element.fuName}</a>
                         </td>
                         <td>КСиП</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.jIrId}"
-                               title="${element.jIrName}">${element.jIrName}</a>
+                            <a href="${pageContext.request.contextPath}/fu/?FUID=${element.jFuId}"
+                               title="${element.jFuName}">${element.jFuName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.jIsId}"
-                               title="${element.jIsName}">${element.jIsName}</a>
+                            <a href="${pageContext.request.contextPath}/fa/?FAID=${element.jFaId}"
+                               title="${element.jFaName}">${element.jFaName}</a>
                         </td>
                     </tr>
                 </c:forEach>
