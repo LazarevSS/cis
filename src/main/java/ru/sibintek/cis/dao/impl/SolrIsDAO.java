@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.IsDAO;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
-import ru.sibintek.cis.model.PmIrEntity;
-import ru.sibintek.cis.model.PmIsEntity;
+import ru.sibintek.cis.model.IrModel;
+import ru.sibintek.cis.model.IsModel;
 import ru.sibintek.cis.model.dto.InformResIsAndJoin;
 import ru.sibintek.cis.util.SparkConnector;
 
@@ -21,12 +21,12 @@ public class SolrIsDAO implements IsDAO {
     private SolrDocumentConverter converter;
 
     @Override
-    public void delete(PmIsEntity psIs) {
+    public void delete(IsModel psIs) {
 
     }
 
     @Override
-    public PmIsEntity getById(int id) {
+    public IsModel getById(int id) {
         return null;
     }
 
@@ -36,7 +36,7 @@ public class SolrIsDAO implements IsDAO {
     }
 
     @Override
-    public List<PmIsEntity> getAll() {
+    public List<IsModel> getAll() {
         Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("content_type").equals("is"));
         JavaRDD<SolrDocument> resultsRDD = SparkConnector.getInstance().getResultRDD();
         SolrDocument document = resultsRDD.collect().get(0);
@@ -50,7 +50,7 @@ public class SolrIsDAO implements IsDAO {
     }
 
     @Override
-    public Map<PmIsEntity, List<PmIrEntity>> getSystemsAndInformRes() {
+    public Map<IsModel, List<IrModel>> getSystemsAndInformRes() {
         return null;
     }
 }

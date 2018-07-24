@@ -1,21 +1,21 @@
 package ru.sibintek.cis.dao;
 
-import ru.sibintek.cis.model.PmIrEntity;
+import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.dto.FuncAreaIrAndJoin;
 
 
 import java.util.List;
 
 public interface IrDAO {
-    void delete(PmIrEntity psIr);
+    void delete(IrModel psIr);
 
-    PmIrEntity getById(int id);
+    IrModel getById(int id);
 
-    void save(PmIrEntity psIr, int id);
+    void save(IrModel psIr, int id);
 
-    List<PmIrEntity> getAll();
+    List<IrModel> getAll();
 
-    List<PmIrEntity> getByIsId(int id);
+    List<IrModel> getByIsId(int id);
 
     List<FuncAreaIrAndJoin> getFuncAreaIrAndJoins(Integer irId);
 }

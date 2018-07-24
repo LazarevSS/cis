@@ -1,6 +1,6 @@
 package ru.sibintek.cis.model;
 
-public class PmIrEntity {
+public class IrModel {
     private int id;
     private String scenarioNum;
     private String scenarioType;

@@ -1,7 +1,7 @@
 package ru.sibintek.cis.model;
 
 
-public class PmIsEntity {
+public class IsModel {
     private int id;
     private String isNum;
     private String isName;

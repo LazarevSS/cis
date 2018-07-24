@@ -1,7 +1,7 @@
 package ru.sibintek.cis.model;
 
 
-public class PmFuncAreaEntity {
+public class FuncAreaModel {
     private int id;
 
     private String scenarioName;

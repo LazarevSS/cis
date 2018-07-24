@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ru.sibintek.cis.dao.PmIrDAO;
-import ru.sibintek.cis.dao.PmIsDAO;
-import ru.sibintek.cis.model.PmIrEntity;
-import ru.sibintek.cis.model.PmIsEntity;
+import ru.sibintek.cis.dao.IrDAO;
+import ru.sibintek.cis.dao.IsDAO;
+import ru.sibintek.cis.model.IrModel;
+import ru.sibintek.cis.model.IsModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,21 +20,21 @@ import java.util.Map;
 @Controller
 public class RootController {
     @Autowired
-    @Qualifier("solrPmIsDAO")
-    private PmIsDAO pmIsDAO;
+    @Qualifier("solrIsDAO")
+    private IsDAO isDAO;
 
     @Autowired
-    @Qualifier("solrPmIrDAO")
-    private PmIrDAO pmIrDAO;
+    @Qualifier("solrIrDAO")
+    private IrDAO irDAO;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView root() {
         ModelAndView modelAndView = new ModelAndView();
-        List<PmIsEntity> isEntities = pmIsDAO.getAll();
-        Map<PmIsEntity, List<PmIrEntity>> table = new HashMap<>();
-        isEntities.forEach(is -> table.put(is, pmIrDAO.getByIsId(is.getId())));
+        List<IsModel> isEntities = isDAO.getAll();
+        Map<IsModel, List<IrModel>> table = new HashMap<>();
+        isEntities.forEach(is -> table.put(is, irDAO.getByIsId(is.getId())));
         modelAndView.addObject("pmIsEntities", isEntities);
-        modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
+        modelAndView.addObject("pmIrEntities", irDAO.getAll());
         modelAndView.addObject("table", table);
         modelAndView.setViewName("root");
         return modelAndView;
@@ -43,7 +43,7 @@ public class RootController {
     @RequestMapping(value = "/addIs", method = RequestMethod.POST)
     public ModelAndView addIs(@RequestParam(value = "isId", required = false) Integer isId) {
         ModelAndView result = new ModelAndView("jsonView");
-        pmIsDAO.save(isId);
+        isDAO.save(isId);
         return result;
     }
 }

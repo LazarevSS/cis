@@ -1,7 +1,7 @@
 package ru.sibintek.cis.model;
 
 
-public class PmFunctionEntity {
+public class FunctionModel {
     private int id;
     private String functionNum;
     private String functionName;

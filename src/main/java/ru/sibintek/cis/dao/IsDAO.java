@@ -1,7 +1,7 @@
 package ru.sibintek.cis.dao;
 
-import ru.sibintek.cis.model.PmIrEntity;
-import ru.sibintek.cis.model.PmIsEntity;
+import ru.sibintek.cis.model.IrModel;
+import ru.sibintek.cis.model.IsModel;
 import ru.sibintek.cis.model.dto.InformResIsAndJoin;
 import ru.sibintek.cis.model.dto.SystemAndInformRes;
 
@@ -10,15 +10,15 @@ import java.util.Map;
 
 public interface IsDAO {
 
-    void delete(PmIsEntity psIs);
+    void delete(IsModel psIs);
 
-    PmIsEntity getById(int id);
+    IsModel getById(int id);
 
     void save(int id);
 
-    List<PmIsEntity> getAll();
+    List<IsModel> getAll();
 
     List<InformResIsAndJoin> getInformResIsAndJoins(Integer isId);
 
-    Map<PmIsEntity, List<PmIrEntity>> getSystemsAndInformRes();
+    Map<IsModel, List<IrModel>> getSystemsAndInformRes();
 }

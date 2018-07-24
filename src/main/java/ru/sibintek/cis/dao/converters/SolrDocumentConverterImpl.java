@@ -2,8 +2,8 @@ package ru.sibintek.cis.dao.converters;
 
 import org.apache.solr.common.SolrDocument;
 import org.springframework.stereotype.Component;
-import ru.sibintek.cis.model.PmIrEntity;
-import ru.sibintek.cis.model.PmIsEntity;
+import ru.sibintek.cis.model.IrModel;
+import ru.sibintek.cis.model.IsModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import java.util.List;
 public class SolrDocumentConverterImpl implements SolrDocumentConverter {
 
     @Override
-    public PmIsEntity toIsEntity(SolrDocument document) {
-        PmIsEntity entity = new PmIsEntity();
+    public IsModel toIsEntity(SolrDocument document) {
+        IsModel entity = new IsModel();
         entity.setId(Integer.valueOf(document.getFieldValue("id").toString()));
         entity.setIsNum(document.getFieldValue("is_num").toString());
         entity.setIsName(document.getFieldValue("name").toString());
@@ -21,8 +21,8 @@ public class SolrDocumentConverterImpl implements SolrDocumentConverter {
     }
 
     @Override
-    public List<PmIsEntity> toIsEntity(List<SolrDocument> documents) {
-        List<PmIsEntity> entities = new ArrayList<>();
+    public List<IsModel> toIsEntity(List<SolrDocument> documents) {
+        List<IsModel> entities = new ArrayList<>();
         for (SolrDocument document : documents) {
             entities.add(toIsEntity(document));
         }
@@ -30,8 +30,8 @@ public class SolrDocumentConverterImpl implements SolrDocumentConverter {
     }
 
     @Override
-    public PmIrEntity toIrEntity(SolrDocument document) {
-        PmIrEntity entity = new PmIrEntity();
+    public IrModel toIrEntity(SolrDocument document) {
+        IrModel entity = new IrModel();
         entity.setId(Integer.valueOf(document.getFieldValue("id").toString()));
         entity.setIrNum(document.getFieldValue("ir_num").toString());
         entity.setIrName(document.getFieldValue("name").toString());
@@ -42,8 +42,8 @@ public class SolrDocumentConverterImpl implements SolrDocumentConverter {
     }
 
     @Override
-    public List<PmIrEntity> toIrEntity(List<SolrDocument> documents) {
-        List<PmIrEntity> entities = new ArrayList<>();
+    public List<IrModel> toIrEntity(List<SolrDocument> documents) {
+        List<IrModel> entities = new ArrayList<>();
         for (SolrDocument document : documents) {
             entities.add(toIrEntity(document));
         }

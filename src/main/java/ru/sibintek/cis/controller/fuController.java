@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ru.sibintek.cis.dao.PmFunctionDAO;
+import ru.sibintek.cis.dao.FunctionDAO;
 import ru.sibintek.cis.dao.IrDAO;
 
 @Controller
@@ -17,7 +17,7 @@ public class fuController {
     private IrDAO irDAO;
 
     @Autowired
-    private PmFunctionDAO pmFunctionDAO;
+    private FunctionDAO functionDAO;
 
     @RequestMapping(value = "/fu", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId,
@@ -26,9 +26,9 @@ public class fuController {
         ModelAndView modelAndView = new ModelAndView();
         /*modelAndView.addObject("pmFaEntity", pmFuncAreaDAO.getById(faId));
         modelAndView.addObject("functionAndRelatedJoins", pmFuncAreaDAO.getFunctionAndRelatedJoins(faId));*/
-        modelAndView.addObject("pmFunctionEntity", pmFunctionDAO.getById(fuId));
-        modelAndView.addObject("functionStructure", pmFunctionDAO.getFunctionStructure(fuId));
-        modelAndView.addObject("functionsInOtherFuncAreas", pmFunctionDAO.getFunctionsInOtherFuncAreas(fuId, faId, irId));
+        modelAndView.addObject("pmFunctionEntity", functionDAO.getById(fuId));
+        modelAndView.addObject("functionStructure", functionDAO.getFunctionStructure(fuId));
+        modelAndView.addObject("functionsInOtherFuncAreas", functionDAO.getFunctionsInOtherFuncAreas(fuId, faId, irId));
         modelAndView.addObject("pmIrEntities", irDAO.getAll());
         modelAndView.setViewName("fuView");
         return modelAndView;
