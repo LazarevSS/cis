@@ -2,6 +2,7 @@ package ru.sibintek.cis.dao.converters;
 
 import org.apache.solr.common.SolrDocument;
 import org.springframework.stereotype.Component;
+import ru.sibintek.cis.model.FunctionModel;
 import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
 
@@ -12,41 +13,65 @@ import java.util.List;
 public class SolrDocumentConverterImpl implements SolrDocumentConverter {
 
     @Override
-    public IsModel toIsEntity(SolrDocument document) {
-        IsModel entity = new IsModel();
-        entity.setId(Integer.valueOf(document.getFieldValue("id").toString()));
-        entity.setIsNum(document.getFieldValue("is_num").toString());
-        entity.setIsName(document.getFieldValue("name").toString());
-        return entity;
+    public IsModel toIsModel(SolrDocument document) {
+        IsModel isModel = new IsModel();
+        isModel.setId(Integer.valueOf(document.getFieldValue("id").toString()));
+        isModel.setIsNum(document.getFieldValue("is_num").toString());
+        isModel.setIsName(document.getFieldValue("name").toString());
+        return isModel;
     }
 
     @Override
-    public List<IsModel> toIsEntity(List<SolrDocument> documents) {
-        List<IsModel> entities = new ArrayList<>();
+    public List<IsModel> toIsModel(List<SolrDocument> documents) {
+        List<IsModel> isModels = new ArrayList<>();
         for (SolrDocument document : documents) {
-            entities.add(toIsEntity(document));
+            isModels.add(toIsModel(document));
         }
-        return entities;
+        return isModels;
     }
 
     @Override
-    public IrModel toIrEntity(SolrDocument document) {
-        IrModel entity = new IrModel();
-        entity.setId(Integer.valueOf(document.getFieldValue("id").toString()));
-        entity.setIrNum(document.getFieldValue("ir_num").toString());
-        entity.setIrName(document.getFieldValue("name").toString());
-        entity.setIsId(Integer.valueOf(document.getFieldValue("is_id").toString()));
-        entity.setScenarioNum(document.getFieldValue("scenario_num").toString());
-        entity.setIrOwner(document.getFieldValue("ir_owner").toString());
-        return entity;
+    public IrModel toIrModel(SolrDocument document) {
+        IrModel irModel = new IrModel();
+        irModel.setId(Integer.valueOf(document.getFieldValue("id").toString()));
+        irModel.setIrNum(document.getFieldValue("ir_num").toString());
+        irModel.setIrName(document.getFieldValue("name").toString());
+        irModel.setIsId(getId(document.getFieldValue("is_id")));
+        irModel.setScenarioNum(document.getFieldValue("scenario_num").toString());
+        irModel.setIrOwner(document.getFieldValue("ir_owner").toString());
+        return irModel;
     }
 
     @Override
-    public List<IrModel> toIrEntity(List<SolrDocument> documents) {
-        List<IrModel> entities = new ArrayList<>();
+    public List<IrModel> toIrModel(List<SolrDocument> documents) {
+        List<IrModel> irModels = new ArrayList<>();
         for (SolrDocument document : documents) {
-            entities.add(toIrEntity(document));
+            irModels.add(toIrModel(document));
         }
-        return entities;
+        return irModels;
+    }
+
+    @Override
+    public FunctionModel toFunctionModel(SolrDocument document) {
+        FunctionModel functionModel = new FunctionModel();
+        functionModel.setId(Integer.valueOf(document.getFieldValue("id").toString()));
+        //functionModel.setFunctionNum(document.getFieldValue("function_num").toString());
+        functionModel.setFunctionName(document.getFieldValue("name").toString());
+        functionModel.setIsIds((List<String>)document.getFieldValue("is_id"));
+        return functionModel;
+    }
+
+    @Override
+    public List<FunctionModel> toFunctionModel(List<SolrDocument> documents) {
+        List<FunctionModel> functionModels = new ArrayList<>();
+        for (SolrDocument document : documents) {
+            functionModels.add(toFunctionModel(document));
+        }
+        return functionModels;
+    }
+
+    private int getId(Object list) {
+        List<String> ids = (List<String>) list;
+        return Integer.valueOf(ids.get(0));
     }
 }

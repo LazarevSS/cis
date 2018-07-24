@@ -1,5 +1,6 @@
 package ru.sibintek.cis.dao;
 
+import ru.sibintek.cis.model.FunctionModel;
 import ru.sibintek.cis.model.IsModel;
 
 import java.util.List;
@@ -10,8 +11,13 @@ public interface IsDAO {
 
     IsModel getById(int id);
 
+    IsModel getByIdWithIr(int id);
+
     void save(int id);
+
+    List<FunctionModel> getJoinFunctions(int isId);
 
     List<IsModel> getAll();
 
+    List<IsModel> getRelationsIs(int isId);
 }

@@ -23,8 +23,9 @@ public class IsController {
     @RequestMapping(value = "/is", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "ISID", required = false) Integer isId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("pmIsEntity", isDAO.getById(isId));
-        modelAndView.addObject("pmIrEntities", irDAO.getAll());
+        modelAndView.addObject("isModel", isDAO.getById(isId));
+        modelAndView.addObject("irModel", irDAO.getAll());
+        modelAndView.addObject("table", isDAO.getRelationsIs(isId));
         modelAndView.setViewName("isView");
         return modelAndView;
     }

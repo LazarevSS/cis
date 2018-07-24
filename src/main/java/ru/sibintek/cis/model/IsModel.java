@@ -1,11 +1,14 @@
 package ru.sibintek.cis.model;
 
 
+import java.util.List;
+
 public class IsModel {
     private int id;
     private String isNum;
     private String isName;
     private String isOwner;
+    private List<IrModel> irs;
 
     public int getId() {
         return id;
@@ -37,5 +40,13 @@ public class IsModel {
 
     public void setIsOwner(String isOwner) {
         this.isOwner = isOwner;
+    }
+
+    public List<IrModel> getIrs() {
+        return irs;
+    }
+
+    public void setIrs(List<IrModel> irs) {
+        this.irs = irs;
     }
 }

@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${pmIsEntity.isName}</title>
+    <title>${isModel.isName}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -41,45 +41,36 @@
                 </tr>
             </table>
 
-            <p class="infoitem">Система:${pmIsEntity.isName}</p>
-            <p class="infoitem">Владелец:${pmIsEntity.isOwner}</p>
+            <p class="infoitem">Система:${isModel.isName}</p>
+            <p class="infoitem">Владелец:${isModel.isOwner}</p>
             <div class="infobox">
                 <hr>
             </div>
-            <h1>Информационные ресурсы системы и их связи</h1>
+            <h1>Информационные системы и их связи</h1>
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
-                    <th colspan="2" >Источник</th>
-                    <th rowspan="2" >Тип связи</th>
-                    <th colspan="2" >Приемник</th>
+                    <th colspan="1">Источник</th>
+                    <th rowspan="1">Тип связи</th>
+                    <th colspan="1">Приемник</th>
                 </tr>
                 <tr>
                     <th align="left">Наименоваие ИС</th>
-                    <th align="left">Наименоварие информационного ресурса</th>
-                    <th align="left">Наименоварие информационного ресурса</th>
+                    <th align="left">Наименоварие связывающей функции</th>
                     <th align="left">Наименоваие ИС</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="element" items="${informResAndJoins}">
+                <c:forEach var="relationIsModel" items="${table}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.isId}"
-                               title="${element.isName}">${element.isName}</a>
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${isModel.id}"
+                               title="${isModel.isName}">${isModel.isName}</a>
                         </td>
+                        <td>Здесь могла быть ваша функция</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.irId}"
-                               title="${element.irName}">${element.irName}</a>
-                        </td>
-                        <td>КСиП</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.jIrId}"
-                               title="${element.jIrName}">${element.jIrName}</a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.jIsId}"
-                               title="${element.jIsName}">${element.jIsName}</a>
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${relationIsModel.id}"
+                               title="${relationIsModel.isName}">${relationIsModel.isName}</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -95,7 +86,7 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="pmIrEntity" items="${pmIrEntities}">
+                <c:forEach var="pmIrEntity" items="${irModel}">
                     <tr>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
