@@ -17,7 +17,8 @@ import java.util.Map;
 
 @Component
 public class SolrPmIsDAO implements PmIsDAO {
-    private SolrDocumentConverter converter = new SolrDocumentConverter();
+    @Autowired
+    private SolrDocumentConverter converter;
 
     @Override
     public void delete(PmIsEntity psIs) {

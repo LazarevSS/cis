@@ -3,6 +3,7 @@ package ru.sibintek.cis.dao.impl;
 import org.apache.solr.common.SolrDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.PmIrDAO;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
@@ -15,7 +16,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class SolrPmIrDAO implements PmIrDAO {
-    private SolrDocumentConverter converter = new SolrDocumentConverter();
+    @Autowired
+    private SolrDocumentConverter converter;
 
     @Override
     public void delete(PmIrEntity psIr) {
