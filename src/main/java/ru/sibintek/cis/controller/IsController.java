@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.DataForGraphDAO;
-import ru.sibintek.cis.dao.PmIrDAO;
+import ru.sibintek.cis.dao.IrDAO;
 
-import ru.sibintek.cis.dao.PmIsDAO;
+import ru.sibintek.cis.dao.IsDAO;
 import ru.sibintek.cis.model.dto.DataGraphDrawBubbleChart;
 
 import java.util.List;
@@ -22,18 +22,18 @@ public class IsController {
 
     @Autowired
     @Qualifier("jdbcPmIrDAO")
-    private PmIrDAO pmIrDAO;
+    private IrDAO irDAO;
 
     @Autowired
     @Qualifier("jdbcPmIsDAO")
-    private PmIsDAO pmIsDAO;
+    private IsDAO isDAO;
 
     @RequestMapping(value = "/is", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "ISID", required = false) Integer isId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("pmIsEntity", pmIsDAO.getById(isId));
-        modelAndView.addObject("informResAndJoins", pmIsDAO.getInformResIsAndJoins(isId));
-        modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
+        modelAndView.addObject("pmIsEntity", isDAO.getById(isId));
+        modelAndView.addObject("informResAndJoins", isDAO.getInformResIsAndJoins(isId));
+        modelAndView.addObject("pmIrEntities", irDAO.getAll());
         modelAndView.setViewName("isView");
         return modelAndView;
     }

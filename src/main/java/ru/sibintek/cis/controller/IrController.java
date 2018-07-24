@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.DataForGraphDAO;
-import ru.sibintek.cis.dao.PmIrDAO;
+import ru.sibintek.cis.dao.IrDAO;
 import ru.sibintek.cis.model.dto.DataGraphDrawBubbleChart;
 
 import java.util.List;
@@ -20,14 +20,14 @@ public class IrController {
 
     @Autowired
     @Qualifier("jdbcPmIrDAO")
-    private PmIrDAO pmIrDAO;
+    private IrDAO irDAO;
 
     @RequestMapping(value = "/ir", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("pmIrEntity", pmIrDAO.getById(irId));
-        modelAndView.addObject("funcAreaIrAndJoins", pmIrDAO.getFuncAreaIrAndJoins(irId));
-        modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
+        modelAndView.addObject("pmIrEntity", irDAO.getById(irId));
+        modelAndView.addObject("funcAreaIrAndJoins", irDAO.getFuncAreaIrAndJoins(irId));
+        modelAndView.addObject("pmIrEntities", irDAO.getAll());
         modelAndView.setViewName("irView");
         return modelAndView;
     }

@@ -5,7 +5,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.sibintek.cis.dao.PmIrDAO;
+import ru.sibintek.cis.dao.IrDAO;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.PmIrEntity;
 import ru.sibintek.cis.model.dto.FuncAreaIrAndJoin;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class SolrPmIrDAO implements PmIrDAO {
+public class SolrIrDAO implements IrDAO {
     @Autowired
     private SolrDocumentConverter converter;
 

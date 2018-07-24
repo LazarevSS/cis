@@ -8,7 +8,7 @@ import ru.sibintek.cis.model.dto.SystemAndInformRes;
 import java.util.List;
 import java.util.Map;
 
-public interface PmIsDAO {
+public interface IsDAO {
 
     void delete(PmIsEntity psIs);
 

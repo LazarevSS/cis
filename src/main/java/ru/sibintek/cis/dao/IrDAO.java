@@ -6,7 +6,7 @@ import ru.sibintek.cis.model.dto.FuncAreaIrAndJoin;
 
 import java.util.List;
 
-public interface PmIrDAO {
+public interface IrDAO {
     void delete(PmIrEntity psIr);
 
     PmIrEntity getById(int id);

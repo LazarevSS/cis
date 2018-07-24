@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.PmFunctionDAO;
-import ru.sibintek.cis.dao.PmIrDAO;
+import ru.sibintek.cis.dao.IrDAO;
 
 @Controller
 public class fuController {
     @Autowired
     @Qualifier("jdbcPmIrDAO")
-    private PmIrDAO pmIrDAO;
+    private IrDAO irDAO;
 
     @Autowired
     private PmFunctionDAO pmFunctionDAO;
@@ -29,7 +29,7 @@ public class fuController {
         modelAndView.addObject("pmFunctionEntity", pmFunctionDAO.getById(fuId));
         modelAndView.addObject("functionStructure", pmFunctionDAO.getFunctionStructure(fuId));
         modelAndView.addObject("functionsInOtherFuncAreas", pmFunctionDAO.getFunctionsInOtherFuncAreas(fuId, faId, irId));
-        modelAndView.addObject("pmIrEntities", pmIrDAO.getAll());
+        modelAndView.addObject("pmIrEntities", irDAO.getAll());
         modelAndView.setViewName("fuView");
         return modelAndView;
     }
