@@ -13,7 +13,6 @@ import ru.sibintek.cis.dao.IrDAO;
 @Controller
 public class fuController {
     @Autowired
-    @Qualifier("jdbcPmIrDAO")
     private IrDAO irDAO;
 
     @Autowired
@@ -27,8 +26,6 @@ public class fuController {
         /*modelAndView.addObject("pmFaEntity", pmFuncAreaDAO.getById(faId));
         modelAndView.addObject("functionAndRelatedJoins", pmFuncAreaDAO.getFunctionAndRelatedJoins(faId));*/
         modelAndView.addObject("pmFunctionEntity", functionDAO.getById(fuId));
-        modelAndView.addObject("functionStructure", functionDAO.getFunctionStructure(fuId));
-        modelAndView.addObject("functionsInOtherFuncAreas", functionDAO.getFunctionsInOtherFuncAreas(fuId, faId, irId));
         modelAndView.addObject("pmIrEntities", irDAO.getAll());
         modelAndView.setViewName("fuView");
         return modelAndView;

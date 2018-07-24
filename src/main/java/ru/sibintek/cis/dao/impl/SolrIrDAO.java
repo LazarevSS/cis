@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.IrDAO;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.IrModel;
-import ru.sibintek.cis.model.dto.FuncAreaIrAndJoin;
 import ru.sibintek.cis.util.SparkConnector;
 
 import java.util.List;
@@ -46,8 +45,4 @@ public class SolrIrDAO implements IrDAO {
         return getAll().stream().filter(ir -> ir.getIsId() == id).collect(Collectors.toList());
     }
 
-    @Override
-    public List<FuncAreaIrAndJoin> getFuncAreaIrAndJoins(Integer irId) {
-        return null;
-    }
 }

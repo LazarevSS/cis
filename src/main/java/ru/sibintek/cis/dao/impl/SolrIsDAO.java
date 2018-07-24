@@ -7,13 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.IsDAO;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
-import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
-import ru.sibintek.cis.model.dto.InformResIsAndJoin;
 import ru.sibintek.cis.util.SparkConnector;
 
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class SolrIsDAO implements IsDAO {
@@ -42,15 +39,5 @@ public class SolrIsDAO implements IsDAO {
         SolrDocument document = resultsRDD.collect().get(0);
         JavaRDD<SolrDocument> isEntities = resultsRDD.filter(filter);
         return converter.toIsEntity(isEntities.collect());
-    }
-
-    @Override
-    public List<InformResIsAndJoin> getInformResIsAndJoins(Integer isId) {
-        return null;
-    }
-
-    @Override
-    public Map<IsModel, List<IrModel>> getSystemsAndInformRes() {
-        return null;
     }
 }

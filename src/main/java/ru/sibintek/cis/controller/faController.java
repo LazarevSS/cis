@@ -19,14 +19,10 @@ public class faController {
     @Autowired
     private FuncAreaDAO funcAreaDAO;
 
-    @Autowired
-    private FuncAreaDAO funcAreaDAO;
-
     @RequestMapping(value = "/fa", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "FAID", required = false) Integer faId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("pmFaEntity", funcAreaDAO.getById(faId));
-        modelAndView.addObject("functionAndRelatedJoins", funcAreaDAO.getFunctionAndRelatedJoins(faId));
         modelAndView.addObject("pmIrEntities", irDAO.getAll());
         modelAndView.setViewName("faView");
         return modelAndView;
