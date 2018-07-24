@@ -15,5 +15,7 @@ public interface PmIrDAO {
 
     List<PmIrEntity> getAll();
 
+    List<PmIrEntity> getByIsId(int id);
+
     List<FuncAreaIrAndJoin> getFuncAreaIrAndJoins(Integer irId);
 }

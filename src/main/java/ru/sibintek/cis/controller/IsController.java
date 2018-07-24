@@ -1,6 +1,7 @@
 package ru.sibintek.cis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,9 +21,11 @@ public class IsController {
     private DataForGraphDAO dataForGraphDAO;
 
     @Autowired
+    @Qualifier("jdbcPmIrDAO")
     private PmIrDAO pmIrDAO;
 
     @Autowired
+    @Qualifier("jdbcPmIsDAO")
     private PmIsDAO pmIsDAO;
 
     @RequestMapping(value = "/is", method = RequestMethod.GET)

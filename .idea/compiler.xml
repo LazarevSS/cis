@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="cis" target="10" />
+      <module name="cis" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -130,6 +130,9 @@
                 <hr>
             </div>
             <h1>Системы и информационные ресурсы</h1>
+
+
+
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
@@ -138,20 +141,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="element" items="${systemsAndInformRes}">
-                    <tr>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.sid}"
-                               title="${element.isName}">${element.isName}</a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.rid}"
-                               title="${element.irName}">${element.irName}</a>
-                        </td>
-                    </tr>
+                <c:forEach var="entry" items="${table}">
+                    <c:forEach var="ir" items="${entry.value}">
+                        <tr>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/is/?ISID=${entry.key.id}"
+                                   title="${entry.key.isName}">${entry.key.isName}</a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/ir/?IRID=${ir.id}"
+                                   title="${ir.irName}">${ir.irName}</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </c:forEach>
                 </tbody>
             </table>
+
+
+
         </div>
         <div class="col-sm-3">
             <h3>Название ИР</h3>

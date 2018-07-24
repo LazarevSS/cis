@@ -40,7 +40,7 @@ public class JdbcPmIrDAO implements PmIrDAO {
                 entity.setIrOwner(rs.getString(6));
                 entity.setInstantion(rs.getString(7));
                 entity.setSoftwareVersion(rs.getString(8));
-                entity.setFkIsId(rs.getInt(9));
+                entity.setIsId(rs.getInt(9));
                 return entity;
             }
         } catch (SQLException e) {
@@ -73,13 +73,18 @@ public class JdbcPmIrDAO implements PmIrDAO {
                 entity.setIrOwner(rs.getString(6));
                 entity.setInstantion(rs.getString(7));
                 entity.setSoftwareVersion(rs.getString(8));
-                entity.setFkIsId(rs.getInt(9));
+                entity.setIsId(rs.getInt(9));
                 pmIrEntities.add(entity);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return pmIrEntities;
+    }
+
+    @Override
+    public List<PmIrEntity> getByIsId(int id) {
+        return null;
     }
 
     @Override

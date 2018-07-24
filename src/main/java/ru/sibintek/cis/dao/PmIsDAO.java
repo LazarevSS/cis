@@ -1,10 +1,12 @@
 package ru.sibintek.cis.dao;
 
+import ru.sibintek.cis.model.PmIrEntity;
 import ru.sibintek.cis.model.PmIsEntity;
 import ru.sibintek.cis.model.dto.InformResIsAndJoin;
 import ru.sibintek.cis.model.dto.SystemAndInformRes;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PmIsDAO {
 
@@ -18,5 +20,5 @@ public interface PmIsDAO {
 
     List<InformResIsAndJoin> getInformResIsAndJoins(Integer isId);
 
-    List<SystemAndInformRes> getSystemsAndInformRes();
+    Map<PmIsEntity, List<PmIrEntity>> getSystemsAndInformRes();
 }

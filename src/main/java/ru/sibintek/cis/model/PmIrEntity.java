@@ -9,7 +9,7 @@ public class PmIrEntity {
     private String irOwner;
     private String instantion;
     private String softwareVersion;
-    private int fkIsId;
+    private int isId;
 
     public int getId() {
         return id;
@@ -75,11 +75,11 @@ public class PmIrEntity {
         this.softwareVersion = softwareVersion;
     }
 
-    public int getFkIsId() {
-        return this.fkIsId;
+    public int getIsId() {
+        return this.isId;
     }
 
-    public void setFkIsId(int fkIsId) {
-        this.fkIsId = fkIsId;
+    public void setIsId(int isId) {
+        this.isId = isId;
     }
 }
