@@ -10,6 +10,7 @@ import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.FunctionModel;
 import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
+import ru.sibintek.cis.model.dto.IsVisualizingData;
 import ru.sibintek.cis.util.SparkConnector;
 
 import java.util.ArrayList;
@@ -89,5 +90,26 @@ public class SolrIsDAO implements IsDAO {
             relatedIs.add(joinIsModel);
         }
         return relatedIs;
+    }
+
+    @Override
+    public List<IsVisualizingData> getVisualizingData() {
+        List<IsVisualizingData> visualizingDataList = new ArrayList<>();
+        List<IsModel> isModels = getAll();
+        for (IsModel isModel : isModels) {
+            Function<SolrDocument, Boolean> filterType = doc -> (!doc.getFieldValue("content_type").equals("is"));
+            Function<SolrDocument, Boolean> filterId = doc -> {
+                List<String> isIds = (List<String>) doc.getFieldValue("is_id");
+                return isIds.contains(String.valueOf(isModel.getId()));
+            };
+            JavaRDD<SolrDocument> isChildrenElement = resultsRDD.filter(filterType).filter(filterId);
+            IsVisualizingData visualizingData = new IsVisualizingData();
+            visualizingData.setLabel(isModel.getIsName());
+            visualizingData.setValue(isChildrenElement.count());
+            visualizingData.setUrl("\\is?ISID=" + isModel.getId());
+            visualizingData.setCaption(isModel.getIsName());
+            visualizingDataList.add(visualizingData);
+        }
+        return visualizingDataList;
     }
 }

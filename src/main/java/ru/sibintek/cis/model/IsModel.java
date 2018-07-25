@@ -1,9 +1,12 @@
 package ru.sibintek.cis.model;
 
 
+
+
+import java.io.Serializable;
 import java.util.List;
 
-public class IsModel {
+public class IsModel implements Serializable {
     private int id;
     private String isNum;
     private String isName;

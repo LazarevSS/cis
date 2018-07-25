@@ -64,65 +64,41 @@
                 </script>
 
                 <script>
-                    var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
-                    chartWidth = (chartWidth > 700) ? 700 : chartWidth;
+                    $.ajax({url: "datasource",
+                        success: function(result){
+                            var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
+                            chartWidth = (chartWidth > 700) ? 700 : chartWidth;
 
-                    var pie = new d3pie("d3pie_main", {
-                        header: {
-                            title: {
-                                text: "Системы"
-                            },
-                            location: "pie-center"
-                        },
-                        size: {
-                            canvasHeight: chartWidth,
-                            canvasWidth: chartWidth,
-                            pieInnerRadius: "40%"
-                        },
-                        tooltips: {
-                            enabled: true,
-                            type: "caption",
-                        },
-                        labels: {
-                            "inner": {
-                                "hideWhenLessThanPercentage": 3
-                            }
-                        },
-                        callbacks: {
-                            onClickSegment: function (a) {
-                                var win = window.open(a.data.url, '_/blank');
-                                win.focus();
-                            }
-                        },
-                        data: {
-                            "sortOrder": "value-desc", "content": [
-                                {
-                                    "label": "Выноска от Системы 1",
-                                    "value": 215,
-                                    "url": "hr.pm_pub_page.page?ISID=1",
-                                    "caption": "Система 1",
-                                    "abapobjname": "HLA0009400",
-                                    "description": "Controlling"
-                                }
-                                , {
-                                    "label": "Выноска от Системы 2",
-                                    "value": 549,
-                                    "url": "hr.pm_pub_page.page?ISID=2",
-                                    "caption": "Система 2",
-                                    "abapobjname": "HLA0009408",
-                                    "description": "Overhead Cost Controlling"
-                                }
-                                , {
-                                    "label": "Выноска от Системы 3",
-                                    "value": 28,
-                                    "url": "hr.pm_pub_page.page?ISID=3",
-                                    "caption": "Система 3",
-                                    "abapobjname": "HLA0009405",
-                                    "description": "Profitability Analysis"
-                                }
-                            ]
-                        }
-                    });
+                            var pie = new d3pie("d3pie_main", {
+                                header: {
+                                    title: {
+                                        text: "Системы"
+                                    },
+                                    location: "pie-center"
+                                },
+                                size: {
+                                    canvasHeight: chartWidth,
+                                    canvasWidth: chartWidth,
+                                    pieInnerRadius: "40%"
+                                },
+                                tooltips: {
+                                    enabled: true,
+                                    type: "caption",
+                                },
+                                labels: {
+                                    "inner": {
+                                        "hideWhenLessThanPercentage": 3
+                                    }
+                                },
+                                callbacks: {
+                                    onClickSegment: function (a) {
+                                        var win = window.open(a.data.url, '_/blank');
+                                        win.focus();
+                                    }
+                                },
+                                data: result
+                            });
+                        }});
                 </script>
             </div>
 

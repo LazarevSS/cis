@@ -5,12 +5,23 @@ import org.springframework.stereotype.Component;
 import ru.sibintek.cis.model.FunctionModel;
 import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
+import ru.sibintek.cis.model.dto.IsVisualizingData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class SolrDocumentConverterImpl implements SolrDocumentConverter {
+
+    @Override
+    public IsVisualizingData toIsVisualizingData(SolrDocument document) {
+        return null;
+    }
+
+    @Override
+    public List<IsVisualizingData> toIsVisualizingData(List<SolrDocument> documents) {
+        return null;
+    }
 
     @Override
     public IsModel toIsModel(SolrDocument document) {

@@ -46,4 +46,12 @@ public class RootController {
         isDAO.save(isId);
         return result;
     }
+
+    @RequestMapping(value = "/datasource", method = RequestMethod.GET)
+    public ModelAndView isDatasource() {
+        ModelAndView result = new ModelAndView("jsonView");
+        result.getModel().put("content", isDAO.getVisualizingData());
+        result.getModel().put("sortOrder", "value-desc");
+        return result;
+    }
 }
