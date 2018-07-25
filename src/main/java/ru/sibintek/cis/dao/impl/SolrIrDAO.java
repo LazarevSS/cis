@@ -65,7 +65,7 @@ public class SolrIrDAO implements IrDAO {
             IrVisualizingData visualizingData = new IrVisualizingData();
             visualizingData.setLabel(irModel.getIrName());
             visualizingData.setValue(irChildrenElement.count());
-            visualizingData.setUrl("\\ir?IRID=" + irModel.getIrName());
+            visualizingData.setUrl("\\ir?IRID=" + irModel.getId());
             visualizingDataList.add(visualizingData);
         }
         return visualizingDataList;
