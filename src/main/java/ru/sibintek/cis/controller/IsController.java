@@ -34,6 +34,7 @@ public class IsController {
     public ModelAndView isDatasource(@RequestParam(value = "ISID", required = false) Integer isId) {
         ModelAndView result = new ModelAndView("jsonView");
         result.getModel().put("name", "Tcode");
+        result.getModel().put("children", irDAO.getVisualizingData(isId));
         return result;
     }
 }

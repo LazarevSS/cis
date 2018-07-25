@@ -1,6 +1,8 @@
 package ru.sibintek.cis.model;
 
-public class IrModel {
+import java.io.Serializable;
+
+public class IrModel implements Serializable {
     private int id;
     private String scenarioNum;
     private String scenarioType;
