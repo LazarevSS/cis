@@ -18,8 +18,9 @@ public class IrController {
     @RequestMapping(value = "/ir", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("pmIrEntity", irDAO.getById(irId));
-        modelAndView.addObject("pmIrEntities", irDAO.getAll());
+        modelAndView.addObject("irModel", irDAO.getByIdWithIs(irId));
+        modelAndView.addObject("irModels", irDAO.getAll());
+        modelAndView.addObject("table", irDAO.getRelationsIr(irId));
         modelAndView.setViewName("irView");
         return modelAndView;
     }

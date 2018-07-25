@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.IrDAO;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
+import ru.sibintek.cis.model.FunctionModel;
 import ru.sibintek.cis.model.IrModel;
+import ru.sibintek.cis.model.IsModel;
 import ru.sibintek.cis.model.dto.IrVisualizingData;
 import ru.sibintek.cis.util.SparkConnector;
 
@@ -22,6 +24,9 @@ public class SolrIrDAO implements IrDAO {
     @Autowired
     private SolrDocumentConverter converter;
 
+    @Autowired
+    private SolrIsDAO isDAO;
+
     @Override
     public void delete(IrModel psIr) {
 
@@ -29,7 +34,17 @@ public class SolrIrDAO implements IrDAO {
 
     @Override
     public IrModel getById(int id) {
-        return null;
+        Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("id").equals(String.valueOf(id)));
+        JavaRDD<SolrDocument> irModels = resultsRDD.filter(filter);
+        return converter.toIrModel(irModels.collect().get(0));
+    }
+
+    @Override
+    public IrModel getByIdWithIs(int id) {
+        IrModel irModel = getById(id);
+        IsModel parentIs = isDAO.getById(irModel.getIsId());
+        irModel.setParentIsModel(parentIs);
+        return irModel;
     }
 
     @Override
@@ -47,6 +62,40 @@ public class SolrIrDAO implements IrDAO {
     @Override
     public List<IrModel> getByIsId(int id) {
         return getAll().stream().filter(ir -> ir.getIsId() == id).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FunctionModel> getJoinFunctions(int irId) {
+        Function<SolrDocument, Boolean> filterType = doc -> (doc.getFieldValue("content_type").equals("fu"));
+        Function<SolrDocument, Boolean> filterId = doc -> {
+            List<String> irIds = (List<String>) doc.getFieldValue("ir_id");
+            return irIds.contains(String.valueOf(irId));
+        };
+        JavaRDD<SolrDocument> joinFunctions = resultsRDD.filter(filterType).filter(filterId);
+        return converter.toFunctionModel(joinFunctions.collect());
+    }
+
+    @Override
+    public List<IrModel> getRelationsIr(int irId) {
+        Function<SolrDocument, Boolean> filterType = doc -> doc.getFieldValue("content_type").equals("fu");
+        Function<SolrDocument, Boolean> filterId = doc -> {
+            List<String> isIds = (List<String>) doc.getFieldValue("ir_id");
+            return isIds.contains(String.valueOf(irId));
+        };
+        JavaRDD<SolrDocument> functions = resultsRDD.filter(filterType).filter(filterId);
+        List<String> isIds = new ArrayList<>();
+        for (SolrDocument document : functions.collect()) {
+            List<String> ids = (List<String>) document.get("ir_id");
+            ids.remove(String.valueOf(irId));
+            isIds.addAll(ids);
+        }
+        List<IrModel> relatedIr = new ArrayList<>();
+        for (String id : isIds) {
+            IrModel joinIrModel = getByIdWithIs(Integer.valueOf(id));
+            joinIrModel.setJoinFunctions(getJoinFunctions(Integer.valueOf(id)));
+            relatedIr.add(joinIrModel);
+        }
+        return relatedIr;
     }
 
     @Override

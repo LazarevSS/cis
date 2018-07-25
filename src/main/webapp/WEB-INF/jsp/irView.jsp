@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${pmIrEntity.irName}</title>
+    <title>${irModel.irName}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -43,47 +43,48 @@
             <div class="infobox">
                 <hr>
             </div>
-            <h1>Функциональные области ИР и их связи</h1>
+            <h1>Информационные ресурсы и их связи</h1>
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
                     <th colspan="2" >Источник</th>
-                    <th rowspan="2" >Тип связи</th>
-                    <th colspan="3" >Приемник</th>
+                    <th rowspan="1" >Тип связи</th>
+                    <th colspan="2" >Приемник</th>
                 </tr>
                 <tr>
+                    <th align="left">Наименоварие информационной системы</th>
                     <th align="left">Наименоварие информационного ресурса</th>
-                    <th align="left">Функциональная область</th>
-                    <th align="left">Функциональная область</th>
+                    <th align="left">Наименоварие связывающей функции</th>
                     <th align="left">Наименоварие информационного ресурса</th>
-                    <th align="left">Наименоваие ИС</th>
+                    <th align="left">Наименоварие информационной системы</th>
+
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="element" items="${funcAreaIrAndJoins}">
+                <c:forEach var="relationIrModel" items="${table}">
+                    <c:forEach var="joinFunction" items="${relationIrModel.joinFunctions}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.irId}"
-                               title="${element.irName}">${element.irName}</a>
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${irModel.parentIsModel.id}"
+                               title="${irModel.parentIsModel.isName}">${irModel.parentIsModel.isName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/fa/?IRID=${element.irId}&FAID=${element.faId}"
-                               title="${element.faName}">${element.faName}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
+                               title="${irModel.irName}">${irModel.irName}</a>
                         </td>
-                        <td>Файл</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/fa/?IRID=${element.jIrId}&FAID=${element.jFaId}"
-                               title="${element.jFaName}">${element.jFaName}</a>
+                        <td><a href="${pageContext.request.contextPath}/fu/?FUID=${joinFunction.id}"
+                               title="${joinFunction.functionName}">${joinFunction.functionName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${element.jIrId}"
-                               title="${element.jIrName}">${element.jIrName}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${relationIrModel.id}"
+                               title="${relationIrModel.irName}">${relationIrModel.irName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${element.jIsId}"
-                               title="${element.jIsName}">${element.jIsName}</a>
+                            <a href="${pageContext.request.contextPath}/fa/?IRID=${relationIrModel.parentIsModel.id}"
+                               title="${relationIrModel.parentIsModel.isName}">${relationIrModel.parentIsModel.isName}</a>
                         </td>
                     </tr>
+                    </c:forEach>
                 </c:forEach>
                 </tbody>
             </table>
@@ -97,7 +98,7 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="pmIrEntity" items="${pmIrEntities}">
+                <c:forEach var="pmIrEntity" items="${irModels}">
                     <tr>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"

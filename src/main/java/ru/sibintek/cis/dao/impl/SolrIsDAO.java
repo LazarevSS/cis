@@ -58,8 +58,8 @@ public class SolrIsDAO implements IsDAO {
             List<String> isIds = (List<String>) doc.getFieldValue("is_id");
             return isIds.contains(String.valueOf(isId));
         };
-        JavaRDD<SolrDocument> irModels = resultsRDD.filter(filterType).filter(filterId);
-        return converter.toFunctionModel(irModels.collect());
+        JavaRDD<SolrDocument> joinFunctions = resultsRDD.filter(filterType).filter(filterId);
+        return converter.toFunctionModel(joinFunctions.collect());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ru.sibintek.cis.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class IrModel implements Serializable {
     private int id;
@@ -12,6 +13,8 @@ public class IrModel implements Serializable {
     private String instantion;
     private String softwareVersion;
     private int isId;
+    private List<FunctionModel> joinFunctions;
+    private IsModel parentIsModel;
 
     public int getId() {
         return id;
@@ -83,5 +86,21 @@ public class IrModel implements Serializable {
 
     public void setIsId(int isId) {
         this.isId = isId;
+    }
+
+    public List<FunctionModel> getJoinFunctions() {
+        return joinFunctions;
+    }
+
+    public void setJoinFunctions(List<FunctionModel> joinFunctions) {
+        this.joinFunctions = joinFunctions;
+    }
+
+    public IsModel getParentIsModel() {
+        return parentIsModel;
+    }
+
+    public void setParentIsModel(IsModel parentIsModel) {
+        this.parentIsModel = parentIsModel;
     }
 }
