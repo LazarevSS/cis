@@ -41,7 +41,7 @@ public class SolrIsDAO implements IsDAO {
     public IsModel getByIdWithIr(int id) {
         IsModel isModel = getById(id);
         List<IrModel> irModels = irDAO.getByIsId(id);
-        isModel.setIrs(irModels);
+        isModel.setIrModels(irModels);
         return isModel;
     }
 
@@ -83,11 +83,11 @@ public class SolrIsDAO implements IsDAO {
             isIds.addAll(ids);
         }
         List<IsModel> relatedIs = new ArrayList<>();
-        for (String ids : isIds) {
-            IsModel isValue = getById(Integer.valueOf(ids));
-            relatedIs.add(isValue);
+        for (String id : isIds) {
+            IsModel joinIsModel = getById(Integer.valueOf(id));
+            joinIsModel.setJoinFunction(getJoinFunctions(Integer.valueOf(id)));
+            relatedIs.add(joinIsModel);
         }
-        List<FunctionModel> test = getJoinFunctions(isId);
         return relatedIs;
     }
 }

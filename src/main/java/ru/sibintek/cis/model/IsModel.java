@@ -8,7 +8,8 @@ public class IsModel {
     private String isNum;
     private String isName;
     private String isOwner;
-    private List<IrModel> irs;
+    private List<IrModel> irModels;
+    private List<FunctionModel> joinFunctions;
 
     public int getId() {
         return id;
@@ -42,11 +43,19 @@ public class IsModel {
         this.isOwner = isOwner;
     }
 
-    public List<IrModel> getIrs() {
-        return irs;
+    public List<IrModel> getIrModels() {
+        return irModels;
     }
 
-    public void setIrs(List<IrModel> irs) {
-        this.irs = irs;
+    public void setIrModels(List<IrModel> irModels) {
+        this.irModels = irModels;
+    }
+
+    public List<FunctionModel> getJoinFunctions() {
+        return joinFunctions;
+    }
+
+    public void setJoinFunction(List<FunctionModel> joinFunctions) {
+        this.joinFunctions = joinFunctions;
     }
 }

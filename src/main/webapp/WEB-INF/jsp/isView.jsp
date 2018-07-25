@@ -41,8 +41,7 @@
                 </tr>
             </table>
 
-            <p class="infoitem">Система:${isModel.isName}</p>
-            <p class="infoitem">Владелец:${isModel.isOwner}</p>
+            <p class="infoitem">Подробная информация о информационной системе</p>
             <div class="infobox">
                 <hr>
             </div>
@@ -62,17 +61,20 @@
                 </thead>
                 <tbody>
                 <c:forEach var="relationIsModel" items="${table}">
+                    <c:forEach var="joinFunction" items="${relationIsModel.joinFunctions}">
                     <tr>
                         <td>
                             <a href="${pageContext.request.contextPath}/is/?ISID=${isModel.id}"
                                title="${isModel.isName}">${isModel.isName}</a>
                         </td>
-                        <td>Здесь могла быть ваша функция</td>
+                        <td><a href="${pageContext.request.contextPath}/fu/?FUID=${joinFunction.id}"
+                               title="${joinFunction.functionName}">${joinFunction.functionName}</a></td>
                         <td>
                             <a href="${pageContext.request.contextPath}/is/?ISID=${relationIsModel.id}"
                                title="${relationIsModel.isName}">${relationIsModel.isName}</a>
                         </td>
                     </tr>
+                    </c:forEach>
                 </c:forEach>
                 </tbody>
             </table>
