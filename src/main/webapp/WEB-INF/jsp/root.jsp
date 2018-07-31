@@ -64,8 +64,9 @@
                 </script>
 
                 <script>
-                    $.ajax({url: "datasource",
-                        success: function(result){
+                    $.ajax({
+                        url: "datasource",
+                        success: function (result) {
                             var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                             chartWidth = (chartWidth > 700) ? 700 : chartWidth;
 
@@ -98,7 +99,8 @@
                                 },
                                 data: result
                             });
-                        }});
+                        }
+                    });
                 </script>
             </div>
 
@@ -106,7 +108,6 @@
                 <hr>
             </div>
             <h1>Системы и информационные ресурсы</h1>
-
 
 
             <table id="data_main" class="table table-striped table-bordered" border="1">
@@ -117,23 +118,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="entry" items="${table}">
-                    <c:forEach var="ir" items="${entry.value}">
-                        <tr>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/is/?ISID=${entry.key.id}"
-                                   title="${entry.key.isName}">${entry.key.isName}</a>
-                            </td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/ir/?IRID=${ir.id}"
-                                   title="${ir.irName}">${ir.irName}</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                <c:forEach var="irModel" items="${table}">
+                    <tr>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/is/?ISNAME=${irModel.is_name}"
+                               title="${irModel.is_name}">${irModel.is_name}</a>
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
+                               title="${irModel.name}">${irModel.name}</a>
+                        </td>
+                    </tr>
                 </c:forEach>
                 </tbody>
             </table>
-
 
 
         </div>
@@ -146,15 +144,15 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="pmIrEntity" items="${pmIrEntities}">
+                <c:forEach var="irModel" items="${table}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
-                               title="${pmIrEntity.irName}">${pmIrEntity.irName}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
+                               title="${irModel.name}">${irModel.name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
-                               title="${pmIrEntity.scenarioNum}">${pmIrEntity.scenarioNum}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
+                               title="${irModel.ir_num}">${irModel.ir_num}</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -190,6 +188,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
 <script>
     $('#dialog').dialog({autoOpen: false});
+
     function openDialog() {
         $("#dialog").dialog(
             {
@@ -199,6 +198,7 @@
             }
         );
     }
+
     function addIs() {
         var ajaxUrl = "${pageContext.request.contextPath}/addIs";
         $.ajax({

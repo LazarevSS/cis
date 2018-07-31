@@ -30,12 +30,7 @@ public class RootController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView root() {
         ModelAndView modelAndView = new ModelAndView();
-        List<IsModel> isEntities = isDAO.getAll();
-        Map<IsModel, List<IrModel>> table = new HashMap<>();
-        isEntities.forEach(is -> table.put(is, irDAO.getByIsId(is.getId())));
-        modelAndView.addObject("pmIsEntities", isEntities);
-        modelAndView.addObject("pmIrEntities", irDAO.getAll());
-        modelAndView.addObject("table", table);
+        modelAndView.addObject("table", irDAO.getAll());
         modelAndView.setViewName("root");
         return modelAndView;
     }

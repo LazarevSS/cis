@@ -34,18 +34,14 @@ public class SolrIrDAO implements IrDAO {
 
     @Override
     public IrModel getById(int id) {
-        Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("id").equals(String.valueOf(id)));
-        JavaRDD<SolrDocument> irModels = resultsRDD.filter(filter);
-        return converter.toIrModel(irModels.collect().get(0));
+        return null;
     }
 
     @Override
     public IrModel getByIdWithIs(int id) {
-        IrModel irModel = getById(id);
-        IsModel parentIs = isDAO.getById(irModel.getIsId());
-        irModel.setParentIsModel(parentIs);
-        return irModel;
+        return null;
     }
+
 
     @Override
     public void save(IrModel psIr, int id) {
@@ -61,7 +57,7 @@ public class SolrIrDAO implements IrDAO {
 
     @Override
     public List<IrModel> getByIsId(int id) {
-        return getAll().stream().filter(ir -> ir.getIsId() == id).collect(Collectors.toList());
+        return null;
     }
 
     @Override
@@ -92,7 +88,7 @@ public class SolrIrDAO implements IrDAO {
         List<IrModel> relatedIr = new ArrayList<>();
         for (String id : isIds) {
             IrModel joinIrModel = getByIdWithIs(Integer.valueOf(id));
-            joinIrModel.setJoinFunctions(getJoinFunctions(Integer.valueOf(id)));
+            //joinIrModel.setJoinFunctions(getJoinFunctions(Integer.valueOf(id)));
             relatedIr.add(joinIrModel);
         }
         return relatedIr;
@@ -112,7 +108,7 @@ public class SolrIrDAO implements IrDAO {
             };
             JavaRDD<SolrDocument> irChildrenElement = resultsRDD.filter(filterId);
             DrawBubbleChartModel visualizingData = new DrawBubbleChartModel();
-            visualizingData.setLabel(irModel.getIrName());
+            //visualizingData.setLabel(irModel.getIrName());
             visualizingData.setValue(irChildrenElement.count());
             visualizingData.setUrl("\\ir?IRID=" + irModel.getId());
             visualizingDataList.add(visualizingData);
