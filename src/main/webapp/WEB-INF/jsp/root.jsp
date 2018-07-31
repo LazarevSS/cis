@@ -125,7 +125,7 @@
                                title="${irModel.is_name}">${irModel.is_name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModel.name}"
                                title="${irModel.name}">${irModel.name}</a>
                         </td>
                     </tr>
@@ -147,11 +147,11 @@
                 <c:forEach var="irModel" items="${table}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModel.name}"
                                title="${irModel.name}">${irModel.name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModel.name}"
                                title="${irModel.ir_num}">${irModel.ir_num}</a>
                         </td>
                     </tr>
