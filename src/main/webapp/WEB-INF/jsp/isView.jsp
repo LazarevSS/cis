@@ -34,7 +34,7 @@
                                 var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
                                 var chartWidth = window.screen.width * 8 / 12;
                                 chartWidth = (chartWidth > 700) ? 700 : chartWidth;
-                                drawBubbleChart('datasource?ISID=${param.ISID}', chartWidth);
+                                drawBubbleChart('datasource?ISNAME=${param.ISNAME}', chartWidth);
                             </script>
                         </div>
                     </td>

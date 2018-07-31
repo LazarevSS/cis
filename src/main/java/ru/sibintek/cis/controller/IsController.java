@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.CommonDao;
 
 import ru.sibintek.cis.model.CommonModel;
+import ru.sibintek.cis.util.VisualService;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import java.util.Map;
 
 @Controller
 public class IsController {
+    @Autowired
+    private VisualService visualService;
 
     @Autowired
     private CommonDao commonDao;
@@ -34,7 +37,7 @@ public class IsController {
     public ModelAndView isDatasource(@RequestParam(value = "ISNAME", required = false) String isName) {
         ModelAndView result = new ModelAndView("jsonView");
         result.getModel().put("name", "Tcode");
-        //result.getModel().put("children", commonDao.getVisualizingData(isId));
+        result.getModel().put("children", visualService.getVisualizingDataForIs(isName));
         return result;
     }
 }
