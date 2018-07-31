@@ -34,11 +34,19 @@ public class SolrDocumentConverterImpl implements SolrDocumentConverter {
     public IrModel toIrModel(SolrDocument document) {
         IrModel irModel = new IrModel();
         irModel.setId(Integer.valueOf(document.getFieldValue("id").toString()));
-        irModel.setIrNum(document.getFieldValue("ir_num").toString());
-        irModel.setIrName(document.getFieldValue("name").toString());
-        irModel.setIsId(getId(document.getFieldValue("is_id")));
-        irModel.setScenarioNum(document.getFieldValue("scenario_num").toString());
-        irModel.setIrOwner(document.getFieldValue("ir_owner").toString());
+        irModel.setIs_name_short(document.getFieldValue("is_name_short").toString());
+        irModel.setIs_name_short_str(document.getFieldValue("is_name_short_str").toString());
+        irModel.setIr_code(document.getFieldValue("ir_code").toString());
+        irModel.setIr_name(document.getFieldValue("ir_name").toString());
+        irModel.setObject_type(document.getFieldValue("object_type").toString());
+        irModel.setIs_owner(document.getFieldValue("is_owner").toString());
+        irModel.setObj_num_path((List<String>)document.getFieldValue("obj_num_path"));
+        irModel.setIr_owner(document.getFieldValue("ir_owner").toString());
+        irModel.setIr_num(document.getFieldValue("ir_num").toString());
+        irModel.setIs_type(document.getFieldValue("is_type").toString());
+        irModel.setName(document.getFieldValue("name").toString());
+        irModel.setIs_name(document.getFieldValue("is_name").toString());
+        irModel.setIs_num(Integer.valueOf(document.getFieldValue("is_num").toString()));
         return irModel;
     }
 

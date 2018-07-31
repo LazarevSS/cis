@@ -5,16 +5,19 @@ import java.util.List;
 
 public class IrModel implements Serializable {
     private int id;
-    private String scenarioNum;
-    private String scenarioType;
-    private String irNum;
-    private String irName;
-    private String irOwner;
-    private String instantion;
-    private String softwareVersion;
-    private int isId;
-    private List<FunctionModel> joinFunctions;
-    private IsModel parentIsModel;
+    private String is_name_short;
+    private String is_name_short_str;
+    private String ir_code;
+    private String ir_name;
+    private String object_type;
+    private String is_owner;
+    private List<String> obj_num_path;
+    private String ir_owner;
+    private String ir_num;
+    private String is_type;
+    private String name;
+    private String is_name;
+    private int is_num;
 
     public int getId() {
         return id;
@@ -24,83 +27,107 @@ public class IrModel implements Serializable {
         this.id = id;
     }
 
-    public String getScenarioNum() {
-        return scenarioNum;
+    public String getIs_name_short() {
+        return is_name_short;
     }
 
-    public void setScenarioNum(String scenarioNum) {
-        this.scenarioNum = scenarioNum;
+    public void setIs_name_short(String is_name_short) {
+        this.is_name_short = is_name_short;
     }
 
-    public String getScenarioType() {
-        return scenarioType;
+    public String getIs_name_short_str() {
+        return is_name_short_str;
     }
 
-    public void setScenarioType(String scenarioType) {
-        this.scenarioType = scenarioType;
+    public void setIs_name_short_str(String is_name_short_str) {
+        this.is_name_short_str = is_name_short_str;
     }
 
-    public String getIrNum() {
-        return irNum;
+    public String getIr_code() {
+        return ir_code;
     }
 
-    public void setIrNum(String irNum) {
-        this.irNum = irNum;
+    public void setIr_code(String ir_code) {
+        this.ir_code = ir_code;
     }
 
-    public String getIrName() {
-        return irName;
+    public String getIr_name() {
+        return ir_name;
     }
 
-    public void setIrName(String irName) {
-        this.irName = irName;
+    public void setIr_name(String ir_name) {
+        this.ir_name = ir_name;
     }
 
-    public String getIrOwner() {
-        return irOwner;
+    public String getObject_type() {
+        return object_type;
     }
 
-    public void setIrOwner(String irOwner) {
-        this.irOwner = irOwner;
+    public void setObject_type(String object_type) {
+        this.object_type = object_type;
     }
 
-    public String getInstantion() {
-        return instantion;
+    public String getIs_owner() {
+        return is_owner;
     }
 
-    public void setInstantion(String instantion) {
-        this.instantion = instantion;
+    public void setIs_owner(String is_owner) {
+        this.is_owner = is_owner;
     }
 
-    public String getSoftwareVersion() {
-        return softwareVersion;
+    public List<String> getObj_num_path() {
+        return obj_num_path;
     }
 
-    public void setSoftwareVersion(String softwareVersion) {
-        this.softwareVersion = softwareVersion;
+    public void setObj_num_path(List<String> obj_num_path) {
+        this.obj_num_path = obj_num_path;
     }
 
-    public int getIsId() {
-        return this.isId;
+    public String getIr_owner() {
+        return ir_owner;
     }
 
-    public void setIsId(int isId) {
-        this.isId = isId;
+    public void setIr_owner(String ir_owner) {
+        this.ir_owner = ir_owner;
     }
 
-    public List<FunctionModel> getJoinFunctions() {
-        return joinFunctions;
+    public String getIr_num() {
+        return ir_num;
     }
 
-    public void setJoinFunctions(List<FunctionModel> joinFunctions) {
-        this.joinFunctions = joinFunctions;
+    public void setIr_num(String ir_num) {
+        this.ir_num = ir_num;
     }
 
-    public IsModel getParentIsModel() {
-        return parentIsModel;
+    public String getIs_type() {
+        return is_type;
     }
 
-    public void setParentIsModel(IsModel parentIsModel) {
-        this.parentIsModel = parentIsModel;
+    public void setIs_type(String is_type) {
+        this.is_type = is_type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIs_name() {
+        return is_name;
+    }
+
+    public void setIs_name(String is_name) {
+        this.is_name = is_name;
+    }
+
+    public int getIs_num() {
+        return is_num;
+    }
+
+    public void setIs_num(int is_num) {
+        this.is_num = is_num;
     }
 }

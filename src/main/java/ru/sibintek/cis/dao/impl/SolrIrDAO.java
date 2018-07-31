@@ -54,7 +54,7 @@ public class SolrIrDAO implements IrDAO {
 
     @Override
     public List<IrModel> getAll() {
-        Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("content_type").equals("ir"));
+        Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("object_type").equals("ir"));
         JavaRDD<SolrDocument> irEntities = resultsRDD.filter(filter);
         return converter.toIrModel(irEntities.collect());
     }
