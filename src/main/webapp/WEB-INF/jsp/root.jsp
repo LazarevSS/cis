@@ -118,15 +118,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="irModel" items="${table}">
+                <c:forEach var="commonModel" items="${table}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISNAME=${irModel.is_name}"
-                               title="${irModel.is_name}">${irModel.is_name}</a>
+                            <a href="${pageContext.request.contextPath}/is/?ISNAME=${commonModel.is_name}"
+                               title="${commonModel.is_name}">${commonModel.is_name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModel.name}"
-                               title="${irModel.name}">${irModel.name}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${commonModel.name}"
+                               title="${commonModel.name}">${commonModel.name}</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -144,15 +144,15 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="irModel" items="${table}">
+                <c:forEach var="commonModel" items="${table}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModel.name}"
-                               title="${irModel.name}">${irModel.name}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${commonModel.name}"
+                               title="${commonModel.name}">${commonModel.name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModel.name}"
-                               title="${irModel.ir_num}">${irModel.ir_num}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${commonModel.name}"
+                               title="${commonModel.ir_code}">${commonModel.ir_code}</a>
                         </td>
                     </tr>
                 </c:forEach>

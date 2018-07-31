@@ -3,7 +3,7 @@ package ru.sibintek.cis.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class IrModel implements Serializable {
+public class CommonModel implements Serializable {
     private int id;
     private String is_name_short;
     private String is_name_short_str;

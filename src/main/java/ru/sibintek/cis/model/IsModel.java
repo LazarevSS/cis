@@ -11,7 +11,7 @@ public class IsModel implements Serializable {
     private String isNum;
     private String isName;
     private String isOwner;
-    private List<IrModel> irModels;
+    private List<CommonModel> commonModels;
     private List<FunctionModel> joinFunctions;
 
     public int getId() {
@@ -46,12 +46,12 @@ public class IsModel implements Serializable {
         this.isOwner = isOwner;
     }
 
-    public List<IrModel> getIrModels() {
-        return irModels;
+    public List<CommonModel> getCommonModels() {
+        return commonModels;
     }
 
-    public void setIrModels(List<IrModel> irModels) {
-        this.irModels = irModels;
+    public void setCommonModels(List<CommonModel> commonModels) {
+        this.commonModels = commonModels;
     }
 
     public List<FunctionModel> getJoinFunctions() {

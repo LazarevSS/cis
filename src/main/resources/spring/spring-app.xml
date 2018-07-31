@@ -7,6 +7,7 @@
 
     <context:component-scan base-package="ru.sibintek.cis.**.controller"/>
     <context:component-scan base-package="ru.sibintek.cis.**.dao"/>
+    <context:component-scan base-package="ru.sibintek.cis.**.util"/>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources
            in the /WEB-INF/views directory -->

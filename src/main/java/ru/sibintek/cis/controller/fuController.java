@@ -1,19 +1,18 @@
 package ru.sibintek.cis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import ru.sibintek.cis.dao.CommonDao;
 import ru.sibintek.cis.dao.FunctionDAO;
-import ru.sibintek.cis.dao.IrDAO;
 
 @Controller
 public class fuController {
     @Autowired
-    private IrDAO irDAO;
+    private CommonDao commonDao;
 
     @Autowired
     private FunctionDAO functionDAO;
@@ -26,7 +25,7 @@ public class fuController {
         /*modelAndView.addObject("pmFaEntity", pmFuncAreaDAO.getById(faId));
         modelAndView.addObject("functionAndRelatedJoins", pmFuncAreaDAO.getFunctionAndRelatedJoins(faId));*/
         modelAndView.addObject("pmFunctionEntity", functionDAO.getById(fuId));
-        modelAndView.addObject("pmIrEntities", irDAO.getAll());
+        modelAndView.addObject("pmIrEntities", commonDao.getAllIr());
         modelAndView.setViewName("fuView");
         return modelAndView;
     }

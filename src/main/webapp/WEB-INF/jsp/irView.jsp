@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${irModel.irName}</title>
+    <title>${commonModel.irName}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -65,12 +65,12 @@
                     <c:forEach var="joinFunction" items="${relationIrModel.joinFunctions}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${irModel.parentIsModel.id}"
-                               title="${irModel.parentIsModel.isName}">${irModel.parentIsModel.isName}</a>
+                            <a href="${pageContext.request.contextPath}/is/?ISID=${commonModel.parentIsModel.id}"
+                               title="${commonModel.parentIsModel.isName}">${commonModel.parentIsModel.isName}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.id}"
-                               title="${irModel.irName}">${irModel.irName}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${commonModel.id}"
+                               title="${commonModel.irName}">${commonModel.irName}</a>
                         </td>
                         <td><a href="${pageContext.request.contextPath}/fu/?FUID=${joinFunction.id}"
                                title="${joinFunction.functionName}">${joinFunction.functionName}</a>
@@ -98,7 +98,7 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="pmIrEntity" items="${irModels}">
+                <c:forEach var="pmIrEntity" items="${commonModels}">
                     <tr>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"

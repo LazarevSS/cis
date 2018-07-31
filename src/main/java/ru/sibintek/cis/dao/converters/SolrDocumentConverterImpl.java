@@ -2,8 +2,8 @@ package ru.sibintek.cis.dao.converters;
 
 import org.apache.solr.common.SolrDocument;
 import org.springframework.stereotype.Component;
+import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.FunctionModel;
-import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
 
 import java.util.ArrayList;
@@ -31,32 +31,32 @@ public class SolrDocumentConverterImpl implements SolrDocumentConverter {
     }
 
     @Override
-    public IrModel toIrModel(SolrDocument document) {
-        IrModel irModel = new IrModel();
-        irModel.setId(Integer.valueOf(document.getFieldValue("id").toString()));
-        irModel.setIs_name_short(document.getFieldValue("is_name_short").toString());
-        irModel.setIs_name_short_str(document.getFieldValue("is_name_short_str").toString());
-        irModel.setIr_code(document.getFieldValue("ir_code").toString());
-        irModel.setIr_name(document.getFieldValue("ir_name").toString());
-        irModel.setObject_type(document.getFieldValue("object_type").toString());
-        irModel.setIs_owner(document.getFieldValue("is_owner").toString());
-        irModel.setObj_num_path((List<String>)document.getFieldValue("obj_num_path"));
-        irModel.setIr_owner(document.getFieldValue("ir_owner").toString());
-        irModel.setIr_num(document.getFieldValue("ir_num").toString());
-        irModel.setIs_type(document.getFieldValue("is_type").toString());
-        irModel.setName(document.getFieldValue("name").toString());
-        irModel.setIs_name(document.getFieldValue("is_name").toString());
-        irModel.setIs_num(Integer.valueOf(document.getFieldValue("is_num").toString()));
-        return irModel;
+    public CommonModel toCommonModel(SolrDocument document) {
+        CommonModel commonModel = new CommonModel();
+        commonModel.setId(Integer.valueOf(document.getFieldValue("id").toString()));
+        commonModel.setIs_name_short(document.getFieldValue("is_name_short").toString());
+        commonModel.setIs_name_short_str(document.getFieldValue("is_name_short_str").toString());
+        commonModel.setIr_code(document.getFieldValue("ir_code").toString());
+        commonModel.setIr_name(document.getFieldValue("ir_name").toString());
+        commonModel.setObject_type(document.getFieldValue("object_type").toString());
+        commonModel.setIs_owner(document.getFieldValue("is_owner").toString());
+        commonModel.setObj_num_path((List<String>)document.getFieldValue("obj_num_path"));
+        commonModel.setIr_owner(document.getFieldValue("ir_owner").toString());
+        commonModel.setIr_num(document.getFieldValue("ir_num").toString());
+        commonModel.setIs_type(document.getFieldValue("is_type").toString());
+        commonModel.setName(document.getFieldValue("name").toString());
+        commonModel.setIs_name(document.getFieldValue("is_name").toString());
+        commonModel.setIs_num(Integer.valueOf(document.getFieldValue("is_num").toString()));
+        return commonModel;
     }
 
     @Override
-    public List<IrModel> toIrModel(List<SolrDocument> documents) {
-        List<IrModel> irModels = new ArrayList<>();
+    public List<CommonModel> toCommonModel(List<SolrDocument> documents) {
+        List<CommonModel> commonModels = new ArrayList<>();
         for (SolrDocument document : documents) {
-            irModels.add(toIrModel(document));
+            commonModels.add(toCommonModel(document));
         }
-        return irModels;
+        return commonModels;
     }
 
     @Override

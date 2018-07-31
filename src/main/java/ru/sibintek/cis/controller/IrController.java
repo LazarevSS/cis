@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.FuncAreaDAO;
-import ru.sibintek.cis.dao.IrDAO;
+import ru.sibintek.cis.dao.CommonDao;
 
 
 @Controller
 public class IrController {
 
     @Autowired
-    private IrDAO irDAO;
+    private CommonDao commonDao;
 
     @Autowired
     private FuncAreaDAO funcAreaDAO;
@@ -22,9 +22,9 @@ public class IrController {
     @RequestMapping(value = "/ir", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("irModel", irDAO.getByIdWithIs(irId));
-        modelAndView.addObject("irModels", irDAO.getAll());
-        modelAndView.addObject("table", irDAO.getRelationsIr(irId));
+        modelAndView.addObject("irModel", commonDao.getByIdWithIs(irId));
+        modelAndView.addObject("irModels", commonDao.getAllIr());
+       // modelAndView.addObject("table", commonDao.getRelationsIr(irId));
         modelAndView.setViewName("irView");
         return modelAndView;
     }

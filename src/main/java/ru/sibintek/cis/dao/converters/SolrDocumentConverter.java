@@ -1,8 +1,8 @@
 package ru.sibintek.cis.dao.converters;
 
 import org.apache.solr.common.SolrDocument;
+import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.FunctionModel;
-import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public interface SolrDocumentConverter {
 
     List<IsModel> toIsModel(List<SolrDocument> documents);
 
-    IrModel toIrModel(SolrDocument document);
+    CommonModel toCommonModel(SolrDocument document);
 
-    List<IrModel> toIrModel(List<SolrDocument> documents);
+    List<CommonModel> toCommonModel(List<SolrDocument> documents);
 
     FunctionModel toFunctionModel(SolrDocument document);
 

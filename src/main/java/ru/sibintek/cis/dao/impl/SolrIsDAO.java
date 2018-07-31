@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.IsDAO;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
+import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.FunctionModel;
-import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
 import ru.sibintek.cis.model.dto.IsVisualizingData;
 import ru.sibintek.cis.util.SparkConnector;
@@ -23,7 +23,7 @@ public class SolrIsDAO implements IsDAO {
     private SolrDocumentConverter converter;
 
     @Autowired
-    private SolrIrDAO irDAO;
+    private SolrCommonDaoImpl irDAO;
 
     @Override
     public void delete(IsModel is) {
@@ -40,8 +40,8 @@ public class SolrIsDAO implements IsDAO {
     @Override
     public IsModel getByIdWithIr(int id) {
         IsModel isModel = getById(id);
-        List<IrModel> irModels = irDAO.getByIsId(id);
-        isModel.setIrModels(irModels);
+        List<CommonModel> commonModels = null;
+        isModel.setCommonModels(commonModels);
         return isModel;
     }
 
@@ -63,7 +63,7 @@ public class SolrIsDAO implements IsDAO {
 
     @Override
     public List<IsModel> getAll() {
-        List<IrModel> irModels = irDAO.getAll();
+        List<CommonModel> commonModels = irDAO.getAllIr();
 
         Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("content_type").equals("is"));
         JavaRDD<SolrDocument> isModels = resultsRDD.filter(filter);
@@ -95,9 +95,9 @@ public class SolrIsDAO implements IsDAO {
 
     @Override
     public List<IsVisualizingData> getVisualizingData() {
-        List<IrModel> irModels = irDAO.getAll();
+        List<CommonModel> commonModels = irDAO.getAllIr();
         Set<String> systemsName = new HashSet<>();
-        irModels.forEach(irModel -> systemsName.add(irModel.getIs_name()));
+        commonModels.forEach(irModel -> systemsName.add(irModel.getIs_name()));
         List<IsVisualizingData> visualizingDataList = new ArrayList<>();
         for(String systemName : systemsName) {
             Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("is_name").equals(systemName));
