@@ -1,6 +1,6 @@
 package ru.sibintek.cis.model.dto;
 
-public class IrVisualizingData {
+public class DrawBubbleChartModel {
     private boolean highlight = false;
     private String label;
     private String url;

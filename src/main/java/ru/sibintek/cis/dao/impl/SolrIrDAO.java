@@ -10,7 +10,7 @@ import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.FunctionModel;
 import ru.sibintek.cis.model.IrModel;
 import ru.sibintek.cis.model.IsModel;
-import ru.sibintek.cis.model.dto.IrVisualizingData;
+import ru.sibintek.cis.model.dto.DrawBubbleChartModel;
 import ru.sibintek.cis.util.SparkConnector;
 
 import java.util.ArrayList;
@@ -99,8 +99,8 @@ public class SolrIrDAO implements IrDAO {
     }
 
     @Override
-    public List<IrVisualizingData> getVisualizingData(int isId) {
-        List<IrVisualizingData> visualizingDataList = new ArrayList<>();
+    public List<DrawBubbleChartModel> getVisualizingData(int isId) {
+        List<DrawBubbleChartModel> visualizingDataList = new ArrayList<>();
         List<IrModel> irModels = getByIsId(isId);
         for (IrModel irModel : irModels) {
             Function<SolrDocument, Boolean> filterId = doc -> {
@@ -111,7 +111,7 @@ public class SolrIrDAO implements IrDAO {
                 return irIds.contains(String.valueOf(irModel.getId()));
             };
             JavaRDD<SolrDocument> irChildrenElement = resultsRDD.filter(filterId);
-            IrVisualizingData visualizingData = new IrVisualizingData();
+            DrawBubbleChartModel visualizingData = new DrawBubbleChartModel();
             visualizingData.setLabel(irModel.getIrName());
             visualizingData.setValue(irChildrenElement.count());
             visualizingData.setUrl("\\ir?IRID=" + irModel.getId());

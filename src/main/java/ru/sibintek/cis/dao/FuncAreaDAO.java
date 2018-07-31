@@ -1,6 +1,7 @@
 package ru.sibintek.cis.dao;
 
 import ru.sibintek.cis.model.FuncAreaModel;
+import ru.sibintek.cis.model.dto.DrawBubbleChartModel;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface FuncAreaDAO {
     void save(FuncAreaModel pmFuncarea, int id);
 
     List<FuncAreaModel> getAll();
+
+    List<DrawBubbleChartModel> getVisualizingData(int isId);
 }

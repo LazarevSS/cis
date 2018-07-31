@@ -2,7 +2,7 @@ package ru.sibintek.cis.dao;
 
 import ru.sibintek.cis.model.FunctionModel;
 import ru.sibintek.cis.model.IrModel;
-import ru.sibintek.cis.model.dto.IrVisualizingData;
+import ru.sibintek.cis.model.dto.DrawBubbleChartModel;
 
 
 import java.util.List;
@@ -24,6 +24,6 @@ public interface IrDAO {
 
     List<IrModel> getRelationsIr(int irId);
 
-    List<IrVisualizingData> getVisualizingData(int isId);
+    List<DrawBubbleChartModel> getVisualizingData(int isId);
 
 }
