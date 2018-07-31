@@ -13,8 +13,7 @@ import ru.sibintek.cis.model.IsModel;
 import ru.sibintek.cis.model.dto.IsVisualizingData;
 import ru.sibintek.cis.util.SparkConnector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class SolrIsDAO implements IsDAO {
@@ -64,6 +63,8 @@ public class SolrIsDAO implements IsDAO {
 
     @Override
     public List<IsModel> getAll() {
+        List<IrModel> irModels = irDAO.getAll();
+
         Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("content_type").equals("is"));
         JavaRDD<SolrDocument> isModels = resultsRDD.filter(filter);
         return converter.toIsModel(isModels.collect());
@@ -94,20 +95,18 @@ public class SolrIsDAO implements IsDAO {
 
     @Override
     public List<IsVisualizingData> getVisualizingData() {
+        List<IrModel> irModels = irDAO.getAll();
+        Set<String> systemsName = new HashSet<>();
+        irModels.forEach(irModel -> systemsName.add(irModel.getIs_name()));
         List<IsVisualizingData> visualizingDataList = new ArrayList<>();
-        List<IsModel> isModels = getAll();
-        for (IsModel isModel : isModels) {
-            Function<SolrDocument, Boolean> filterType = doc -> (!doc.getFieldValue("content_type").equals("is"));
-            Function<SolrDocument, Boolean> filterId = doc -> {
-                List<String> isIds = (List<String>) doc.getFieldValue("is_id");
-                return isIds.contains(String.valueOf(isModel.getId()));
-            };
-            JavaRDD<SolrDocument> isChildrenElement = resultsRDD.filter(filterType).filter(filterId);
+        for(String systemName : systemsName) {
+            Function<SolrDocument, Boolean> filter = doc -> (!doc.getFieldValue("is_name").equals(systemName));
+            JavaRDD<SolrDocument> systemChildrenElement = resultsRDD.filter(filter);
             IsVisualizingData visualizingData = new IsVisualizingData();
-            visualizingData.setLabel(isModel.getIsName());
-            visualizingData.setValue(isChildrenElement.count());
-            visualizingData.setUrl("\\is?ISID=" + isModel.getId());
-            visualizingData.setCaption(isModel.getIsName());
+            visualizingData.setLabel(systemName);
+            visualizingData.setValue(systemChildrenElement.count());
+            visualizingData.setUrl("\\is?ISNAME=" + systemName);
+            visualizingData.setCaption(systemName);
             visualizingDataList.add(visualizingData);
         }
         return visualizingDataList;
