@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ru.sibintek.cis.dao.FuncAreaDAO;
 import ru.sibintek.cis.dao.CommonDao;
 
 
@@ -15,9 +14,6 @@ public class IrController {
 
     @Autowired
     private CommonDao commonDao;
-
-    @Autowired
-    private FuncAreaDAO funcAreaDAO;
 
     @RequestMapping(value = "/ir", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId) {

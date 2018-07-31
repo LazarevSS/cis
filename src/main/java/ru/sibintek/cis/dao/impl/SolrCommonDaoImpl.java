@@ -8,11 +8,8 @@ import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.CommonDao;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.CommonModel;
-import ru.sibintek.cis.model.FunctionModel;
-import ru.sibintek.cis.model.dto.DrawBubbleChartModel;
 import ru.sibintek.cis.util.SparkConnector;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,5 +91,4 @@ public class SolrCommonDaoImpl implements CommonDao {
         }
         return docAndJoinDoc;
     }
-
 }
