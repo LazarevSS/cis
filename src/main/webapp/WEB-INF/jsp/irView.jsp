@@ -22,23 +22,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9">
-            <table wigth="700px">
-                <tr>
-                    <td>
-                        <div class="d3chartarea_main">
-                            <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
-                            <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
-                            <script src="${pageContext.request.contextPath}/resources/js/d3bubblechart.js"></script>
-                            <script>
-                                var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
-                                var chartWidth = window.screen.width * 8 / 12;
-                                chartWidth = (chartWidth > 700) ? 700 : chartWidth;
-                                drawBubbleChart('datasource?IRID=${param.IRID}', chartWidth);
-                            </script>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div class="d3tree_main">
+                <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/d3.layout.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
+                <script src="${pageContext.request.contextPath}/resources/js/mytreed3.js"></script>
+                <script>
+                    drawMytreed3('datasource?IRNAME=${param.IRNAME}');
+                </script>
+            </div>
 
             <div class="infobox">
                 <hr>

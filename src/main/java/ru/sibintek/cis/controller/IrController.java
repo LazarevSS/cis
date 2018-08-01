@@ -31,7 +31,8 @@ public class IrController {
     @RequestMapping(value = "/ir/datasource", method = RequestMethod.GET)
     public ModelAndView isDatasource(@RequestParam(value = "IRNAME", required = false) String irName) {
         ModelAndView result = new ModelAndView("jsonView");
-        result.getModel().put("name", "Tcode");
+        result.getModel().put("name", irName);
+        result.getModel().put("children", visualService.getVisualizingDataForIr(irName));
         return result;
     }
 }

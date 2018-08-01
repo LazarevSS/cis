@@ -9,12 +9,10 @@ import ru.sibintek.cis.dao.CommonDao;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.dto.DrawBubbleChartModel;
+import ru.sibintek.cis.model.dto.DrawMytreed3;
 import ru.sibintek.cis.model.dto.IsVisualizingData;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class VisualService {
@@ -37,7 +35,7 @@ public class VisualService {
             IsVisualizingData visualizingData = new IsVisualizingData();
             visualizingData.setLabel(systemName);
             visualizingData.setValue(systemChildrenElement.count());
-            visualizingData.setUrl("\\is?ISNAME=" + systemName);
+            visualizingData.setUrl("\\is/?ISNAME=" + systemName);
             visualizingData.setCaption(systemName);
             visualizingDataList.add(visualizingData);
         }
@@ -54,11 +52,26 @@ public class VisualService {
             JavaRDD<SolrDocument> functions = resultsRDD.filter(irFilter);
             DrawBubbleChartModel model = new DrawBubbleChartModel();
             model.setLabel(ir.getIr_name());
-            model.setUrl("ir/?IRNAME=" + ir.getIr_name());
+            model.setUrl("\\ir/?IRNAME=" + ir.getIr_name());
             model.setValue(functions.count());
             drawBubbleChartModels.add(model);
         }
         return drawBubbleChartModels;
+    }
+
+    public List<DrawMytreed3> getVisualizingDataForIr(String irName) {
+        List<DrawMytreed3> drawMytreed3Models = new ArrayList<>();
+        Map<CommonModel, List<CommonModel>> docAndJoinDoc = commonDao.getIrRelations(irName);
+        for (Map.Entry<CommonModel, List<CommonModel>> entry : docAndJoinDoc.entrySet()) {
+            for (CommonModel function : entry.getValue()) {
+                DrawMytreed3 drawMytreed3 = new DrawMytreed3();
+                drawMytreed3.setName(function.getName());
+                drawMytreed3.setSize(function.getId());
+                drawMytreed3.setUrl("\\fu/?FUNAME=" + function.getName());
+                drawMytreed3Models.add(drawMytreed3);
+            }
+        }
+        return drawMytreed3Models;
     }
 
 }
