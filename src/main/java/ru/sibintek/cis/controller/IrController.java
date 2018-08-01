@@ -7,26 +7,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.CommonDao;
+import ru.sibintek.cis.util.VisualService;
 
 
 @Controller
 public class IrController {
+    @Autowired
+    private VisualService visualService;
 
     @Autowired
-    private CommonDao commonDao;
+    private CommonDao commonDao; 
 
     @RequestMapping(value = "/ir", method = RequestMethod.GET)
-    public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId) {
+    public ModelAndView isController(@RequestParam(value = "IRNAME", required = false) String irName) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("irModel", commonDao.getByIdWithIs(irId));
+        modelAndView.addObject("irModel", commonDao.getByIrName(irName));
         modelAndView.addObject("irModels", commonDao.getAllIr());
-       // modelAndView.addObject("table", commonDao.getRelationsIr(irId));
+        modelAndView.addObject("table", commonDao.getIrRelations(irName));
         modelAndView.setViewName("irView");
         return modelAndView;
     }
 
     @RequestMapping(value = "/ir/datasource", method = RequestMethod.GET)
-    public ModelAndView isDatasource(@RequestParam(value = "IRID", required = false) Integer irId) {
+    public ModelAndView isDatasource(@RequestParam(value = "IRNAME", required = false) String irName) {
         ModelAndView result = new ModelAndView("jsonView");
         result.getModel().put("name", "Tcode");
         return result;

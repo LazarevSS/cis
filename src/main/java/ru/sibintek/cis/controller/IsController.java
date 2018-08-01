@@ -8,11 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.CommonDao;
 
-import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.util.VisualService;
-
-import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -26,7 +22,7 @@ public class IsController {
     @RequestMapping(value = "/is", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "ISNAME", required = false) String isName) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("isModel", commonDao.getByIsName(isName).get(0));
+        modelAndView.addObject("isModel", commonDao.getByIsName(isName));
         modelAndView.addObject("irModels", commonDao.getAllIr());
         modelAndView.addObject("table", commonDao.getIsRelations(isName));
         modelAndView.setViewName("isView");

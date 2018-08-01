@@ -11,7 +11,9 @@ public interface CommonDao {
 
     CommonModel getById(int id);
 
-    List<CommonModel> getByIsName(String isName);
+    CommonModel getByIsName(String isName);
+
+    CommonModel getByIrName(String irName);
 
     CommonModel getByIdWithIs(int id);
 
@@ -20,5 +22,7 @@ public interface CommonDao {
     List<CommonModel> getAllIr();
 
     Map<CommonModel, List<CommonModel>> getIsRelations(String isName);
+
+    Map<CommonModel, List<CommonModel>> getIrRelations(String irName);
 
 }

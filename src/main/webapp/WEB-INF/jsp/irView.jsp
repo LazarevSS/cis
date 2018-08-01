@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${commonModel.irName}</title>
+    <title>${irModel.name}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -47,43 +47,37 @@
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
-                    <th colspan="2" >Источник</th>
-                    <th rowspan="1" >Тип связи</th>
-                    <th colspan="2" >Приемник</th>
+                    <th colspan="1">Источник</th>
+                    <th rowspan="2">Связывающая функция</th>
+                    <th colspan="2">Приемник</th>
                 </tr>
                 <tr>
-                    <th align="left">Наименоварие информационной системы</th>
                     <th align="left">Наименоварие информационного ресурса</th>
-                    <th align="left">Наименоварие связывающей функции</th>
                     <th align="left">Наименоварие информационного ресурса</th>
-                    <th align="left">Наименоварие информационной системы</th>
-
+                    <th align="left">Наименоваие ИС</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="relationIrModel" items="${table}">
-                    <c:forEach var="joinFunction" items="${relationIrModel.joinFunctions}">
-                    <tr>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISID=${commonModel.parentIsModel.id}"
-                               title="${commonModel.parentIsModel.isName}">${commonModel.parentIsModel.isName}</a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${commonModel.id}"
-                               title="${commonModel.irName}">${commonModel.irName}</a>
-                        </td>
-                        <td><a href="${pageContext.request.contextPath}/fu/?FUID=${joinFunction.id}"
-                               title="${joinFunction.functionName}">${joinFunction.functionName}</a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${relationIrModel.id}"
-                               title="${relationIrModel.irName}">${relationIrModel.irName}</a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/fa/?IRID=${relationIrModel.parentIsModel.id}"
-                               title="${relationIrModel.parentIsModel.isName}">${relationIrModel.parentIsModel.isName}</a>
-                        </td>
-                    </tr>
+                <c:forEach var="entry" items="${table}">
+                    <c:forEach var="joinModel" items="${entry.value}">
+                        <tr>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${entry.key.ir_name}"
+                                   title="${entry.key.ir_name}">${entry.key.ir_name}</a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${joinModel.name}"
+                                   title="${joinModel.name}">${joinModel.name}</a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${joinModel.ir_name}"
+                                   title="${joinModel.ir_name}">${joinModel.ir_name}</a>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/is/?ISNAME=${joinModel.is_name}"
+                                   title="${joinModel.is_name}">${joinModel.is_name}</a>
+                            </td>
+                        </tr>
                     </c:forEach>
                 </c:forEach>
                 </tbody>
@@ -98,18 +92,18 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="pmIrEntity" items="${commonModels}">
-                    <tr>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
-                               title="${pmIrEntity.irName}">${pmIrEntity.irName}</a>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
-                               title="${pmIrEntity.scenarioNum}">${pmIrEntity.scenarioNum}</a>
-                        </td>
-                    </tr>
-                </c:forEach>
+            <c:forEach var="irModels" items="${irModels}">
+                <tr>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.ir_name}"
+                           title="${irModels.name}">${irModels.name}</a>
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.ir_name}"
+                           title="${irModels.ir_code}">${irModels.ir_code}</a>
+                    </td>
+                </tr>
+            </c:forEach>
                 </tbody>
             </table>
         </div>

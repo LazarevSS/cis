@@ -99,15 +99,15 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="irModel" items="${irModels}">
+                <c:forEach var="irModels" items="${irModels}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModel.ir_name}"
-                               title="${irModel.name}">${irModel.name}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.ir_name}"
+                               title="${irModels.name}">${irModels.name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModel.ir_name}"
-                               title="${irModel.ir_code}">${irModel.ir_code}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.ir_name}"
+                               title="${irModels.ir_code}">${irModels.ir_code}</a>
                         </td>
                     </tr>
                 </c:forEach>
