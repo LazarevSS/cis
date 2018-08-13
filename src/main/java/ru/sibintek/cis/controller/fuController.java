@@ -21,6 +21,7 @@ public class fuController {
         //modelAndView.addObject("functionAndRelatedJoins", pmFuncAreaDAO.getFunctionAndRelatedJoins(faId));*/
         //modelAndView.addObject("pmFunctionEntity", functionDAO.getById(fuId));
         modelAndView.addObject("irModels", commonDao.getAllIr());
+        modelAndView.addObject("irsParent", commonDao.getParentIrs(fuName));
         modelAndView.setViewName("fuView");
         return modelAndView;
     }

@@ -23,6 +23,8 @@ public interface CommonDao {
 
     List<CommonModel> getChildrenFunctions(String fuName);
 
+    List<CommonModel> getParentIrs(String fuName);
+
     Map<CommonModel, List<CommonModel>> getIsRelations(String isName);
 
     Map<CommonModel, List<CommonModel>> getIrRelations(String irName);

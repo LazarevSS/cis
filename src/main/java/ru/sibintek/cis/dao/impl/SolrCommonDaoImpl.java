@@ -85,13 +85,28 @@ public class SolrCommonDaoImpl implements CommonDao {
         return converter.toCommonModel(filterDocuments.collect());
     }
 
+    @Override
+    public List<CommonModel> getParentIrs(String fuName) {
+        CommonModel function = getByFuName(fuName);
+        Function<SolrDocument, Boolean> filter = doc -> {
+            List<String> fieldValues = (List<String>) doc.getFieldValue("obj_num_path");
+            if (fieldValues == null) return false;
+            String functionPath = function.getObj_num_path().get(0).replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
+            Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + functionPath);
+            Matcher m = p.matcher(fieldValues.get(0));
+            return m.matches();
+        };
+        JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+        return converter.toCommonModel(filterDocuments.collect());
+    }
+
     public static void main(String[] args) {
-        String child = "2.1.1.2.1";
-        String replaceChild = child.replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
-        String root = "2.1.1.2.1.1.1";
-        Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + replaceChild + ".+");
+        String function = "2.1.1.2.1";
+        String replaceChild = function.replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
+        String root = "4.6.1.2.1";
+        Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + replaceChild);
         Matcher m = p.matcher(root);
-        child.startsWith(root + ".");
+        function.startsWith(root + ".");
         System.out.println();
     }
 

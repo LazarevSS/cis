@@ -48,7 +48,7 @@
                             ${element.obj_num_path.get(0)}
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/fu/?FUNAME=${param.FUNAME}"
+                            <a href="${pageContext.request.contextPath}/fu/?FUNAME=${element.name}"
                                title="Открыть функцию">${element.name}</a>
                         </td>
                     </tr>
@@ -79,13 +79,11 @@
                 <tr>
                     <th align="left">Информационная система</th>
                     <th align="left">Информационный ресурс</th>
-                    <th align="left">Функциональная область</th>
                 </tr>
-                <c:forEach var="element" items="${functionsInOtherFuncAreas}">
+                <c:forEach var="element" items="${irsParent}">
                     <tr>
-                        <td>${element.isName}</td>
-                        <td>${element.irName}</td>
-                        <td>${element.faName}</td>
+                        <td>${element.is_name}</td>
+                        <td>${element.ir_name}</td>
                     </tr>
                 </c:forEach>
             </table>
