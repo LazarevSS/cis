@@ -5,9 +5,11 @@
     <title>${fuModel.name}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/rosneft.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/treestyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/img/s_pckstd.gif">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/img/s_b_renm.gif">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/img/s_b_tree.gif">
 </head>
 
 
@@ -27,7 +29,7 @@
                 <script src="${pageContext.request.contextPath}/resources/js/d3forcedirectedgraph.js"></script>
                 <script>
                     var chartWidth = (window.innerWidth || document.body.clientWidth) * 8 / 12;
-                    drawForceDirectedGraph("http://192.168.1.11:8080/plsql/hr.pm_pub_page.d_get_grapth_json?FUID=${param.FUID}&FAID=${param.FAID}&IRID=${param.IRID}", chartWidth);
+                    drawForceDirectedGraph('datasource?FUNAME=${param.FUNAME}', chartWidth);
                 </script>
             </div>
 

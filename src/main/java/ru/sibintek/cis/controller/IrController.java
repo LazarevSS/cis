@@ -19,7 +19,7 @@ public class IrController {
     private CommonDao commonDao; 
 
     @RequestMapping(value = "/ir", method = RequestMethod.GET)
-    public ModelAndView isController(@RequestParam(value = "IRNAME", required = false) String irName) {
+    public ModelAndView irController(@RequestParam(value = "IRNAME", required = false) String irName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("irModel", commonDao.getByIrName(irName));
         modelAndView.addObject("irModels", commonDao.getAllIr());

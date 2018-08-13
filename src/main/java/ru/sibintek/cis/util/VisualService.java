@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.sibintek.cis.dao.CommonDao;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.CommonModel;
-import ru.sibintek.cis.model.dto.DrawBubbleChartModel;
-import ru.sibintek.cis.model.dto.DrawMytreed3;
-import ru.sibintek.cis.model.dto.IsVisualizingData;
+import ru.sibintek.cis.model.dto.*;
 
 import java.util.*;
 
@@ -72,6 +70,50 @@ public class VisualService {
             }
         }
         return drawMytreed3Models;
+    }
+
+    public Map<List<Link>, List<Node>> getGraph(String fuName) {
+        List<Link> links = new ArrayList<>();
+        List<CommonModel> parentIrs = commonDao.getParentIrs(fuName);
+        List<Link> linkIrs = new ArrayList<>();
+        List<Node> nodes = new ArrayList<>();
+        for (int i = 0; i < parentIrs.size(); i++) {
+            Link linkIr = new Link();
+            linkIr.setSource(i * 2);
+            linkIr.setTarget(i * 2 + 1);
+            linkIrs.add(linkIr);
+            Node nodeIs = new Node();
+            nodeIs.setName(parentIrs.get(i).getIs_name());
+            nodeIs.setTitle(parentIrs.get(i).getIs_name());
+            nodeIs.setIcon_url("\\resources/img/s_pckstd.gif");
+            nodeIs.setUrl("\\is/" + parentIrs.get(0).getIs_name());
+            Node nodeIr = new Node();
+            nodeIr.setName(parentIrs.get(i).getIr_name());
+            nodeIr.setTitle(parentIrs.get(i).getIr_name());
+            nodeIr.setIcon_url("\\resources/img/s_b_renm.gif");
+            nodeIr.setUrl("\\ir/" + parentIrs.get(0).getIr_name());
+            nodes.add(nodeIs);
+            nodes.add(nodeIr);
+        }
+        CommonModel function = commonDao.getByFuName(fuName);
+        Node nodeFunction = new Node();
+        nodeFunction.setName(function.getName());
+        nodeFunction.setTitle(function.getName());
+        nodeFunction.setIcon_url("\\resources/img/s_b_tree.gif");
+        nodeFunction.setUrl("\\fu/" + function.getName());
+        nodes.add(nodeFunction);
+        List<Link> linkFunctions = new ArrayList<>();
+        for (Link linkIr : linkIrs) {
+            Link linkFunction = new Link();
+            linkFunction.setSource(linkIr.getTarget());
+            linkFunction.setTarget(nodes.size() - 1);
+            linkFunctions.add(linkFunction);
+        }
+        links.addAll(linkIrs);
+        links.addAll(linkFunctions);
+        Map<List<Link>, List<Node>> result = new HashMap<>();
+        result.put(links, nodes);
+        return result;
     }
 
 }

@@ -34,7 +34,7 @@ public class RootController {
     }
 
     @RequestMapping(value = "/datasource", method = RequestMethod.GET)
-    public ModelAndView isDatasource() {
+    public ModelAndView rootDatasource() {
         ModelAndView result = new ModelAndView("jsonView");
         result.getModel().put("content", visualService.getVisualizingDataForRoot());
         result.getModel().put("sortOrder", "value-desc");
