@@ -14,14 +14,13 @@ public class fuController {
     private CommonDao commonDao;
 
     @RequestMapping(value = "/fu", method = RequestMethod.GET)
-    public ModelAndView isController(@RequestParam(value = "IRID", required = false) Integer irId,
-                                     @RequestParam(value = "FAID", required = false) Integer faId,
-                                     @RequestParam(value = "FUID", required = false) Integer fuId) {
+    public ModelAndView fuController(@RequestParam(value = "FUNAME", required = false) String fuName) {
         ModelAndView modelAndView = new ModelAndView();
-        /*modelAndView.addObject("pmFaEntity", pmFuncAreaDAO.getById(faId));
-        modelAndView.addObject("functionAndRelatedJoins", pmFuncAreaDAO.getFunctionAndRelatedJoins(faId));*/
+        modelAndView.addObject("fuModel", commonDao.getByFuName(fuName));
+        modelAndView.addObject("childrenFunction", commonDao.getChildrenFunctions(fuName));
+        //modelAndView.addObject("functionAndRelatedJoins", pmFuncAreaDAO.getFunctionAndRelatedJoins(faId));*/
         //modelAndView.addObject("pmFunctionEntity", functionDAO.getById(fuId));
-        modelAndView.addObject("pmIrEntities", commonDao.getAllIr());
+        modelAndView.addObject("irModels", commonDao.getAllIr());
         modelAndView.setViewName("fuView");
         return modelAndView;
     }

@@ -15,11 +15,13 @@ public interface CommonDao {
 
     CommonModel getByIrName(String irName);
 
-    CommonModel getByIdWithIs(int id);
+    CommonModel getByFuName(String fuName);
 
     void save(CommonModel psIr, int id);
 
     List<CommonModel> getAllIr();
+
+    List<CommonModel> getChildrenFunctions(String fuName);
 
     Map<CommonModel, List<CommonModel>> getIsRelations(String isName);
 

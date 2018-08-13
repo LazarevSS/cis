@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${pmFunctionEntity.functionName}</title>
+    <title>${fuModel.name}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -35,21 +35,21 @@
             <div class="infobox">
                 <hr>
             </div>
-            <h1>Структура функции: ${pmFunctionEntity.functionName}</h1>
+            <h1>Структура функции: ${fuModel.name}</h1>
             <table class="table table-striped table-bordered" width="90%" border="1">
                 <tr>
-                    <th align="left">Уровень вложенной функции</th>
+                    <th align="left">Код функции</th>
                     <th align="left">Функция</th>
                 </tr>
                 <tbody>
-                <c:forEach var="element" items="${functionStructure}">
+                <c:forEach var="element" items="${childrenFunction}">
                     <tr>
                         <td>
-                                ${element.level}
+                            ${element.obj_num_path.get(0)}
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/fu/?IRID=${param.IRID}&FAID=${param.FAID}&FUID=${element.id}"
-                               title="Добавить уровень вложенности функции">${element.name}</a>
+                            <a href="${pageContext.request.contextPath}/fu/?FUNAME=${param.FUNAME}"
+                               title="Открыть функцию">${element.name}</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -100,15 +100,15 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-                <c:forEach var="pmIrEntity" items="${pmIrEntities}">
+                <c:forEach var="irModels" items="${irModels}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
-                               title="${pmIrEntity.irName}">${pmIrEntity.irName}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.ir_name}"
+                               title="${irModels.name}">${irModels.name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${pmIrEntity.id}"
-                               title="${pmIrEntity.scenarioNum}">${pmIrEntity.scenarioNum}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.ir_name}"
+                               title="${irModels.ir_code}">${irModels.ir_code}</a>
                         </td>
                     </tr>
                 </c:forEach>

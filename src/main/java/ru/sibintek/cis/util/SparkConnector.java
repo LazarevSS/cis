@@ -34,7 +34,7 @@ public class SparkConnector implements Runnable {
             conf.set("spark.driver.allowMultipleContexts", "true");
             conf.setMaster("local");
             JavaSparkContext jsc = new JavaSparkContext(conf);
-            solrJavaRDD = SolrJavaRDD.get("192.168.1.4:9983", "mycoll", jsc.sc());
+            solrJavaRDD = SolrJavaRDD.get("192.168.1.6:9983", "mycoll", jsc.sc());
             resultsRDD = solrJavaRDD.queryShards("*:*");
         }
         return resultsRDD;

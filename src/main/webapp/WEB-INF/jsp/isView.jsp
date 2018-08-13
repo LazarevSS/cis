@@ -73,7 +73,7 @@
                                    title="${entry.key.ir_name}">${entry.key.ir_name}</a>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/FU/?FUNAME=${joinModel.name}"
+                                <a href="${pageContext.request.contextPath}/fu/?FUNAME=${joinModel.name}"
                                    title="${joinModel.name}">${joinModel.name}</a>
                             </td>
                             <td>
