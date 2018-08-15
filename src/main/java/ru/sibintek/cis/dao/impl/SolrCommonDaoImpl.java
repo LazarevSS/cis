@@ -77,7 +77,7 @@ public class SolrCommonDaoImpl implements CommonDao {
         Function<SolrDocument, Boolean> filter = doc -> {
             List<String> fieldValues = (List<String>) doc.getFieldValue("obj_num_path");
             if (fieldValues == null) return false;
-            String functionPath = function.getObj_num_path().get(0).replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
+            String functionPath = function.getObjNumPath().get(0).replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
             Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + functionPath + ".+");
             Matcher m = p.matcher(fieldValues.get(0));
             return m.matches();
@@ -90,8 +90,8 @@ public class SolrCommonDaoImpl implements CommonDao {
     public List<CommonModel> getParentFunctions(String fuName) {
         CommonModel function = getByFuName(fuName);
         List<CommonModel> parentFunctions = new ArrayList<>();
-        String irPath = function.getIr_name();
-        String functionPath = function.getObj_num_path().get(0);
+        String irPath = function.getIrName();
+        String functionPath = function.getObjNumPath().get(0);
         while (functionPath.contains(".")) {
             functionPath = functionPath.replaceFirst("\\.[0-9]+$", "");
             String finalFunctionPath = functionPath;
@@ -114,7 +114,7 @@ public class SolrCommonDaoImpl implements CommonDao {
         Function<SolrDocument, Boolean> filter = doc -> {
             List<String> fieldValues = (List<String>) doc.getFieldValue("obj_num_path");
             if (fieldValues == null) return false;
-            String functionPath = function.getObj_num_path().get(0).replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
+            String functionPath = function.getObjNumPath().get(0).replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
             Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + functionPath);
             Matcher m = p.matcher(fieldValues.get(0));
             return m.matches();
@@ -140,12 +140,12 @@ public class SolrCommonDaoImpl implements CommonDao {
         List<CommonModel> commonModels = converter.toCommonModel(irEntities.collect());
         Map<CommonModel, List<CommonModel>> docAndJoinDoc = new HashMap<>();
         for (CommonModel commonModel : commonModels) {
-            Function<SolrDocument, Boolean> functionFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_num").equals(commonModel.getIr_num()));
+            Function<SolrDocument, Boolean> functionFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_num").equals(commonModel.getIrNum()));
             JavaRDD<SolrDocument> functionEntities = resultsRDD.filter(functionFilter);
             List<CommonModel> functions = converter.toCommonModel(functionEntities.collect());
             if (functions.isEmpty()) continue;
-            String path = functions.get(0).getObj_num_path().get(0);
-            String functionPath = path.replaceFirst(commonModel.getObj_num_path().get(0) + ".", "");
+            String path = functions.get(0).getObjNumPath().get(0);
+            String functionPath = path.replaceFirst(commonModel.getObjNumPath().get(0) + ".", "");
             Function<SolrDocument, Boolean> joinFilter = doc -> {
                 Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + functionPath + "$");
                 if (doc.getFieldValue("obj_num_path") != null) {
@@ -166,12 +166,12 @@ public class SolrCommonDaoImpl implements CommonDao {
     public Map<CommonModel, List<CommonModel>> getIrRelations(String irName) {
         CommonModel commonModel = getByIrName(irName);
         Map<CommonModel, List<CommonModel>> docAndJoinDoc = new HashMap<>();
-        Function<SolrDocument, Boolean> functionFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_num").equals(commonModel.getIr_num()));
+        Function<SolrDocument, Boolean> functionFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_num").equals(commonModel.getIrNum()));
         JavaRDD<SolrDocument> functionEntities = resultsRDD.filter(functionFilter);
         List<CommonModel> functions = converter.toCommonModel(functionEntities.collect());
         if (functions.isEmpty()) return docAndJoinDoc;
-        String path = functions.get(0).getObj_num_path().get(0);
-        String functionPath = path.replaceFirst(commonModel.getObj_num_path().get(0) + ".", "");
+        String path = functions.get(0).getObjNumPath().get(0);
+        String functionPath = path.replaceFirst(commonModel.getObjNumPath().get(0) + ".", "");
         Function<SolrDocument, Boolean> joinFilter = doc -> {
             Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + functionPath + "$");
             if (doc.getFieldValue("obj_num_path") != null) {

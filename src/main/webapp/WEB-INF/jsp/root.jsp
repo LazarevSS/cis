@@ -121,8 +121,8 @@
                 <c:forEach var="commonModel" items="${table}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/is/?ISNAME=${commonModel.is_name}"
-                               title="${commonModel.is_name}">${commonModel.is_name}</a>
+                            <a href="${pageContext.request.contextPath}/is/?ISNAME=${commonModel.isName}"
+                               title="${commonModel.isName}">${commonModel.isName}</a>
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRNAME=${commonModel.name}"
@@ -152,7 +152,7 @@
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/ir/?IRNAME=${commonModel.name}"
-                               title="${commonModel.ir_code}">${commonModel.ir_code}</a>
+                               title="${commonModel.irCode}">${commonModel.irCode}</a>
                         </td>
                     </tr>
                 </c:forEach>

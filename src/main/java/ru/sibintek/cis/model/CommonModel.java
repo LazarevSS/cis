@@ -27,83 +27,83 @@ public class CommonModel implements Serializable {
         this.id = id;
     }
 
-    public String getIs_name_short() {
+    public String getIsNameShort() {
         return is_name_short;
     }
 
-    public void setIs_name_short(String is_name_short) {
+    public void setIsNameShort(String is_name_short) {
         this.is_name_short = is_name_short;
     }
 
-    public String getIs_name_short_str() {
+    public String getIsNameShortStr() {
         return is_name_short_str;
     }
 
-    public void setIs_name_short_str(String is_name_short_str) {
+    public void setIsNameShortStr(String is_name_short_str) {
         this.is_name_short_str = is_name_short_str;
     }
 
-    public String getIr_code() {
+    public String getIrCode() {
         return ir_code;
     }
 
-    public void setIr_code(String ir_code) {
+    public void setIrCode(String ir_code) {
         this.ir_code = ir_code;
     }
 
-    public String getIr_name() {
+    public String getIrName() {
         return ir_name;
     }
 
-    public void setIr_name(String ir_name) {
+    public void setIrName(String ir_name) {
         this.ir_name = ir_name;
     }
 
-    public String getObject_type() {
+    public String getObjectType() {
         return object_type;
     }
 
-    public void setObject_type(String object_type) {
+    public void setObjectType(String object_type) {
         this.object_type = object_type;
     }
 
-    public String getIs_owner() {
+    public String getIsOwner() {
         return is_owner;
     }
 
-    public void setIs_owner(String is_owner) {
+    public void setIsOwner(String is_owner) {
         this.is_owner = is_owner;
     }
 
-    public List<String> getObj_num_path() {
+    public List<String> getObjNumPath() {
         return obj_num_path;
     }
 
-    public void setObj_num_path(List<String> obj_num_path) {
+    public void setObjNumPath(List<String> obj_num_path) {
         this.obj_num_path = obj_num_path;
     }
 
-    public String getIr_owner() {
+    public String getIrOwner() {
         return ir_owner;
     }
 
-    public void setIr_owner(String ir_owner) {
+    public void setIrOwner(String ir_owner) {
         this.ir_owner = ir_owner;
     }
 
-    public String getIr_num() {
+    public String getIrNum() {
         return ir_num;
     }
 
-    public void setIr_num(String ir_num) {
+    public void setIrNum(String ir_num) {
         this.ir_num = ir_num;
     }
 
-    public String getIs_type() {
+    public String getIsType() {
         return is_type;
     }
 
-    public void setIs_type(String is_type) {
+    public void setIsType(String is_type) {
         this.is_type = is_type;
     }
 
@@ -115,19 +115,19 @@ public class CommonModel implements Serializable {
         this.name = name;
     }
 
-    public String getIs_name() {
+    public String getIsName() {
         return is_name;
     }
 
-    public void setIs_name(String is_name) {
+    public void setIsName(String is_name) {
         this.is_name = is_name;
     }
 
-    public int getIs_num() {
+    public int getIsNum() {
         return is_num;
     }
 
-    public void setIs_num(int is_num) {
+    public void setIsNum(int is_num) {
         this.is_num = is_num;
     }
 }

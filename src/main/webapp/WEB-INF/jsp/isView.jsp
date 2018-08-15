@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${isModel.is_name}</title>
+    <title>${isModel.isName}</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
@@ -65,24 +65,24 @@
                     <c:forEach var="joinModel" items="${entry.value}">
                         <tr>
                             <td>
-                                <a href="${pageContext.request.contextPath}/is/?ISNAME=${entry.key.is_name}"
-                                   title="${entry.key.is_name}">${entry.key.is_name}</a>
+                                <a href="${pageContext.request.contextPath}/is/?ISNAME=${entry.key.isName}"
+                                   title="${entry.key.isName}">${entry.key.isName}</a>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${entry.key.ir_name}"
-                                   title="${entry.key.ir_name}">${entry.key.ir_name}</a>
+                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${entry.key.irName}"
+                                   title="${entry.key.irName}">${entry.key.irName}</a>
                             </td>
                             <td>
                                 <a href="${pageContext.request.contextPath}/fu/?FUNAME=${joinModel.name}"
                                    title="${joinModel.name}">${joinModel.name}</a>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${joinModel.ir_name}"
-                                   title="${joinModel.ir_name}">${joinModel.ir_name}</a>
+                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${joinModel.irName}"
+                                   title="${joinModel.irName}">${joinModel.irName}</a>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/is/?ISNAME=${joinModel.is_name}"
-                                   title="${joinModel.is_name}">${joinModel.is_name}</a>
+                                <a href="${pageContext.request.contextPath}/is/?ISNAME=${joinModel.isName}"
+                                   title="${joinModel.isName}">${joinModel.isName}</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -102,12 +102,12 @@
                 <c:forEach var="irModels" items="${irModels}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.ir_name}"
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.irName}"
                                title="${irModels.name}">${irModels.name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.ir_name}"
-                               title="${irModels.ir_code}">${irModels.ir_code}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.irName}"
+                               title="${irModels.irCode}">${irModels.irCode}</a>
                         </td>
                     </tr>
                 </c:forEach>

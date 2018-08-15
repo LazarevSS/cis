@@ -25,7 +25,7 @@ public class VisualService {
     public List<IsVisualizingData> getVisualizingDataForRoot() {
         List<CommonModel> commonModels = commonDao.getAllIr();
         Set<String> systemsName = new HashSet<>();
-        commonModels.forEach(irModel -> systemsName.add(irModel.getIs_name()));
+        commonModels.forEach(irModel -> systemsName.add(irModel.getIsName()));
         List<IsVisualizingData> visualizingDataList = new ArrayList<>();
         for (String systemName : systemsName) {
             Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("is_name").equals(systemName));
@@ -46,11 +46,11 @@ public class VisualService {
         JavaRDD<SolrDocument> systemChildrenIr = resultsRDD.filter(filter);
         List<CommonModel> irs = converter.toCommonModel(systemChildrenIr.collect());
         for (CommonModel ir : irs) {
-            Function<SolrDocument, Boolean> irFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_name").equals(ir.getIr_name()));
+            Function<SolrDocument, Boolean> irFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_name").equals(ir.getIrName()));
             JavaRDD<SolrDocument> functions = resultsRDD.filter(irFilter);
             DrawBubbleChartModel model = new DrawBubbleChartModel();
-            model.setLabel(ir.getIr_name());
-            model.setUrl("\\ir/?IRNAME=" + ir.getIr_name());
+            model.setLabel(ir.getIrName());
+            model.setUrl("\\ir/?IRNAME=" + ir.getIrName());
             model.setValue(functions.count());
             drawBubbleChartModels.add(model);
         }
@@ -83,15 +83,15 @@ public class VisualService {
             linkIr.setTarget(i * 2 + 1);
             linkIrs.add(linkIr);
             Node nodeIs = new Node();
-            nodeIs.setName(parentIrs.get(i).getIs_name());
-            nodeIs.setTitle(parentIrs.get(i).getIs_name());
+            nodeIs.setName(parentIrs.get(i).getIsName());
+            nodeIs.setTitle(parentIrs.get(i).getIsName());
             nodeIs.setIcon_url("\\resources/img/s_pckstd.gif");
-            nodeIs.setUrl("\\is/?ISNAME=" + parentIrs.get(0).getIs_name());
+            nodeIs.setUrl("\\is/?ISNAME=" + parentIrs.get(0).getIsName());
             Node nodeIr = new Node();
-            nodeIr.setName(parentIrs.get(i).getIr_name());
-            nodeIr.setTitle(parentIrs.get(i).getIr_name());
+            nodeIr.setName(parentIrs.get(i).getIrName());
+            nodeIr.setTitle(parentIrs.get(i).getIrName());
             nodeIr.setIcon_url("\\resources/img/s_b_renm.gif");
-            nodeIr.setUrl("\\ir/?IRNAME=" + parentIrs.get(0).getIr_name());
+            nodeIr.setUrl("\\ir/?IRNAME=" + parentIrs.get(0).getIrName());
             nodes.add(nodeIs);
             nodes.add(nodeIr);
         }

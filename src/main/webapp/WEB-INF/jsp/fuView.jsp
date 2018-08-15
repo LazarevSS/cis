@@ -47,7 +47,7 @@
                 <c:forEach var="element" items="${childrenFunction}">
                     <tr>
                         <td>
-                            ${element.obj_num_path.get(0)}
+                            ${element.objNumPath.get(0)}
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/fu/?FUNAME=${element.name}"
@@ -84,8 +84,8 @@
                 </tr>
                 <c:forEach var="element" items="${irsParent}">
                     <tr>
-                        <td>${element.is_name}</td>
-                        <td>${element.ir_name}</td>
+                        <td>${element.isName}</td>
+                        <td>${element.irName}</td>
                     </tr>
                 </c:forEach>
             </table>
@@ -103,12 +103,12 @@
                 <c:forEach var="irModels" items="${irModels}">
                     <tr>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.ir_name}"
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.irName}"
                                title="${irModels.name}">${irModels.name}</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.ir_name}"
-                               title="${irModels.ir_code}">${irModels.ir_code}</a>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.irName}"
+                               title="${irModels.irCode}">${irModels.irCode}</a>
                         </td>
                     </tr>
                 </c:forEach>
