@@ -44,7 +44,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9">
-            <div id="d3pie_main">
+            <div style="padding: 0 0 0 100px" id="d3pie_main">
                 <script src="${pageContext.request.contextPath}/resources/js/d3.v3.min.js"></script>
                 <script src="${pageContext.request.contextPath}/resources/js/d3pie.min.js"></script>
                 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
