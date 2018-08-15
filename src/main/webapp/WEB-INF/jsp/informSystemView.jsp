@@ -19,6 +19,7 @@
             <IMG alt="Rosneft logo" src="${pageContext.request.contextPath}/resources/img/rnlogorus.png">
         </A>
     </div>
+    <p style="text-align: right; padding: 30px"><a href="/" title="dthyenm">Вернуться на главную страницу</a></p>
 </div>
 <div class="container-fluid">
     <div class="row">

@@ -17,10 +17,11 @@
 <body TEXT="#000000" BGCOLOR="#FFFFFF">
 <div class="page_top">
     <div class="page_top_logo">
-        <A href="${pageContext.request.contextPath}">
-            <IMG alt="Rosneft logo" src="${pageContext.request.contextPath}/resources/img/rnlogorus.png">
-        </A>
+        <a href="${pageContext.request.contextPath}">
+            <img alt="Rosneft logo" src="${pageContext.request.contextPath}/resources/img/rnlogorus.png">
+        </a>
     </div>
+    <p style="text-align: right; padding: 30px"><a href="/" title="dthyenm">Вернуться на главную страницу</a></p>
 </div>
 <div class="container-fluid">
     <div class="row">
@@ -48,7 +49,7 @@
                 <c:forEach var="element" items="${childrenFunction}">
                     <tr>
                         <td>
-                            ${element.objNumPath.get(0)}
+                                ${element.objNumPath.get(0)}
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/fu/?FUNAME=${element.name}"
