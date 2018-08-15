@@ -86,12 +86,12 @@ public class VisualService {
             nodeIs.setName(parentIrs.get(i).getIs_name());
             nodeIs.setTitle(parentIrs.get(i).getIs_name());
             nodeIs.setIcon_url("\\resources/img/s_pckstd.gif");
-            nodeIs.setUrl("\\is/?ISNAME" + parentIrs.get(0).getIs_name());
+            nodeIs.setUrl("\\is/?ISNAME=" + parentIrs.get(0).getIs_name());
             Node nodeIr = new Node();
             nodeIr.setName(parentIrs.get(i).getIr_name());
             nodeIr.setTitle(parentIrs.get(i).getIr_name());
             nodeIr.setIcon_url("\\resources/img/s_b_renm.gif");
-            nodeIr.setUrl("\\ir/?IRNAME" + parentIrs.get(0).getIr_name());
+            nodeIr.setUrl("\\ir/?IRNAME=" + parentIrs.get(0).getIr_name());
             nodes.add(nodeIs);
             nodes.add(nodeIr);
         }
@@ -100,7 +100,7 @@ public class VisualService {
         nodeFunction.setName(function.getName());
         nodeFunction.setTitle(function.getName());
         nodeFunction.setIcon_url("\\resources/img/s_b_tree.gif");
-        nodeFunction.setUrl("\\fu/?FUNAME" + function.getName());
+        nodeFunction.setUrl("\\fu/?FUNAME=" + function.getName());
         nodes.add(nodeFunction);
         List<Link> linkFunctions = new ArrayList<>();
         for (Link linkIr : linkIrs) {
