@@ -10,6 +10,7 @@ import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.util.SparkConnector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,28 @@ public class SolrCommonDaoImpl implements CommonDao {
         };
         JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
         return converter.toCommonModel(filterDocuments.collect());
+    }
+
+    @Override
+    public List<CommonModel> getParentFunctions(String fuName) {
+        CommonModel function = getByFuName(fuName);
+        List<CommonModel> parentFunctions = new ArrayList<>();
+        String irPath = function.getIr_name();
+        String functionPath = function.getObj_num_path().get(0);
+        while (functionPath.contains(".")) {
+            functionPath = functionPath.replaceFirst("\\.[0-9]+$", "");
+            String finalFunctionPath = functionPath;
+            Function<SolrDocument, Boolean> filter = doc -> {
+                List<String> fieldValues = (List<String>) doc.getFieldValue("obj_num_path");
+                if (fieldValues == null) return false;
+                String path = fieldValues.get(0);
+                String functionParentPath = irPath + "." + finalFunctionPath;
+                return path.equals(functionParentPath);
+            };
+            JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+            parentFunctions.addAll(converter.toCommonModel(filterDocuments.collect()));
+        }
+        return parentFunctions;
     }
 
     @Override
