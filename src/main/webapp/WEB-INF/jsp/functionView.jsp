@@ -4,6 +4,7 @@
 <head>
     <title>${fuModel.name}</title>
 
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/favicon.png">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/rosneft.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/treestyle.css">

@@ -4,8 +4,9 @@
 
 <html>
 <head>
-    <title>Модель</title>
+    <title>Главная страница</title>
 
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/favicon.png">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/rosneft.css">
