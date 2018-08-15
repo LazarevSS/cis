@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class fuController {
+public class FunctionController {
     @Autowired
     private VisualService visualService;
 
@@ -29,7 +29,7 @@ public class fuController {
         modelAndView.addObject("childrenFunction", commonDao.getChildrenFunctions(fuName));
         modelAndView.addObject("irModels", commonDao.getAllIr());
         modelAndView.addObject("irsParent", commonDao.getParentIrs(fuName));
-        modelAndView.setViewName("fuView");
+        modelAndView.setViewName("functionView");
         return modelAndView;
     }
 

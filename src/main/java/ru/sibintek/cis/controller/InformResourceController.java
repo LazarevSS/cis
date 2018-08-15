@@ -11,7 +11,7 @@ import ru.sibintek.cis.util.VisualService;
 
 
 @Controller
-public class IrController {
+public class InformResourceController {
     @Autowired
     private VisualService visualService;
 
@@ -24,7 +24,7 @@ public class IrController {
         modelAndView.addObject("irModel", commonDao.getByIrName(irName));
         modelAndView.addObject("irModels", commonDao.getAllIr());
         modelAndView.addObject("table", commonDao.getIrRelations(irName));
-        modelAndView.setViewName("irView");
+        modelAndView.setViewName("informResourceView");
         return modelAndView;
     }
 

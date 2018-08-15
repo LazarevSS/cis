@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class SolrCommonDaoImpl implements CommonDao {
+public class CommonDaoImpl implements CommonDao {
     private JavaRDD<SolrDocument> resultsRDD = SparkConnector.getInstance().getResultRDD();
 
     @Autowired

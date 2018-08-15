@@ -12,7 +12,7 @@ import ru.sibintek.cis.util.VisualService;
 
 
 @Controller
-public class IsController {
+public class InformSystemController {
     @Autowired
     private VisualService visualService;
 
@@ -25,7 +25,7 @@ public class IsController {
         modelAndView.addObject("isModel", commonDao.getByIsName(isName));
         modelAndView.addObject("irModels", commonDao.getAllIr());
         modelAndView.addObject("table", commonDao.getIsRelations(isName));
-        modelAndView.setViewName("isView");
+        modelAndView.setViewName("informSystemView");
         return modelAndView;
     }
 
