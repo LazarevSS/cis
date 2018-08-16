@@ -64,9 +64,11 @@ public class VisualService {
             for (CommonModel function : entry.getValue()) {
                 DrawMytreed3 drawMytreed3 = new DrawMytreed3();
                 drawMytreed3.setName(function.getName());
-                drawMytreed3.setSize(function.getId());
+                //drawMytreed3.setSize(function.getId());
                 drawMytreed3.setUrl("\\fu/?FUNAME=" + function.getName());
                 drawMytreed3Models.add(drawMytreed3);
+                List<DrawMytreed3> childrenDrawMytreed3 = convertToDrawMyTreeds(commonDao.getChildrenFunctions(function.getName()));
+                drawMytreed3.setChildren(childrenDrawMytreed3);
             }
         }
         return drawMytreed3Models;
@@ -114,6 +116,22 @@ public class VisualService {
         Map<List<Link>, List<Node>> result = new HashMap<>();
         result.put(links, nodes);
         return result;
+    }
+
+    private DrawMytreed3 convertToDrawMyTreed(CommonModel model) {
+        DrawMytreed3 drawMytreed3 = new DrawMytreed3();
+        drawMytreed3.setName(model.getName());
+        drawMytreed3.setSize(model.getId());
+        drawMytreed3.setUrl("\\fu/?FUNAME=" + model.getName());
+        return drawMytreed3;
+    }
+
+    private List<DrawMytreed3> convertToDrawMyTreeds(List<CommonModel> models) {
+        List<DrawMytreed3> drawMyTreed3List = new ArrayList<>();
+        for (CommonModel model : models) {
+            drawMyTreed3List.add(convertToDrawMyTreed(model));
+        }
+        return drawMyTreed3List;
     }
 
 }
