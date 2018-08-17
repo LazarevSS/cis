@@ -28,7 +28,7 @@ public class VisualService {
         commonModels.forEach(irModel -> systemsName.add(irModel.getIsName()));
         List<IsVisualizingData> visualizingDataList = new ArrayList<>();
         for (String systemName : systemsName) {
-            Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("is_name").equals(systemName));
+            Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("is_name") != null && doc.getFieldValue("is_name").equals(systemName));
             JavaRDD<SolrDocument> systemChildrenElement = resultsRDD.filter(filter);
             IsVisualizingData visualizingData = new IsVisualizingData();
             visualizingData.setLabel(systemName);
