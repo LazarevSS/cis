@@ -1,13 +1,19 @@
 package ru.sibintek.cis.dao;
 
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
 import ru.sibintek.cis.model.CommonModel;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface CommonDao {
     void delete(CommonModel psIr);
+
+    SolrInputDocument save(String name, String type) throws IOException, SolrServerException;
 
     CommonModel getById(int id);
 

@@ -1588,8 +1588,10 @@ form.default-form textarea {
 }
 
 .popupSearchText {
+    border-radius: 2px;
     height: 30px;
-    width: 230px;
+    width: 100%;
+    padding: 18px;
 }
 
 .popupSearchPaging {

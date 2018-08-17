@@ -1,6 +1,9 @@
 package ru.sibintek.cis.dao.impl;
 
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,10 @@ import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.CommonDao;
 import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.CommonModel;
+import ru.sibintek.cis.util.SolrConnector;
 import ru.sibintek.cis.util.SparkConnector;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +25,7 @@ import java.util.regex.Pattern;
 @Component
 public class CommonDaoImpl implements CommonDao {
     private JavaRDD<SolrDocument> resultsRDD = SparkConnector.getInstance().getResultRDD();
+    private SolrConnector solrConnector = new SolrConnector();
 
     @Autowired
     private SolrDocumentConverter converter;
@@ -27,6 +33,29 @@ public class CommonDaoImpl implements CommonDao {
     @Override
     public void delete(CommonModel psIr) {
 
+    }
+
+    @Override
+    public SolrInputDocument save(String name, String type) throws IOException, SolrServerException {
+        if (type == null || type.isEmpty()) {
+            return null;
+        }
+        HttpSolrClient client = solrConnector.getClient();
+        SolrInputDocument document = new SolrInputDocument();
+        switch (type) {
+            case "is":
+                document.addField("is_name_short", name);
+                document.addField("name", name);
+                document.addField("object_type", type);
+                break;
+            case "ir":
+                break;
+            case "fu":
+                break;
+        }
+        client.add(document);
+        client.commit();
+        return document;
     }
 
     @Override
@@ -66,7 +95,13 @@ public class CommonDaoImpl implements CommonDao {
 
     @Override
     public List<CommonModel> getAllIr() {
-        Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("object_type").equals("ir"));
+        Function<SolrDocument, Boolean> filter = doc -> {
+            Object objectType = doc.getFieldValue("object_type");
+            if (objectType == null) {
+                return false;
+            }
+            return objectType.toString().equals("ir");
+        };
         JavaRDD<SolrDocument> irEntities = resultsRDD.filter(filter);
         return converter.toCommonModel(irEntities.collect());
     }

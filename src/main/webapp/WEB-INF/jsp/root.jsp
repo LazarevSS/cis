@@ -133,8 +133,8 @@
                 </c:forEach>
                 </tbody>
             </table>
-
-
+            <input id="addDialog" type="button" onclick="openDialog()" value="Добавить"/>
+            <input id="editDialog" type="button" onclick="openDialog()" value="Редактировать"/>
         </div>
         <div class="col-sm-3">
             <h3>Название ИР</h3>
@@ -160,26 +160,27 @@
                 </tbody>
             </table>
         </div>
-        <input id="btnDialog" type="button" onclick="openDialog()" value="Open Dialog"/>
     </div>
 </div>
 </body>
 
 <body>
-<div id="dialog" title="Добавить информационную систему" class="ui-widget-content" style="padding: 20px">
+<div id="dialog" title="Добавить элемент" class="ui-widget-content" style="padding: 20px">
+    <p>Выберите элемент для добавления: </p>
     <div class="select">
-        <select id="isIdSelected">
-            <c:forEach var="pmIsEntity" items="${pmIsEntities}">
-                <option value="${pmIsEntity.id}">${pmIsEntity.isName}</option>
-            </c:forEach>
+        <select id="selectTypeElement">
+            <option selected="selected" value="empty"></option>
+            <option value="is">Информационная система</option>
+            <option value="ir">Информационный ресурс</option>
+            <option value="fu">Функция</option>
         </select>
     </div>
-    <p>Новая информационная система: </p>
-    <div>
-        <input type="text" class="popupSearchText">
-        <input type="button" class="popupSearchButton" value="Добавить" onclick="addIs()">
+    <div id="nameElement" style="padding-bottom: 20px">
+        <p>Введите наименование: </p>
+        <input id="name" type="text" class="popupSearchText">
     </div>
-    <p id="successSave" hidden="hidden">Сохранено</p>
+    <input type="button" class="popupSearchButton" value="Добавить" onclick="addIs()">
+    <p id="successSave" hidden="hidden" style="color: green">Сохранено</p>
 </div>
 </body>
 
@@ -193,7 +194,7 @@
     function openDialog() {
         $("#dialog").dialog(
             {
-                height: 230,
+                height: 330,
                 width: 400,
                 autoOpen: true
             }
@@ -201,12 +202,13 @@
     }
 
     function addIs() {
-        var ajaxUrl = "${pageContext.request.contextPath}/addIs";
+        var ajaxUrl = "${pageContext.request.contextPath}/add";
         $.ajax({
             type: 'POST',
             url: ajaxUrl,
             data: ({
-                isId: $('#isIdSelected').val()
+                name: $('#name').val(),
+                type: $('#selectTypeElement option:selected').val()
             }),
             success: function () {
                 $("#successSave").show();
@@ -215,6 +217,28 @@
                 alert('Возникла ошибка: ' + xhr.responseCode);
             }
         });
+    }
+
+    function getElements() {
+        var typeElement = $("#selectTypeElement option:selected").val();
+        if (typeElement === "is") {
+            var ajaxUrl = "${pageContext.request.contextPath}/is/getIs";
+            $.ajax({
+                type: 'POST',
+                url: ajaxUrl,
+                success: function (result) {
+                    var option;
+                    for (var i = 0; i < result.informSystems.length; i++) {
+                        option = $("<option/>", { value: result.informSystems[i], html: result.informSystems[i] });
+                        $("#informSystemSelected").append(option);
+                    }
+                    alert(result);
+                },
+                error: function (xhr, str) {
+                    alert('Возникла ошибка: ' + xhr.responseCode);
+                }
+            });
+        }
     }
 </script>
 

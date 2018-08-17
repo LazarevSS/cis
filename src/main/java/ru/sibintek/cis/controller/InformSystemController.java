@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.CommonDao;
 
+import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.util.VisualService;
+
+import java.util.HashSet;
 
 
 @Controller
@@ -24,7 +27,7 @@ public class InformSystemController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("isModel", commonDao.getByIsName(isName));
         modelAndView.addObject("irModels", commonDao.getAllIr());
-        modelAndView.addObject("table", commonDao.getIsRelations(isName));
+        modelAndView.addObject("table", commonDao.  getIsRelations(isName));
         modelAndView.setViewName("informSystemView");
         return modelAndView;
     }
@@ -34,6 +37,17 @@ public class InformSystemController {
         ModelAndView result = new ModelAndView("jsonView");
         result.getModel().put("name", "Tcode");
         result.getModel().put("children", visualService.getVisualizingDataForIs(isName));
+        return result;
+    }
+
+    @RequestMapping(value = "is/getIs", method = RequestMethod.POST)
+    public ModelAndView getInformSystems(@RequestParam(value = "isId", required = false) Integer isId) {
+        ModelAndView result = new ModelAndView("jsonView");
+        HashSet<String> informSystems = new HashSet<>();
+        for (CommonModel informResource : commonDao.getAllIr()) {
+            informSystems.add(informResource.getIsName());
+        }
+        result.getModel().put("informSystems", informSystems);
         return result;
     }
 }
