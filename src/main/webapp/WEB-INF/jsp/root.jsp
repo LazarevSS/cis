@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/rosneft.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/treestyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-ui.css">
 
 
     <style>
@@ -168,19 +169,20 @@
 <div id="dialog" title="Добавить элемент" class="ui-widget-content" style="padding: 20px">
     <p>Выберите элемент для добавления: </p>
     <div class="select">
-        <select id="selectTypeElement">
-            <option selected="selected" value="empty"></option>
+        <select id="selectTypeElement" onchange="checkSelect()">
+            <option selected="selected" value=""></option>
             <option value="is">Информационная система</option>
             <option value="ir">Информационный ресурс</option>
             <option value="fu">Функция</option>
         </select>
     </div>
-    <div id="nameElement" style="padding-bottom: 20px">
-        <p>Введите наименование: </p>
-        <input id="name" type="text" class="popupSearchText">
+    <div hidden="hidden" class="ui-widget" id="nameElement" style="padding-bottom: 20px">
+        <label for="name">Введите наименование добавляемого элемента: </label>
+        <input id="name" type="text" class="popupSearchText" oninput="searchWorks()">
     </div>
     <input type="button" class="popupSearchButton" value="Добавить" onclick="addIs()">
     <p id="successSave" hidden="hidden" style="color: green">Сохранено</p>
+    <p id="errorSave" hidden="hidden" style="color: red"></p>
 </div>
 </body>
 
@@ -201,16 +203,39 @@
         );
     }
 
+    function checkSelect() {
+        var chooseVal = $('#selectTypeElement option:selected').val();
+        if (chooseVal === "") {
+            $("#nameElement").hide();
+        }
+        else {
+            $("#nameElement").show();
+        }
+    }
+
     function addIs() {
         var ajaxUrl = "${pageContext.request.contextPath}/add";
+        var type = $('#selectTypeElement option:selected').val();
+        var name = $('#name').val();
+        if (type === "") {
+            $('#errorSave').text('Выберите элемент для добавления');
+            $('#errorSave').show();
+            return;
+        }
+        if (name === "") {
+            $('#errorSave').text('Введите наименование элемента');
+            $('#errorSave').show();
+            return;
+        }
         $.ajax({
             type: 'POST',
             url: ajaxUrl,
             data: ({
-                name: $('#name').val(),
-                type: $('#selectTypeElement option:selected').val()
+                name: name,
+                type: type
             }),
             success: function () {
+                $('#errorSave').hide();
                 $("#successSave").show();
             },
             error: function (xhr, str) {
@@ -239,6 +264,39 @@
                 }
             });
         }
+    }
+
+    function searchWorks() {
+        var ajaxUrl = "${pageContext.request.contextPath}/search";
+        var value = $('#name').val();
+        $.ajax({
+            type: 'GET',
+            url: ajaxUrl,
+            data: ({
+                value: value,
+                type: $('#selectTypeElement option:selected').val()
+            }),
+            success: function (result) {
+                var foundWorks = result.foundWorks;
+                $("#name").autocomplete({
+                    source: foundWorks
+                });
+                $('.ui-autocomplete').css('max-width', '500px');
+            },
+            error: function (xhr, str) {
+                alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+        });
+        $.ui.autocomplete.prototype._renderItem = function( ul, item) {
+            var re = new RegExp("^" + this.term) ;
+            var t = item.label.replace(re,"<span style='font-weight:bold;'>" +
+                this.term +
+                "</span>");
+            return $( "<li></li>" )
+                .data( "item.autocomplete", item )
+                .append( "<a>" + t + "</a>" )
+                .appendTo( ul );
+        };
     }
 </script>
 
