@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CommonModel implements Serializable {
-    private int id;
+    private String id;
     private String is_name_short;
     private String is_name_short_str;
     private String ir_code;
@@ -17,13 +17,13 @@ public class CommonModel implements Serializable {
     private String is_type;
     private String name;
     private String is_name;
-    private int is_num;
+    private Integer is_num;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -127,7 +127,7 @@ public class CommonModel implements Serializable {
         return is_num;
     }
 
-    public void setIsNum(int is_num) {
+    public void setIsNum(Integer is_num) {
         this.is_num = is_num;
     }
 }

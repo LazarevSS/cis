@@ -135,7 +135,7 @@
                 </tbody>
             </table>
             <input id="addDialog" type="button" onclick="openDialog()" value="Добавить"/>
-            <input id="editDialog" type="button" onclick="openDialog()" value="Редактировать"/>
+            <input id="editDialog" type="button" onclick="openDialogEdit()" value="Редактировать"/>
         </div>
         <div class="col-sm-3">
             <h3>Название ИР</h3>
@@ -186,15 +186,47 @@
 </div>
 </body>
 
+<body>
+<div id="dialogEdit" title="Добавить элемент" class="ui-widget-content" style="padding: 20px">
+    <p>Выберите элемент для добавления: </p>
+    <div class="select">
+        <select id="selectTypeElementEdit" onchange="checkSelectEdit()">
+            <option selected="selected" value=""></option>
+            <option value="is">Информационная система</option>
+            <option value="ir">Информационный ресурс</option>
+            <option value="fu">Функция</option>
+        </select>
+    </div>
+    <div hidden="hidden" class="ui-widget" id="nameElementEdit" style="padding-bottom: 20px">
+        <label for="nameEdit">Введите наименование добавляемого элемента: </label>
+        <input id="nameEdit" type="text" class="popupSearchText" oninput="searchWorks()">
+    </div>
+    <input type="button" class="popupSearchButton" value="Сохранить" onclick="addIsEdit()">
+    <p id="successSaveEdit" hidden="hidden" style="color: green">Сохранено</p>
+    <p id="errorSaveEdit" hidden="hidden" style="color: red"></p>
+</div>
+</body>
+
 </html>
 
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
 <script>
     $('#dialog').dialog({autoOpen: false});
+    $('#dialogEdit').dialog({autoOpen: false});
 
     function openDialog() {
         $("#dialog").dialog(
+            {
+                height: 330,
+                width: 400,
+                autoOpen: true
+            }
+        );
+    }
+
+    function openDialogEdit() {
+        $("#dialogEdit").dialog(
             {
                 height: 330,
                 width: 400,
@@ -213,7 +245,48 @@
         }
     }
 
+    function checkSelectEdit() {
+        var chooseVal = $('#selectTypeElementEdit option:selected').val();
+        if (chooseVal === "") {
+            $("#nameElementEdit").hide();
+        }
+        else {
+            $("#nameElementEdit").show();
+        }
+    }
+
     function addIs() {
+        var ajaxUrl = "${pageContext.request.contextPath}/add";
+        var type = $('#selectTypeElement option:selected').val();
+        var name = $('#name').val();
+        if (type === "") {
+            $('#errorSave').text('Выберите элемент для добавления');
+            $('#errorSave').show();
+            return;
+        }
+        if (name === "") {
+            $('#errorSave').text('Введите наименование элемента');
+            $('#errorSave').show();
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: ajaxUrl,
+            data: ({
+                name: name,
+                type: type
+            }),
+            success: function () {
+                $('#errorSave').hide();
+                $("#successSave").show();
+            },
+            error: function (xhr, str) {
+                alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+        });
+    }
+
+    function addIsEdit() {
         var ajaxUrl = "${pageContext.request.contextPath}/add";
         var type = $('#selectTypeElement option:selected').val();
         var name = $('#name').val();

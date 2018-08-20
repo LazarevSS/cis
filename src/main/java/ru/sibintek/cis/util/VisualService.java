@@ -121,7 +121,6 @@ public class VisualService {
     private DrawMytreed3 convertToDrawMyTreed(CommonModel model) {
         DrawMytreed3 drawMytreed3 = new DrawMytreed3();
         drawMytreed3.setName(model.getName());
-        drawMytreed3.setSize(model.getId());
         drawMytreed3.setUrl("\\fu/?FUNAME=" + model.getName());
         return drawMytreed3;
     }

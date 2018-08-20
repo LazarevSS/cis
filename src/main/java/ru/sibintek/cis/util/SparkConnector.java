@@ -37,6 +37,7 @@ public class SparkConnector implements Runnable {
             solrJavaRDD = SolrJavaRDD.get("192.168.1.8:9983", "mycoll", jsc.sc());
             resultsRDD = solrJavaRDD.queryShards("*:*");
         }
+        resultsRDD = solrJavaRDD.queryShards("*:*");
         return resultsRDD;
     }
 

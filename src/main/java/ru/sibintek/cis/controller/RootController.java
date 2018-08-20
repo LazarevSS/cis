@@ -58,7 +58,7 @@ public class RootController {
     public ModelAndView search(@RequestParam(value = "value", required = false) String value,
                               @RequestParam(value = "type", required = false) String type) throws IOException, SolrServerException {
         ModelAndView result = new ModelAndView("jsonView");
-        String urlString = "http://192.168.1.6:8983/solr/mycoll";
+        String urlString = "http://192.168.1.8:8983/solr/mycoll";
         HttpSolrClient client = new HttpSolrClient.Builder(urlString).build();
         if (value == null || value.isEmpty()) {
             return result;

@@ -15,16 +15,12 @@ import ru.sibintek.cis.util.SolrConnector;
 import ru.sibintek.cis.util.SparkConnector;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
 public class CommonDaoImpl implements CommonDao {
-    private JavaRDD<SolrDocument> resultsRDD = SparkConnector.getInstance().getResultRDD();
     private SolrConnector solrConnector = new SolrConnector();
 
     @Autowired
@@ -47,8 +43,18 @@ public class CommonDaoImpl implements CommonDao {
                 document.addField("is_name_short", name);
                 document.addField("name", name);
                 document.addField("object_type", type);
+                document.addField("is_owner", "Рай С.П.");
+                document.addField("obj_num_path", Arrays.asList("20"));
+                document.addField("is_num", 13);
+                document.addField("is_name", name);
                 break;
             case "ir":
+                document.addField("ir_code", "TBD");
+                document.addField("ir_name", name);
+                document.addField("object_type", type);
+                document.addField("obj_num_path", Arrays.asList("20.1"));
+                document.addField("ir_num", "20.1");
+                document.addField("name", name);
                 break;
             case "fu":
                 break;
@@ -70,21 +76,21 @@ public class CommonDaoImpl implements CommonDao {
         }
         String finalIsName = isName;
         Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("is_name").equals(finalIsName));
-        JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+        JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(filterDocuments.collect().get(0));
     }
 
     @Override
     public CommonModel getByIrName(String irName) {
         Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("name").equals(irName));
-        JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+        JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(filterDocuments.collect().get(0));
     }
 
     @Override
     public CommonModel getByFuName(String fuName) {
         Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("name").equals(fuName));
-        JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+        JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(filterDocuments.collect().get(0));
     }
 
@@ -102,7 +108,7 @@ public class CommonDaoImpl implements CommonDao {
             }
             return objectType.toString().equals("ir");
         };
-        JavaRDD<SolrDocument> irEntities = resultsRDD.filter(filter);
+        JavaRDD<SolrDocument> irEntities = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(irEntities.collect());
     }
 
@@ -117,7 +123,7 @@ public class CommonDaoImpl implements CommonDao {
             Matcher m = p.matcher(fieldValues.get(0));
             return m.matches();
         };
-        JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+        JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(filterDocuments.collect());
     }
 
@@ -137,7 +143,7 @@ public class CommonDaoImpl implements CommonDao {
                 String functionParentPath = irPath + "." + finalFunctionPath;
                 return path.equals(functionParentPath);
             };
-            JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+            JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
             parentFunctions.addAll(converter.toCommonModel(filterDocuments.collect()));
         }
         return parentFunctions;
@@ -154,7 +160,7 @@ public class CommonDaoImpl implements CommonDao {
             Matcher m = p.matcher(fieldValues.get(0));
             return m.matches();
         };
-        JavaRDD<SolrDocument> filterDocuments = resultsRDD.filter(filter);
+        JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(filterDocuments.collect());
     }
 
@@ -171,14 +177,15 @@ public class CommonDaoImpl implements CommonDao {
     @Override
     public Map<CommonModel, List<CommonModel>> getIsRelations(String isName) {
         Function<SolrDocument, Boolean> irChildrenFilter = doc -> (doc.getFieldValue("object_type").equals("ir") && doc.getFieldValue("is_name").equals(isName));
-        JavaRDD<SolrDocument> irEntities = resultsRDD.filter(irChildrenFilter);
+        JavaRDD<SolrDocument> irEntities = SparkConnector.getInstance().getResultRDD().filter(irChildrenFilter);
         List<CommonModel> commonModels = converter.toCommonModel(irEntities.collect());
         Map<CommonModel, List<CommonModel>> docAndJoinDoc = new HashMap<>();
         for (CommonModel commonModel : commonModels) {
             Function<SolrDocument, Boolean> functionFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_num").equals(commonModel.getIrNum()));
-            JavaRDD<SolrDocument> functionEntities = resultsRDD.filter(functionFilter);
+            JavaRDD<SolrDocument> functionEntities = SparkConnector.getInstance().getResultRDD().filter(functionFilter);
             List<CommonModel> functions = converter.toCommonModel(functionEntities.collect());
             if (functions.isEmpty()) continue;
+            if (functions.get(0).getObjNumPath() == null) continue;
             String path = functions.get(0).getObjNumPath().get(0);
             String functionPath = path.replaceFirst(commonModel.getObjNumPath().get(0) + ".", "");
             Function<SolrDocument, Boolean> joinFilter = doc -> {
@@ -190,7 +197,7 @@ public class CommonDaoImpl implements CommonDao {
                 }
                 return false;
             };
-            JavaRDD<SolrDocument> joinSolrDocument = resultsRDD.filter(joinFilter);
+            JavaRDD<SolrDocument> joinSolrDocument = SparkConnector.getInstance().getResultRDD().filter(joinFilter);
             List<CommonModel> joinCommonModel = converter.toCommonModel(joinSolrDocument.collect());
             docAndJoinDoc.put(commonModel, joinCommonModel);
         }
@@ -202,7 +209,7 @@ public class CommonDaoImpl implements CommonDao {
         CommonModel commonModel = getByIrName(irName);
         Map<CommonModel, List<CommonModel>> docAndJoinDoc = new HashMap<>();
         Function<SolrDocument, Boolean> functionFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_num").equals(commonModel.getIrNum()));
-        JavaRDD<SolrDocument> functionEntities = resultsRDD.filter(functionFilter);
+        JavaRDD<SolrDocument> functionEntities = SparkConnector.getInstance().getResultRDD().filter(functionFilter);
         List<CommonModel> functions = converter.toCommonModel(functionEntities.collect());
         if (functions.isEmpty()) return docAndJoinDoc;
         String path = functions.get(0).getObjNumPath().get(0);
@@ -216,7 +223,7 @@ public class CommonDaoImpl implements CommonDao {
             }
             return false;
         };
-        JavaRDD<SolrDocument> joinSolrDocument = resultsRDD.filter(joinFilter);
+        JavaRDD<SolrDocument> joinSolrDocument = SparkConnector.getInstance().getResultRDD().filter(joinFilter);
         List<CommonModel> joinCommonModel = converter.toCommonModel(joinSolrDocument.collect());
         docAndJoinDoc.put(commonModel, joinCommonModel);
         return docAndJoinDoc;
