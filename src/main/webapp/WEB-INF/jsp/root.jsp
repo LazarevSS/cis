@@ -244,28 +244,6 @@
         });
     }
 
-    function getElements() {
-        var typeElement = $("#selectTypeElement option:selected").val();
-        if (typeElement === "is") {
-            var ajaxUrl = "${pageContext.request.contextPath}/is/getIs";
-            $.ajax({
-                type: 'POST',
-                url: ajaxUrl,
-                success: function (result) {
-                    var option;
-                    for (var i = 0; i < result.informSystems.length; i++) {
-                        option = $("<option/>", { value: result.informSystems[i], html: result.informSystems[i] });
-                        $("#informSystemSelected").append(option);
-                    }
-                    alert(result);
-                },
-                error: function (xhr, str) {
-                    alert('Возникла ошибка: ' + xhr.responseCode);
-                }
-            });
-        }
-    }
-
     function searchWorks() {
         var ajaxUrl = "${pageContext.request.contextPath}/search";
         var value = $('#name').val();
