@@ -68,6 +68,11 @@ public class CommonDaoImpl implements CommonDao {
     }
 
     @Override
+    public SolrInputDocument addRelation(String name, String type, String joinName, String joinType) throws IOException, SolrServerException {
+        return null;
+    }
+
+    @Override
     public CommonModel getById(int id) {
         return null;
     }
@@ -78,7 +83,11 @@ public class CommonDaoImpl implements CommonDao {
             isName = "БФ Управление договорами\n";
         }
         String finalIsName = isName;
-        Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("is_name").equals(finalIsName));
+        Function<SolrDocument, Boolean> filter = doc -> {
+            Object is_Name = doc.getFieldValue("is_name");
+            if (is_Name == null) return false;
+            return is_Name.toString().equals(finalIsName);
+        };
         JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(filterDocuments.collect().get(0));
     }
@@ -95,11 +104,6 @@ public class CommonDaoImpl implements CommonDao {
         Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("name").equals(fuName));
         JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
         return converter.toCommonModel(filterDocuments.collect().get(0));
-    }
-
-    @Override
-    public void save(CommonModel psIr, int id) {
-
     }
 
     @Override
@@ -192,7 +196,12 @@ public class CommonDaoImpl implements CommonDao {
 
     @Override
     public Map<CommonModel, List<CommonModel>> getIsRelations(String isName) {
-        Function<SolrDocument, Boolean> irChildrenFilter = doc -> (doc.getFieldValue("object_type").equals("ir") && doc.getFieldValue("is_name").equals(isName));
+        Function<SolrDocument, Boolean> irChildrenFilter = doc -> {
+            Object object_type = doc.getFieldValue("object_type");
+            Object is_name = doc.getFieldValue("is_name");
+            if (object_type == null || is_name == null) return false;
+            return doc.getFieldValue("object_type").equals("ir") && doc.getFieldValue("is_name").equals(isName);
+        };
         JavaRDD<SolrDocument> irEntities = SparkConnector.getInstance().getResultRDD().filter(irChildrenFilter);
         List<CommonModel> commonModels = converter.toCommonModel(irEntities.collect());
         Map<CommonModel, List<CommonModel>> docAndJoinDoc = new HashMap<>();

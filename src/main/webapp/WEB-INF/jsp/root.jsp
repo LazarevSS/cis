@@ -202,7 +202,21 @@
             <option selected="selected" value=""></option>
         </select>
     </div>
-    <input type="button" class="popupSearchButton" value="Сохранить" onclick="addIsEdit()">
+    <p>Выберите связываемый элемент: </p>
+    <div class="select">
+        <select id="selectTypeJoinElementEdit" onchange="getJoinElements()">
+            <option selected="selected" value=""></option>
+            <option value="is">Информационная система</option>
+            <option value="ir">Информационный ресурс</option>
+            <option value="fu">Функция</option>
+        </select>
+    </div>
+    <div id="nameJoinElementEdit" class="select">
+        <select id="selectJoinElementEdit">
+            <option selected="selected" value=""></option>
+        </select>
+    </div>
+    <input type="button" style="width: 100px" class="popupSearchButton" value="Добавить связь" onclick="addRelation()">
     <p id="successSaveEdit" hidden="hidden" style="color: green">Сохранено</p>
     <p id="errorSaveEdit" hidden="hidden" style="color: red"></p>
 </div>
@@ -219,6 +233,9 @@
     if ($('#selectTypeElementEdit option:selected').val() === "") {
         $("#nameElementEdit").hide();
     }
+    if ($('#selectTypeJoinElementEdit option:selected').val() === "") {
+        $("#nameJoinElementEdit").hide();
+    }
 
     function openDialog() {
         $("#dialog").dialog(
@@ -233,7 +250,7 @@
     function openDialogEdit() {
         $("#dialogEdit").dialog(
             {
-                height: 330,
+                height: 530,
                 width: 400,
                 autoOpen: true
             }
@@ -265,6 +282,39 @@
                 for (var i = 0; i < result.elements.length; i++) {
                     option = $("<option/>", {value: result.elements[i], html: result.elements[i]});
                     $("#selectElementEdit").append(option);
+                }
+            },
+            error: function (xhr, str) {
+                alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+        });
+    }
+
+    function getJoinElements() {
+        var chooseVal = $('#selectTypeJoinElementEdit option:selected').val();
+        if (chooseVal === "") {
+            $("#nameJoinElementEdit").hide();
+            return;
+        } else {
+            $("#nameJoinElementEdit").show();
+        }
+        var typeElement = $("#selectTypeJoinElementEdit option:selected").val();
+        var ajaxUrl = "";
+        if (typeElement === "is") {
+            ajaxUrl = "${pageContext.request.contextPath}/is/getIs";
+        } else if (typeElement === "ir") {
+            ajaxUrl = "${pageContext.request.contextPath}/ir/getIr";
+        } else if (typeElement === "fu") {
+            ajaxUrl = "${pageContext.request.contextPath}/fu/getFu";
+        }
+        $.ajax({
+            type: 'POST',
+            url: ajaxUrl,
+            success: function (result) {
+                var option;
+                for (var i = 0; i < result.elements.length; i++) {
+                    option = $("<option/>", {value: result.elements[i], html: result.elements[i]});
+                    $("#selectJoinElementEdit").append(option);
                 }
             },
             error: function (xhr, str) {
@@ -314,18 +364,15 @@
         });
     }
 
-    function addIsEdit() {
-        var ajaxUrl = "${pageContext.request.contextPath}/add";
-        var type = $('#selectTypeElement option:selected').val();
-        var name = $('#name').val();
-        if (type === "") {
-            $('#errorSave').text('Выберите элемент для добавления');
-            $('#errorSave').show();
-            return;
-        }
-        if (name === "") {
-            $('#errorSave').text('Введите наименование элемента');
-            $('#errorSave').show();
+    function addRelation() {
+        var ajaxUrl = "${pageContext.request.contextPath}/addRelation";
+        var type = $('#selectTypeElementEdit option:selected').val();
+        var name = $('#nameElementEdit option:selected').val();
+        var joinType = $('#selectTypeJoinElementEdit option:selected').val();
+        var joinName = $('#nameJoinElementEdit option:selected').val();
+        if (type === "" || name === "" || joinType === "" || joinName === "")  {
+            $('#errorSaveEdit').text('Выберите элементы для добавления');
+            $('#errorSaveEdit').show();
             return;
         }
         $.ajax({
@@ -333,11 +380,13 @@
             url: ajaxUrl,
             data: ({
                 name: name,
-                type: type
+                type: type,
+                joinName: joinName,
+                joinType: joinType
             }),
             success: function () {
-                $('#errorSave').hide();
-                $("#successSave").show();
+                $('#errorSaveEdit').hide();
+                $("#successSaveEdit").show();
             },
             error: function (xhr, str) {
                 alert('Возникла ошибка: ' + xhr.responseCode);

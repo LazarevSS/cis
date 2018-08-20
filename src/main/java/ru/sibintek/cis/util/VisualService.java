@@ -42,7 +42,12 @@ public class VisualService {
 
     public List<DrawBubbleChartModel> getVisualizingDataForIs(String isName) {
         List<DrawBubbleChartModel> drawBubbleChartModels = new ArrayList<>();
-        Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("object_type").equals("ir") && doc.getFieldValue("is_name").equals(isName));
+        Function<SolrDocument, Boolean> filter = doc -> {
+            Object object_type = doc.getFieldValue("object_type");
+            Object is_name = doc.getFieldValue("is_name");
+            if (object_type == null || is_name == null) return false;
+            return doc.getFieldValue("object_type").equals("ir") && doc.getFieldValue("is_name").equals(isName);
+        };
         JavaRDD<SolrDocument> systemChildrenIr = resultsRDD.filter(filter);
         List<CommonModel> irs = converter.toCommonModel(systemChildrenIr.collect());
         for (CommonModel ir : irs) {

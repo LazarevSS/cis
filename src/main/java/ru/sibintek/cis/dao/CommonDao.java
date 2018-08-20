@@ -15,6 +15,8 @@ public interface CommonDao {
 
     SolrInputDocument save(String name, String type) throws IOException, SolrServerException;
 
+    SolrInputDocument addRelation(String name, String type, String joinName, String joinType) throws IOException, SolrServerException;
+
     CommonModel getById(int id);
 
     CommonModel getByIsName(String isName);
@@ -22,8 +24,6 @@ public interface CommonDao {
     CommonModel getByIrName(String irName);
 
     CommonModel getByFuName(String fuName);
-
-    void save(CommonModel psIr, int id);
 
     List<CommonModel> getAllIr();
 

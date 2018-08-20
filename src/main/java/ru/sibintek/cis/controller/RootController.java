@@ -46,6 +46,16 @@ public class RootController {
         return new ModelAndView("jsonView");
     }
 
+    @RequestMapping(value = "/addRelation", method = RequestMethod.POST)
+    public ModelAndView addRelation(@RequestParam(value = "name", required = false) String name,
+                                    @RequestParam(value = "type", required = false) String type,
+                                    @RequestParam(value = "joinName", required = false) String joinName,
+                                    @RequestParam(value = "joinType", required = false) String joinType) throws IOException, SolrServerException {
+
+        commonDao.save(name, type);
+        return new ModelAndView("jsonView");
+    }
+
     @RequestMapping(value = "/datasource", method = RequestMethod.GET)
     public ModelAndView rootDatasource() {
         ModelAndView result = new ModelAndView("jsonView");
