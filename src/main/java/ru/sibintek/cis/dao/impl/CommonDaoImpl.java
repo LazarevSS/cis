@@ -57,6 +57,9 @@ public class CommonDaoImpl implements CommonDao {
                 document.addField("name", name);
                 break;
             case "fu":
+                document.addField("name", name);
+                document.addField("object_type", type);
+                document.addField("obj_num_path", Arrays.asList("11"));
                 break;
         }
         client.add(document);
