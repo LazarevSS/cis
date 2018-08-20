@@ -27,6 +27,8 @@ public interface CommonDao {
 
     List<CommonModel> getAllIr();
 
+    List<CommonModel> getAllFunctions();
+
     List<CommonModel> getChildrenFunctions(String fuName);
 
     List<CommonModel> getParentFunctions(String fuName);

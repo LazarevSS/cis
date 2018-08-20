@@ -116,6 +116,19 @@ public class CommonDaoImpl implements CommonDao {
     }
 
     @Override
+    public List<CommonModel> getAllFunctions() {
+        Function<SolrDocument, Boolean> filter = doc -> {
+            Object objectType = doc.getFieldValue("object_type");
+            if (objectType == null) {
+                return false;
+            }
+            return objectType.toString().equals("fu");
+        };
+        JavaRDD<SolrDocument> irEntities = SparkConnector.getInstance().getResultRDD().filter(filter);
+        return converter.toCommonModel(irEntities.collect());
+    }
+
+    @Override
     public List<CommonModel> getChildrenFunctions(String fuName) {
         CommonModel function = getByFuName(fuName);
         Function<SolrDocument, Boolean> filter = doc -> {

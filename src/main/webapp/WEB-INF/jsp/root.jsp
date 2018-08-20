@@ -188,18 +188,19 @@
 
 <body>
 <div id="dialogEdit" title="Добавить элемент" class="ui-widget-content" style="padding: 20px">
-    <p>Выберите элемент для добавления: </p>
+    <p>Выберите элемент для добавления связи: </p>
     <div class="select">
-        <select id="selectTypeElementEdit" onchange="checkSelectEdit()">
+        <select id="selectTypeElementEdit" onchange="getElementsForJoin()">
             <option selected="selected" value=""></option>
             <option value="is">Информационная система</option>
             <option value="ir">Информационный ресурс</option>
             <option value="fu">Функция</option>
         </select>
     </div>
-    <div hidden="hidden" class="ui-widget" id="nameElementEdit" style="padding-bottom: 20px">
-        <label for="nameEdit">Введите наименование добавляемого элемента: </label>
-        <input id="nameEdit" type="text" class="popupSearchText" oninput="searchWorks()">
+    <div id="nameElementEdit" class="select">
+        <select id="selectElementEdit">
+            <option selected="selected" value=""></option>
+        </select>
     </div>
     <input type="button" class="popupSearchButton" value="Сохранить" onclick="addIsEdit()">
     <p id="successSaveEdit" hidden="hidden" style="color: green">Сохранено</p>
@@ -214,6 +215,10 @@
 <script>
     $('#dialog').dialog({autoOpen: false});
     $('#dialogEdit').dialog({autoOpen: false});
+
+    if ($('#selectTypeElementEdit option:selected').val() === "") {
+        $("#nameElementEdit").hide();
+    }
 
     function openDialog() {
         $("#dialog").dialog(
@@ -235,6 +240,39 @@
         );
     }
 
+    function getElementsForJoin() {
+        var chooseVal = $('#selectTypeElementEdit option:selected').val();
+        if (chooseVal === "") {
+            $("#nameElementEdit").hide();
+            return;
+        } else {
+            $("#nameElementEdit").show();
+        }
+        var typeElement = $("#selectTypeElementEdit option:selected").val();
+        var ajaxUrl = "";
+        if (typeElement === "is") {
+            ajaxUrl = "${pageContext.request.contextPath}/is/getIs";
+        } else if (typeElement === "ir") {
+            ajaxUrl = "${pageContext.request.contextPath}/ir/getIr";
+        } else if (typeElement === "fu") {
+            ajaxUrl = "${pageContext.request.contextPath}/fu/getFu";
+        }
+        $.ajax({
+            type: 'POST',
+            url: ajaxUrl,
+            success: function (result) {
+                var option;
+                for (var i = 0; i < result.elements.length; i++) {
+                    option = $("<option/>", {value: result.elements[i], html: result.elements[i]});
+                    $("#selectElementEdit").append(option);
+                }
+            },
+            error: function (xhr, str) {
+                alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+        });
+    }
+
     function checkSelect() {
         var chooseVal = $('#selectTypeElement option:selected').val();
         if (chooseVal === "") {
@@ -242,16 +280,6 @@
         }
         else {
             $("#nameElement").show();
-        }
-    }
-
-    function checkSelectEdit() {
-        var chooseVal = $('#selectTypeElementEdit option:selected').val();
-        if (chooseVal === "") {
-            $("#nameElementEdit").hide();
-        }
-        else {
-            $("#nameElementEdit").show();
         }
     }
 
@@ -338,15 +366,15 @@
                 alert('Возникла ошибка: ' + xhr.responseCode);
             }
         });
-        $.ui.autocomplete.prototype._renderItem = function( ul, item) {
-            var re = new RegExp("^" + this.term) ;
-            var t = item.label.replace(re,"<span style='font-weight:bold;'>" +
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+            var re = new RegExp("^" + this.term);
+            var t = item.label.replace(re, "<span style='font-weight:bold;'>" +
                 this.term +
                 "</span>");
-            return $( "<li></li>" )
-                .data( "item.autocomplete", item )
-                .append( "<a>" + t + "</a>" )
-                .appendTo( ul );
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append("<a>" + t + "</a>")
+                .appendTo(ul);
         };
     }
 </script>

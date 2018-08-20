@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.CommonDao;
+import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.dto.Link;
 import ru.sibintek.cis.model.dto.Node;
 import ru.sibintek.cis.util.VisualService;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +44,17 @@ public class FunctionController {
             result.getModel().put("nodes", nodes);
             result.getModel().put("links", links);
         });
+        return result;
+    }
+
+    @RequestMapping(value = "fu/getFu", method = RequestMethod.POST)
+    public ModelAndView getInformResources() {
+        ModelAndView result = new ModelAndView("jsonView");
+        List<String> functions = new ArrayList<>();
+        for (CommonModel function : commonDao.getAllFunctions()) {
+            functions.add(function.getName());
+        }
+        result.getModel().put("elements", functions);
         return result;
     }
 }

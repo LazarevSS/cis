@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.CommonDao;
+import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.util.VisualService;
+
+import java.util.HashSet;
 
 
 @Controller
@@ -33,6 +36,17 @@ public class InformResourceController {
         ModelAndView result = new ModelAndView("jsonView");
         result.getModel().put("name", irName);
         result.getModel().put("children", visualService.getVisualizingDataForIr(irName));
+        return result;
+    }
+
+    @RequestMapping(value = "ir/getIr", method = RequestMethod.POST)
+    public ModelAndView getInformResources() {
+        ModelAndView result = new ModelAndView("jsonView");
+        HashSet<String> informResources = new HashSet<>();
+        for (CommonModel informResource : commonDao.getAllIr()) {
+            informResources.add(informResource.getName());
+        }
+        result.getModel().put("elements", informResources);
         return result;
     }
 }

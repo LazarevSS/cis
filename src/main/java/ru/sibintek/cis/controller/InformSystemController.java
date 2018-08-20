@@ -41,13 +41,13 @@ public class InformSystemController {
     }
 
     @RequestMapping(value = "is/getIs", method = RequestMethod.POST)
-    public ModelAndView getInformSystems(@RequestParam(value = "isId", required = false) Integer isId) {
+    public ModelAndView getInformSystems() {
         ModelAndView result = new ModelAndView("jsonView");
         HashSet<String> informSystems = new HashSet<>();
         for (CommonModel informResource : commonDao.getAllIr()) {
             informSystems.add(informResource.getIsName());
         }
-        result.getModel().put("informSystems", informSystems);
+        result.getModel().put("elements", informSystems);
         return result;
     }
 }
