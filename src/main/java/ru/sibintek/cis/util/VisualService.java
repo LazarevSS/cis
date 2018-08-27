@@ -1,5 +1,6 @@
 package ru.sibintek.cis.util;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
@@ -10,76 +11,16 @@ import ru.sibintek.cis.dao.converters.SolrDocumentConverter;
 import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.dto.*;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
 public class VisualService {
-    private JavaRDD<SolrDocument> resultsRDD = SparkConnector.getInstance().getResultRDD();
 
     @Autowired
     private CommonDao commonDao;
 
-    @Autowired
-    private SolrDocumentConverter converter;
-
-    public List<IsVisualizingData> getVisualizingDataForRoot() {
-        List<CommonModel> commonModels = commonDao.getAllIr();
-        Set<String> systemsName = new HashSet<>();
-        commonModels.forEach(irModel -> systemsName.add(irModel.getIsName()));
-        List<IsVisualizingData> visualizingDataList = new ArrayList<>();
-        for (String systemName : systemsName) {
-            Function<SolrDocument, Boolean> filter = doc -> (doc.getFieldValue("is_name") != null && doc.getFieldValue("is_name").equals(systemName));
-            JavaRDD<SolrDocument> systemChildrenElement = resultsRDD.filter(filter);
-            IsVisualizingData visualizingData = new IsVisualizingData();
-            visualizingData.setLabel(systemName);
-            visualizingData.setValue(systemChildrenElement.count());
-            visualizingData.setUrl("\\is/?ISNAME=" + systemName);
-            visualizingData.setCaption(systemName);
-            visualizingDataList.add(visualizingData);
-        }
-        return visualizingDataList;
-    }
-
-    public List<DrawBubbleChartModel> getVisualizingDataForIs(String isName) {
-        List<DrawBubbleChartModel> drawBubbleChartModels = new ArrayList<>();
-        Function<SolrDocument, Boolean> filter = doc -> {
-            Object object_type = doc.getFieldValue("object_type");
-            Object is_name = doc.getFieldValue("is_name");
-            if (object_type == null || is_name == null) return false;
-            return doc.getFieldValue("object_type").equals("ir") && doc.getFieldValue("is_name").equals(isName);
-        };
-        JavaRDD<SolrDocument> systemChildrenIr = resultsRDD.filter(filter);
-        List<CommonModel> irs = converter.toCommonModel(systemChildrenIr.collect());
-        for (CommonModel ir : irs) {
-            Function<SolrDocument, Boolean> irFilter = doc -> (doc.getFieldValue("object_type").equals("fu") && doc.getFieldValue("ir_name").equals(ir.getIrName()));
-            JavaRDD<SolrDocument> functions = resultsRDD.filter(irFilter);
-            DrawBubbleChartModel model = new DrawBubbleChartModel();
-            model.setLabel(ir.getIrName());
-            model.setUrl("\\ir/?IRNAME=" + ir.getIrName());
-            model.setValue(functions.count());
-            drawBubbleChartModels.add(model);
-        }
-        return drawBubbleChartModels;
-    }
-
-    public List<DrawMytreed3> getVisualizingDataForIr(String irName) {
-        List<DrawMytreed3> drawMytreed3Models = new ArrayList<>();
-        Map<CommonModel, List<CommonModel>> docAndJoinDoc = commonDao.getIrRelations(irName);
-        for (Map.Entry<CommonModel, List<CommonModel>> entry : docAndJoinDoc.entrySet()) {
-            for (CommonModel function : entry.getValue()) {
-                DrawMytreed3 drawMytreed3 = new DrawMytreed3();
-                drawMytreed3.setName(function.getName());
-                //drawMytreed3.setSize(function.getId());
-                drawMytreed3.setUrl("\\fu/?FUNAME=" + function.getName());
-                drawMytreed3Models.add(drawMytreed3);
-                List<DrawMytreed3> childrenDrawMytreed3 = convertToDrawMyTreeds(commonDao.getChildrenFunctions(function.getName()));
-                drawMytreed3.setChildren(childrenDrawMytreed3);
-            }
-        }
-        return drawMytreed3Models;
-    }
-
-    public Map<List<Link>, List<Node>> getGraph(String fuName) {
+    public Map<List<Link>, List<Node>> getGraph(String fuName) throws IOException, SolrServerException {
         List<Link> links = new ArrayList<>();
         List<CommonModel> parentIrs = commonDao.getParentIrs(fuName);
         List<Link> linkIrs = new ArrayList<>();
@@ -128,14 +69,6 @@ public class VisualService {
         drawMytreed3.setName(model.getName());
         drawMytreed3.setUrl("\\fu/?FUNAME=" + model.getName());
         return drawMytreed3;
-    }
-
-    private List<DrawMytreed3> convertToDrawMyTreeds(List<CommonModel> models) {
-        List<DrawMytreed3> drawMyTreed3List = new ArrayList<>();
-        for (CommonModel model : models) {
-            drawMyTreed3List.add(convertToDrawMyTreed(model));
-        }
-        return drawMyTreed3List;
     }
 
 }

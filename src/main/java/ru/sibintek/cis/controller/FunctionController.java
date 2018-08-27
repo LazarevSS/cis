@@ -1,5 +1,6 @@
 package ru.sibintek.cis.controller;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import ru.sibintek.cis.model.dto.Link;
 import ru.sibintek.cis.model.dto.Node;
 import ru.sibintek.cis.util.VisualService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,10 +28,10 @@ public class FunctionController {
     private CommonDao commonDao;
 
     @RequestMapping(value = "/fu", method = RequestMethod.GET)
-    public ModelAndView fuController(@RequestParam(value = "FUNAME", required = false) String fuName) {
+    public ModelAndView fuController(@RequestParam(value = "FUNAME", required = false) String fuName) throws IOException, SolrServerException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("fuModel", commonDao.getByFuName(fuName));
-        modelAndView.addObject("childrenFunction", commonDao.getChildrenFunctions(fuName));
+        modelAndView.addObject("childrenFunction", commonDao.getChildrenFunctions(fuName, "fu"));
         modelAndView.addObject("irModels", commonDao.getAllIr());
         modelAndView.addObject("irsParent", commonDao.getParentIrs(fuName));
         modelAndView.setViewName("functionView");
@@ -37,7 +39,7 @@ public class FunctionController {
     }
 
     @RequestMapping(value = "/fu/datasource", method = RequestMethod.GET)
-    public ModelAndView fuDatasource(@RequestParam(value = "FUNAME", required = false) String fuName) {
+    public ModelAndView fuDatasource(@RequestParam(value = "FUNAME", required = false) String fuName) throws IOException, SolrServerException {
         ModelAndView result = new ModelAndView("jsonView");
         Map<List<Link>, List<Node>> graph = visualService.getGraph(fuName);
         graph.forEach((links, nodes) -> {
@@ -48,7 +50,7 @@ public class FunctionController {
     }
 
     @RequestMapping(value = "fu/getFu", method = RequestMethod.POST)
-    public ModelAndView getInformResources() {
+    public ModelAndView getInformResources() throws IOException, SolrServerException {
         ModelAndView result = new ModelAndView("jsonView");
         List<String> functions = new ArrayList<>();
         for (CommonModel function : commonDao.getAllFunctions()) {

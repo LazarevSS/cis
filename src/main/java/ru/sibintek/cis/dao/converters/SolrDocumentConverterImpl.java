@@ -27,6 +27,7 @@ public class SolrDocumentConverterImpl implements SolrDocumentConverter {
         commonModel.setName(document.getFieldValue("name") == null ? "" : document.getFieldValue("name").toString());
         commonModel.setIsName(document.getFieldValue("is_name") == null ? "" : document.getFieldValue("is_name").toString());
         commonModel.setIsNum(document.getFieldValue("is_num") == null ? null : Integer.valueOf(document.getFieldValue("is_num").toString()));
+        commonModel.setRelation_id(document.getFieldValue("reference_id") == null ? new ArrayList<>() : (List<Integer>) document.getFieldValue("reference_id"));
         return commonModel;
     }
 

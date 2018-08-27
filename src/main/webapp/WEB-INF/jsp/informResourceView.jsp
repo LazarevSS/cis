@@ -24,55 +24,69 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9">
-            <div class="d3tree_main">
-                <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
-                <script src="${pageContext.request.contextPath}/resources/js/d3.layout.js"></script>
-                <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
-                <script src="${pageContext.request.contextPath}/resources/js/mytreed3.js"></script>
-                <script>
-                    drawMytreed3('datasource?IRNAME=${param.IRNAME}');
-                </script>
+            <div style="padding: 10px">
+                <p class="infoitem">Система: ${irModel.isName}</p>
+                <p class="infoitem">Наименование ИР: ${irModel.name}</p>
             </div>
+            <div style="padding: 10px">
+                <p class="infoitem">Код ИР: ${irModel.irCode}</p>
+                <p class="infoitem">Владелец: ${irModel.irOwner}</p>
+            </div>
+            <table wigth="700px">
+                <tr>
+                    <td>
+                        <div class="d3chartarea_main">
+                            <script src="${pageContext.request.contextPath}/resources/js/d3.min.js"></script>
+                            <script src="${pageContext.request.contextPath}/resources/js/d3.tip.v0.6.3.js"></script>
+                            <script src="${pageContext.request.contextPath}/resources/js/d3bubblechart.js"></script>
+
+                            <script>
+                                var chartWidth = window.screen.width * 8 / 12;
+                                chartWidth = (chartWidth > 700) ? 700 : chartWidth;
+                                drawBubbleChart('getGraph?IRNAME=${param.IRNAME}', chartWidth);
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
 
             <div class="infobox">
                 <hr>
             </div>
-            <h1>Информационные ресурсы и их связи</h1>
+            <h1>Функциональное области ИР и их связи</h1>
             <table id="data_main" class="table table-striped table-bordered" border="1">
                 <thead>
                 <tr>
-                    <th colspan="1">Источник</th>
-                    <th rowspan="2">Связывающая функция</th>
-                    <th colspan="2">Приемник</th>
+                    <th colspan="2">Источник</th>
+                    <th rowspan="2">Тип связи</th>
+                    <th colspan="3">Приемник</th>
                 </tr>
                 <tr>
                     <th align="left">Наименоварие информационного ресурса</th>
+                    <th align="left">Функциональная область</th>
+                    <th align="left">Функциональная область</th>
                     <th align="left">Наименоварие информационного ресурса</th>
                     <th align="left">Наименоваие ИС</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="entry" items="${table}">
-                    <c:forEach var="joinModel" items="${entry.value}">
-                        <tr>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${entry.key.irName}"
-                                   title="${entry.key.irName}">${entry.key.irName}</a>
-                            </td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/fu/?FUNAME=${joinModel.name}"
-                                   title="${joinModel.name}">${joinModel.name}</a>
-                            </td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/ir/?IRNAME=${joinModel.irName}"
-                                   title="${joinModel.irName}">${joinModel.irName}</a>
-                            </td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/is/?ISNAME=${joinModel.isName}"
-                                   title="${joinModel.isName}">${joinModel.isName}</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                <c:forEach var="commonModel" items="${table}">
+                    <tr>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${commonModel.name}"
+                               title="${commonModel.name}">${commonModel.name}</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>Файл</td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+
                 </c:forEach>
                 </tbody>
             </table>
@@ -88,18 +102,18 @@
                     <th align="left">Код</th>
                 </tr>
                 <tbody>
-            <c:forEach var="irModels" items="${irModels}">
-                <tr>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.irName}"
-                           title="${irModels.name}">${irModels.name}</a>
-                    </td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.irName}"
-                           title="${irModels.irCode}">${irModels.irCode}</a>
-                    </td>
-                </tr>
-            </c:forEach>
+                <c:forEach var="irModels" items="${irModels}">
+                    <tr>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/ir/?IRNAME=${irModels.irName}"
+                               title="${irModels.name}">${irModels.name}</a>
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/ir/?IRID=${irModels.irName}"
+                               title="${irModels.irCode}">${irModels.irCode}</a>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -324,7 +338,7 @@
         var name = $('#nameElementEdit option:selected').val();
         var joinType = $('#selectTypeJoinElementEdit option:selected').val();
         var joinName = $('#nameJoinElementEdit option:selected').val();
-        if (type === "" || name === "" || joinType === "" || joinName === "")  {
+        if (type === "" || name === "" || joinType === "" || joinName === "") {
             $('#errorSaveEdit').text('Выберите элементы для добавления');
             $('#errorSaveEdit').show();
             return;

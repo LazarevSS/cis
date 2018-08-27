@@ -18,6 +18,7 @@ public class CommonModel implements Serializable {
     private String name;
     private String is_name;
     private Integer is_num;
+    private List<Integer> relation_id;
 
     public String getId() {
         return id;
@@ -129,5 +130,13 @@ public class CommonModel implements Serializable {
 
     public void setIsNum(Integer is_num) {
         this.is_num = is_num;
+    }
+
+    public List<Integer> getRelation_id() {
+        return relation_id;
+    }
+
+    public void setRelation_id(List<Integer> relation_id) {
+        this.relation_id = relation_id;
     }
 }

@@ -6,6 +6,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="ru.sibintek.cis.**.controller"/>
+    <context:component-scan base-package="ru.sibintek.cis.**.service"/>
     <context:component-scan base-package="ru.sibintek.cis.**.dao"/>
     <context:component-scan base-package="ru.sibintek.cis.**.util"/>
 
@@ -28,6 +29,10 @@
         <!--<property name="url" value="jdbc:oracle:thin:@192.168.56.101:1521:orcl" />-->
         <property name="username" value="hr" />
         <property name="password" value="hr" />
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10000000"/>
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
