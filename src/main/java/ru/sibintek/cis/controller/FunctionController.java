@@ -11,18 +11,17 @@ import ru.sibintek.cis.dao.CommonDao;
 import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.dto.Link;
 import ru.sibintek.cis.model.dto.Node;
-import ru.sibintek.cis.util.VisualService;
+import ru.sibintek.cis.service.GraphService;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class FunctionController {
     @Autowired
-    private VisualService visualService;
+    private GraphService graphService;
 
     @Autowired
     private CommonDao commonDao;
@@ -38,10 +37,11 @@ public class FunctionController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/fu/datasource", method = RequestMethod.GET)
-    public ModelAndView fuDatasource(@RequestParam(value = "FUNAME", required = false) String fuName) throws IOException, SolrServerException {
+    @RequestMapping(value = "/fu/getGraph", method = RequestMethod.GET)
+    public ModelAndView fuDatasource(@RequestParam(value = "FUNAME", required = false) String fuName,
+                                     @RequestParam(value = "FUID", required = false) String fuId) throws IOException, SolrServerException {
         ModelAndView result = new ModelAndView("jsonView");
-        Map<List<Link>, List<Node>> graph = visualService.getGraph(fuName);
+        Map<List<Link>, List<Node>> graph = graphService.getGraphFunction(fuId, fuName);
         graph.forEach((links, nodes) -> {
             result.getModel().put("nodes", nodes);
             result.getModel().put("links", links);

@@ -7,12 +7,11 @@ import ru.sibintek.cis.dao.CommonDao;
 import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.model.dto.DrawBubbleChartModel;
 import ru.sibintek.cis.model.dto.IsVisualizingData;
+import ru.sibintek.cis.model.dto.Link;
+import ru.sibintek.cis.model.dto.Node;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class GraphServiceImpl implements GraphService {
@@ -62,5 +61,50 @@ public class GraphServiceImpl implements GraphService {
             drawBubbleChartModels.add(model);
         }
         return drawBubbleChartModels;
+    }
+
+    @Override
+    public Map<List<Link>, List<Node>> getGraphFunction(String functionId, String functionName) throws IOException, SolrServerException {
+        List<Link> links = new ArrayList<>();
+        List<CommonModel> parentIrs = commonDao.getParentIrs(functionId);
+        List<Link> linkIrs = new ArrayList<>();
+        List<Node> nodes = new ArrayList<>();
+        for (int i = 0; i < parentIrs.size(); i++) {
+            Link linkIr = new Link();
+            linkIr.setSource(i * 2);
+            linkIr.setTarget(i * 2 + 1);
+            linkIrs.add(linkIr);
+            Node nodeIs = new Node();
+            nodeIs.setName(parentIrs.get(i).getIsName());
+            nodeIs.setTitle(parentIrs.get(i).getIsName());
+            nodeIs.setIcon_url("\\resources/img/s_pckstd.gif");
+            nodeIs.setUrl("\\is/?ISNAME=" + parentIrs.get(0).getIsName());
+            Node nodeIr = new Node();
+            nodeIr.setName(parentIrs.get(i).getIrName());
+            nodeIr.setTitle(parentIrs.get(i).getIrName());
+            nodeIr.setIcon_url("\\resources/img/s_b_renm.gif");
+            nodeIr.setUrl("\\ir/?IRNAME=" + parentIrs.get(0).getIrName());
+            nodes.add(nodeIs);
+            nodes.add(nodeIr);
+        }
+        CommonModel function = commonDao.getByFuName(functionName);
+        Node nodeFunction = new Node();
+        nodeFunction.setName(function.getName());
+        nodeFunction.setTitle(function.getName());
+        nodeFunction.setIcon_url("\\resources/img/s_b_tree.gif");
+        nodeFunction.setUrl("\\fu/?FUNAME=" + function.getName());
+        nodes.add(nodeFunction);
+        List<Link> linkFunctions = new ArrayList<>();
+        for (Link linkIr : linkIrs) {
+            Link linkFunction = new Link();
+            linkFunction.setSource(linkIr.getTarget());
+            linkFunction.setTarget(nodes.size() - 1);
+            linkFunctions.add(linkFunction);
+        }
+        links.addAll(linkIrs);
+        links.addAll(linkFunctions);
+        Map<List<Link>, List<Node>> result = new HashMap<>();
+        result.put(links, nodes);
+        return result;
     }
 }

@@ -96,7 +96,7 @@ public class CommonDaoImpl implements CommonDao {
         HttpSolrClient client = solrConnector.getClient();
         SolrQuery q = new SolrQuery();
         q.add("q", "object_type:fu");
-        q.add("fq", "name:" + fuName);
+        q.add("fq", "name:" + "\"" + fuName + "\"");
         q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
         QueryResponse rsp = client.query(q);
         SolrDocumentList docs = rsp.getResults();
@@ -168,7 +168,23 @@ public class CommonDaoImpl implements CommonDao {
         } else if (elementType.equals("ir")) {
             q.add("q", "ir_name:" + elementName);
         } else if (elementType.equals("fu")) {
-            q.add("q", "name:" + elementName);
+            q.add("q", "name:" + "\"" + elementName + "\"");
+            QueryResponse rsp = client.query(q);
+            SolrDocumentList docs = rsp.getResults();
+            List<Long> relationIds = (List<Long>) docs.get(0).getFieldValue("reference_id");
+            Set<Long> relationIdsSet = new HashSet<>(relationIds);
+            List<SolrDocument> childFunctions = new ArrayList<>();
+            for(Long childId : relationIdsSet){
+                SolrQuery query = new SolrQuery();
+                query.add("q", "id:" + childId.toString());
+                query.add("fq", "object_type:fu");
+                SolrDocumentList solrDocumentList = client.query(query).getResults();
+                if (solrDocumentList.isEmpty()) {
+                    continue;
+                }
+                childFunctions.add(solrDocumentList.get(0));
+            }
+            return converter.toCommonModel(childFunctions);
         }
         q.add("fq", "object_type:fu");
         q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
@@ -201,19 +217,15 @@ public class CommonDaoImpl implements CommonDao {
     }
 
     @Override
-    public List<CommonModel> getParentIrs(String fuName) throws IOException, SolrServerException {
-        return new ArrayList<>();
-        /*CommonModel function = getByFuName(fuName);
-        Function<SolrDocument, Boolean> filter = doc -> {
-            List<String> fieldValues = (List<String>) doc.getFieldValue("obj_num_path");
-            if (fieldValues == null) return false;
-            String functionPath = function.getObjNumPath().get(0).replaceFirst("^[0-9]+\\.[0-9]+\\.", "");
-            Pattern p = Pattern.compile("^[0-9]+\\.[0-9]+\\." + functionPath);
-            Matcher m = p.matcher(fieldValues.get(0));
-            return m.matches();
-        };
-        JavaRDD<SolrDocument> filterDocuments = SparkConnector.getInstance().getResultRDD().filter(filter);
-        return converter.toCommonModel(filterDocuments.collect());*/
+    public List<CommonModel> getParentIrs(String fuId) throws IOException, SolrServerException {
+        HttpSolrClient client = solrConnector.getClient();
+        SolrQuery q = new SolrQuery();
+        q.add("q", "{!term f=id}" + fuId);
+        q.add("fq", "object_type:ir");
+        q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
+        QueryResponse rsp = client.query(q);
+        SolrDocumentList docs = rsp.getResults();
+        return converter.toCommonModel(docs);
     }
 
 }

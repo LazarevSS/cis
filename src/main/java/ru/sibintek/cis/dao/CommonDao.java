@@ -38,6 +38,6 @@ public interface CommonDao {
 
     List<CommonModel> getParentFunctions(String fuName) throws IOException, SolrServerException;
 
-    List<CommonModel> getParentIrs(String fuName) throws IOException, SolrServerException;
+    List<CommonModel> getParentIrs(String fuId) throws IOException, SolrServerException;
 
 }
