@@ -42,14 +42,14 @@
             <h1>Структура функции: ${fuModel.name}</h1>
             <table class="table table-striped table-bordered" width="90%" border="1">
                 <tr>
-                    <th align="left">Код функции</th>
+                    <th align="left">Уровень вложенной функции</th>
                     <th align="left">Функция</th>
                 </tr>
                 <tbody>
                 <c:forEach var="element" items="${childrenFunction}">
                     <tr>
                         <td>
-                                ${element.objNumPath.get(0)}
+                                1
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/fu/?FUNAME=${element.name}"

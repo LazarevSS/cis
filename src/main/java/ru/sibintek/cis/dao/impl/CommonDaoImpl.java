@@ -225,7 +225,11 @@ public class CommonDaoImpl implements CommonDao {
         q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
         QueryResponse rsp = client.query(q);
         SolrDocumentList docs = rsp.getResults();
-        return converter.toCommonModel(docs);
+        List<CommonModel> parentIrs = new ArrayList<>(converter.toCommonModel(docs));
+        SolrQuery q2 = new SolrQuery();
+        q2.add("q", "id:" + fuId);
+        parentIrs.addAll(converter.toCommonModel(client.query(q2).getResults()));
+        return parentIrs;
     }
 
 }
