@@ -7,8 +7,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sibintek.cis.dao.CommonDao;
@@ -18,8 +16,7 @@ import ru.sibintek.cis.util.SolrConnector;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 @Component
 public class CommonDaoImpl implements CommonDao {
@@ -63,7 +60,20 @@ public class CommonDaoImpl implements CommonDao {
         q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
         QueryResponse rsp = client.query(q);
         SolrDocumentList docs = rsp.getResults();
+        if (docs.isEmpty()) return new CommonModel();
         return converter.toCommonModel(docs.get(0));
+    }
+
+    @Override
+    public SolrDocument getByElementName(String elementName) throws IOException, SolrServerException {
+        HttpSolrClient client = solrConnector.getClient();
+        SolrQuery q = new SolrQuery();
+        q.add("q", "name:" + "\"" + elementName + "\"");
+        q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
+        QueryResponse rsp = client.query(q);
+        SolrDocumentList docs = rsp.getResults();
+        if (docs.isEmpty()) return new SolrDocument();
+        return docs.get(0);
     }
 
 
@@ -76,6 +86,7 @@ public class CommonDaoImpl implements CommonDao {
         q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
         QueryResponse rsp = client.query(q);
         SolrDocumentList docs = rsp.getResults();
+        if (docs.isEmpty()) return new CommonModel();
         return converter.toCommonModel(docs.get(0));
     }
 
@@ -88,6 +99,7 @@ public class CommonDaoImpl implements CommonDao {
         q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
         QueryResponse rsp = client.query(q);
         SolrDocumentList docs = rsp.getResults();
+        if (docs.isEmpty()) return new CommonModel();
         return converter.toCommonModel(docs.get(0));
     }
 
@@ -100,6 +112,7 @@ public class CommonDaoImpl implements CommonDao {
         q.add("rows", String.valueOf(DEFAULT_QUERY_ROWS));
         QueryResponse rsp = client.query(q);
         SolrDocumentList docs = rsp.getResults();
+        if (docs.isEmpty()) return new CommonModel();
         return converter.toCommonModel(docs.get(0));
     }
 

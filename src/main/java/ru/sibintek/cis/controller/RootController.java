@@ -27,6 +27,8 @@ import java.util.*;
 
 @Controller
 public class RootController {
+    @Autowired
+    private SolrParserUtils solrParserUtils;
 
     @Autowired
     private GraphService graphService;
@@ -44,8 +46,8 @@ public class RootController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void addIs(@RequestParam("file") MultipartFile file) throws IOException, InvalidFormatException {
-        List<Map<String, Object>> excel = SolrParserUtils.parseExcel(file.getInputStream());
-        List<SolrInputDocument> solrDocuments = SolrParserUtils.createSolrDocuments(excel);
+        List<Map<String, Object>> excel = solrParserUtils.parseExcel(file.getInputStream());
+        List<SolrInputDocument> solrDocuments = solrParserUtils.createSolrDocuments(excel);
         commonDao.saveFromExcel(solrDocuments);
     }
 
@@ -73,11 +75,11 @@ public class RootController {
         CreationHelper createHelper = wb.getCreationHelper();
 
         // Create a row and put some cells in it. Rows are 0 based.
-        Row row = sheet.createRow((short)0);
+        Row row = sheet.createRow((short) 0);
         Cell cell = row.createCell(0);
         cell.setCellValue(1);
         row.createCell(1).setCellValue(1.2);
-        row.createCell(2).setCellValue( createHelper.createRichTextString("This is a string") );
+        row.createCell(2).setCellValue(createHelper.createRichTextString("This is a string"));
         row.createCell(3).setCellValue(true);
         response.getOutputStream().write(((HSSFWorkbook) wb).getBytes());
         response.getOutputStream().flush();

@@ -1,10 +1,16 @@
 package ru.sibintek.cis.util;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.sibintek.cis.dao.CommonDao;
+import ru.sibintek.cis.model.CommonModel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,9 +18,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+@Component
 public class SolrParserUtils {
-    static HashMap<String,String> supportsFormats;
-    static {
+    @Autowired
+    private CommonDao commonDao;
+
+     HashMap<String,String> supportsFormats;
+     {
         supportsFormats = new HashMap<>();
         supportsFormats.put("xml", "application/xml");
         supportsFormats.put("csv", "text/csv");
@@ -40,7 +50,7 @@ public class SolrParserUtils {
         supportsFormats.put("log", "text/plain");
     }
 
-    public static boolean saveDocument(HttpSolrClient client, SolrInputDocument document) {
+    public  boolean saveDocument(HttpSolrClient client, SolrInputDocument document) {
         try {
             client.add(document);
             client.commit();
@@ -53,11 +63,11 @@ public class SolrParserUtils {
         return false;
     }
 
-    public static void saveDocuments(final HttpSolrClient client, List<SolrInputDocument> documents) {
+    public  void saveDocuments(final HttpSolrClient client, List<SolrInputDocument> documents) {
         documents.forEach(document -> saveDocument(client, document));
     }
 
-    public static List<SolrInputDocument> createSolrDocuments(List<Map<String, Object>> excelDocuments) {
+    public  List<SolrInputDocument> createSolrDocuments(List<Map<String, Object>> excelDocuments) {
         List<SolrInputDocument> documents = new ArrayList<>();
         for (Map<String, Object> excelDocument : excelDocuments) {
             SolrInputDocument document = new SolrInputDocument();
@@ -67,7 +77,7 @@ public class SolrParserUtils {
         return documents;
     }
 
-    public static List<Map<String, Object>> parseExcel(InputStream inputStream) throws IOException, InvalidFormatException {
+    public  List<Map<String, Object>> parseExcel(InputStream inputStream) throws IOException, InvalidFormatException {
         Workbook wb = WorkbookFactory.create(inputStream);
         List<Map<String, Object>> documents = new ArrayList<>();
         for (Sheet sheet : wb) {
@@ -96,7 +106,7 @@ public class SolrParserUtils {
         return documents;
     }
 
-    private static Object getObjectWithTypeFromCell(Cell cell) {
+    private  Object getObjectWithTypeFromCell(Cell cell) {
         if (cell == null) {
             return null;
         }
@@ -121,4 +131,18 @@ public class SolrParserUtils {
         return value;
     }
 
+    private  Workbook createWorkBook(SolrDocument solrDocument) {
+        Workbook wb = new HSSFWorkbook();
+        Sheet sheet = wb.createSheet("Sheet");
+        CreationHelper createHelper = wb.getCreationHelper();
+        Row row = sheet.createRow((short)0);
+        Cell cell = row.createCell(0);
+        cell.setCellValue(1);
+        row.createCell(1).setCellValue(1.2);
+        row.createCell(2).setCellValue( createHelper.createRichTextString("This is a string") );
+        row.createCell(3).setCellValue(true);
+
+        return null;
+        
+    }
 }
