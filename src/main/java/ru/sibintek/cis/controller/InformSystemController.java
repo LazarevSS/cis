@@ -1,5 +1,7 @@
 package ru.sibintek.cis.controller;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -18,12 +20,14 @@ import ru.sibintek.cis.dao.CommonDao;
 
 import ru.sibintek.cis.model.CommonModel;
 import ru.sibintek.cis.service.GraphService;
+import ru.sibintek.cis.util.SolrParserUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -33,6 +37,9 @@ public class InformSystemController {
 
     @Autowired
     private CommonDao commonDao;
+
+    @Autowired
+    private SolrParserUtils solrParserUtils;
 
     @RequestMapping(value = "/is", method = RequestMethod.GET)
     public ModelAndView isController(@RequestParam(value = "ISNAME", required = false) String isName) throws IOException, SolrServerException {
@@ -66,26 +73,27 @@ public class InformSystemController {
     @RequestMapping(value = "is/download", method = RequestMethod.GET)
     public void download(@RequestParam(value = "isName", required = false) String isName,
                          HttpServletResponse response) throws IOException, InvalidFormatException, SolrServerException {
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=MyExcel.xls");
-        String urlString = "http://192.168.1.8:8983/solr/mycoll";
-        HttpSolrClient client = new HttpSolrClient.Builder(urlString).build();
-        SolrQuery q = new SolrQuery();
-        q.add("q", "is_name:" + "БФ Управление договорами");
-        QueryResponse rsp = client.query(q);
-        SolrDocumentList docs = rsp.getResults();
-        Workbook wb = new HSSFWorkbook();
-        Sheet sheet = wb.createSheet("MySheet");
-        CreationHelper createHelper = wb.getCreationHelper();
+        response.setContentType(solrParserUtils.getSupportsFormats().get("xls") + ";charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=DocumentIS.xls");
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("MySheet");
 
-        // Create a row and put some cells in it. Rows are 0 based.
-        Row headerRow = sheet.createRow((short)0);
-        /*row.createCell(1).setCellValue(docs.get(0).getFieldValue("is_name").toString());
-        row.createCell(2).setCellValue( createHelper.createRichTextString("This is a string") );
-        row.createCell(3).setCellValue(true);*/
-        response.getOutputStream().write(((HSSFWorkbook) wb).getBytes());
+        Row headerRow = sheet.createRow(0);
+        int i = 0;
+        for (Map.Entry a : commonDao.getByElementName(isName).entrySet()) {
+            Cell cell = headerRow.createCell(i, CellType.STRING);
+            cell.setCellValue(a.getKey().toString());
+            i++;
+        }
+        Row row = sheet.createRow(1);
+        i = 0;
+        for (Map.Entry a : commonDao.getByElementName(isName).entrySet()) {
+            Cell cell = row.createCell(i, CellType.STRING);
+            cell.setCellValue(a.getValue().toString());
+            i++;
+        }
+        response.getOutputStream().write(wb.getBytes());
         response.getOutputStream().flush();
         response.getOutputStream().close();
-        wb.close();
     }
 }

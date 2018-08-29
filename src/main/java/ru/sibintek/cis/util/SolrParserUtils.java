@@ -23,7 +23,15 @@ public class SolrParserUtils {
     @Autowired
     private CommonDao commonDao;
 
-     HashMap<String,String> supportsFormats;
+    public HashMap<String, String> getSupportsFormats() {
+        return supportsFormats;
+    }
+
+    public void setSupportsFormats(HashMap<String, String> supportsFormats) {
+        this.supportsFormats = supportsFormats;
+    }
+
+    private HashMap<String,String> supportsFormats;
      {
         supportsFormats = new HashMap<>();
         supportsFormats.put("xml", "application/xml");
