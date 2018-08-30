@@ -92,7 +92,8 @@
                 </c:forEach>
             </table>
             <input id="addDialog" type="button" onclick="openDialog()" value="Добавить"/>
-            <input id="editDialog" type="button" onclick="openDialogEdit()" value="Редактировать"/>
+            <input id="download" type="button" onclick="location.href='download?isName=${fuModel.name}'"
+                   value="Выгрузить"/>
 
         </div>
         <div class="col-sm-3">
@@ -134,6 +135,20 @@
     });
 </script>
 </body>
+<body>
+<div id="dialog">
+    <form method="POST" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
+        <div style="padding: 10px">
+            <label path="file">Выберите файл для загрузки:</label>
+            <input type="file" name="file" />
+        </div>
+        <div style="padding: 10px">
+            <td><input type="submit" value="Загрузить"  onchange="successSubmit()"/></td>
+        </div>
+        <p id="successMessage" hidden="hidden">Загружено</p>
+    </form>
+</div>
+</body>
 
 </html>
 
@@ -152,16 +167,9 @@
         );
     }
 
-    function openDialogEdit() {
-        $("#dialogEdit").dialog(
-            {
-                height: 530,
-                width: 400,
-                autoOpen: true
-            }
-        );
+    function successSubmit() {
+        $("#successMessage").show();
     }
-
 </script>
 
 

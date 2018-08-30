@@ -1,5 +1,6 @@
 package ru.sibintek.cis.util;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -139,18 +140,25 @@ public class SolrParserUtils {
         return value;
     }
 
-    private  Workbook createWorkBook(SolrDocument solrDocument) {
-        Workbook wb = new HSSFWorkbook();
-        Sheet sheet = wb.createSheet("Sheet");
-        CreationHelper createHelper = wb.getCreationHelper();
-        Row row = sheet.createRow((short)0);
-        Cell cell = row.createCell(0);
-        cell.setCellValue(1);
-        row.createCell(1).setCellValue(1.2);
-        row.createCell(2).setCellValue( createHelper.createRichTextString("This is a string") );
-        row.createCell(3).setCellValue(true);
+    public HSSFWorkbook createWorkBook(String elementName) throws IOException, SolrServerException {
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("MySheet");
 
-        return null;
+        Row headerRow = sheet.createRow(0);
+        int i = 0;
+        for (Map.Entry a : commonDao.getByElementName(elementName).entrySet()) {
+            Cell cell = headerRow.createCell(i, CellType.STRING);
+            cell.setCellValue(a.getKey().toString());
+            i++;
+        }
+        Row row = sheet.createRow(1);
+        i = 0;
+        for (Map.Entry a : commonDao.getByElementName(elementName).entrySet()) {
+            Cell cell = row.createCell(i, CellType.STRING);
+            cell.setCellValue(a.getValue().toString());
+            i++;
+        }
+        return wb;
         
     }
 }

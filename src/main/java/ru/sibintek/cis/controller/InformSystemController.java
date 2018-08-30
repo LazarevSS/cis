@@ -10,11 +10,13 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sibintek.cis.dao.CommonDao;
 
@@ -24,7 +26,6 @@ import ru.sibintek.cis.util.SolrParserUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -72,28 +73,20 @@ public class InformSystemController {
 
     @RequestMapping(value = "is/download", method = RequestMethod.GET)
     public void download(@RequestParam(value = "isName", required = false) String isName,
-                         HttpServletResponse response) throws IOException, InvalidFormatException, SolrServerException {
+                         HttpServletResponse response) throws IOException, SolrServerException {
         response.setContentType(solrParserUtils.getSupportsFormats().get("xls") + ";charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=DocumentIS.xls");
-        HSSFWorkbook wb = new HSSFWorkbook();
-        HSSFSheet sheet = wb.createSheet("MySheet");
-
-        Row headerRow = sheet.createRow(0);
-        int i = 0;
-        for (Map.Entry a : commonDao.getByElementName(isName).entrySet()) {
-            Cell cell = headerRow.createCell(i, CellType.STRING);
-            cell.setCellValue(a.getKey().toString());
-            i++;
-        }
-        Row row = sheet.createRow(1);
-        i = 0;
-        for (Map.Entry a : commonDao.getByElementName(isName).entrySet()) {
-            Cell cell = row.createCell(i, CellType.STRING);
-            cell.setCellValue(a.getValue().toString());
-            i++;
-        }
+        HSSFWorkbook wb = solrParserUtils.createWorkBook(isName);
         response.getOutputStream().write(wb.getBytes());
         response.getOutputStream().flush();
         response.getOutputStream().close();
     }
+
+    @RequestMapping(value = "is/upload", method = RequestMethod.POST)
+    public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException, InvalidFormatException {
+        List<Map<String, Object>> excel = solrParserUtils.parseExcel(file.getInputStream());
+        List<SolrInputDocument> solrDocuments = solrParserUtils.createSolrDocuments(excel);
+        commonDao.saveFromExcel(solrDocuments);
+    }
+
 }

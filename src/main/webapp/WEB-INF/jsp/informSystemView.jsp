@@ -135,28 +135,17 @@
     });
 </script>
 </body>
-
 <body>
 <div id="dialog">
-    <form method="POST" action="/uploadFile" enctype="multipart/form-data">
-            
-        <table>
-                    
-            <tr>
-                            
-                <td><label path="file">Select a file to upload</label></td>
-                            
-                <td><input type="file" name="file"/></td>
-                        
-            </tr>
-                    
-            <tr>
-                            
-                <td><input type="submit" value="Submit"/></td>
-                        
-            </tr>
-                
-        </table>
+    <form method="POST" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
+        <div style="padding: 10px">
+            <label path="file">Выберите файл для загрузки:</label>
+            <input type="file" name="file" />
+        </div>
+        <div style="padding: 10px">
+            <td><input type="submit" value="Загрузить"  onchange="successSubmit()"/></td>
+        </div>
+        <p id="successMessage" hidden="hidden">Загружено</p>
     </form>
 </div>
 </body>
@@ -178,23 +167,8 @@
         );
     }
 
-    function download() {
-        var ajaxUrl = "${pageContext.request.contextPath}/download";
-        var name = "${isModel.name}";
-        $.ajax({
-            type: 'GET',
-            url: ajaxUrl,
-            data: ({
-                fileName: name
-            }),
-            success: function () {
-                alert("Success")
-            },
-            error: function (xhr, str) {
-                alert('Возникла ошибка: ' + xhr.responseCode);
-            }
-        });
-
+    function successSubmit() {
+        $("#successMessage").show();
     }
 </script>
 

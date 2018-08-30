@@ -134,7 +134,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <input id="addDialog" type="button" onclick="openDialog()" value="Добавить"/>
         </div>
         <div class="col-sm-3">
             <h3>Название ИР</h3>
@@ -164,41 +163,9 @@
 </div>
 </body>
 
-<body>
-<div id="dialog">
-    <form method="POST" action="/add" enctype="multipart/form-data">
-        <div style="padding: 10px">
-            <label path="file">Выберите файл для загрузки:</label>
-            <input type="file" name="file" />
-        </div>
-        <div style="padding: 10px">
-            <td><input type="submit" value="Загрузить"  onchange="successSubmit()"/></td>
-        </div>
-        <p id="successMessage" hidden="hidden">Загружено</p>
-    </form>
-</div>
-</body>
-
 </html>
 
 
-<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
-<script>
-    $('#dialog').dialog({autoOpen: false});
-
-    function openDialog() {
-        $("#dialog").dialog(
-            {
-                height: 330,
-                width: 400,
-                autoOpen: true
-            }
-        );
-    }
-
-    function successSubmit() {
-        $("#successMessage").show();
-    }
 
 </script>
 
